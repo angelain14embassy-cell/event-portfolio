@@ -23,12 +23,7 @@ export default function App() {
                 {/* 3D Canvas Section */}
                 <div style={{ background: 'linear-gradient(135deg, #0F172A 0%, #1E1B4B 100%)', borderRadius: '24px', border: '1px solid #334155', padding: '2rem', textAlign: 'center', marginBottom: '2rem' }}>
                     <Hero3D />
-                    <h1 style={{ fontSize: '2.2rem', fontWeight: 'bold', margin: '1rem 0 0.5rem 0' }}>
-                        Interactive Algorithm Universe
-                    </h1>
-                    <p style={{ color: '#94A3B8', fontSize: '0.95rem', maxWidth: '600px', margin: '0 auto' }}>
-                        Click on any session below to view video recordings, syllabus details, and active registration links.
-                    </p>
+
                 </div>
 
                 {/* Filter Buttons */}
