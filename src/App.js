@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import Navbar from './components/Navbar';
 import Hero3D from './components/Hero3D';
 import EventCard from './components/EventCard';
 import EventModal from './components/EventModal';
 import { acmDsaEvents, categories } from './data/eventsData';
+import './App.css';
+import './light-theme.css';
+import { roadmap, topicInfo, problems, leaders } from './data/content';
+import PhotoGallery from './components/PhotoGallery';
 
 export default function App() {
     const [activeCategory, setActiveCategory] = useState('All');
@@ -57,6 +61,9 @@ export default function App() {
                         />
                     ))}
                 </div>
+
+                {/* Group 3 Photo Gallery Section */}
+                <PhotoGallery />
             </div>
 
             {/* Modal Popup */}
