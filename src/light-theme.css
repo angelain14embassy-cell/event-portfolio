@@ -1,0 +1,10 @@
+/* Light theme styles */
+html[data-theme="light"] {
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+
+body.light-mode {
+  background-color: #f8fafc;
+  color: #0f172a;
+}
