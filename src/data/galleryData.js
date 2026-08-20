@@ -23,21 +23,21 @@ export const galleryData = [
     id: 3,
     title: "DSA Session -1",
     category: "Session",
-    image: photo3,
+    image: photo4,
     description: "Students are learning about data structures as well as algorithms."
   },
   {
     id: 4,
     title: "ACM- Core Team",
     category: "Teamwork",
-    image: photo4,
+    image: photo3,
     description: "The core team endulged in the acm related work"
   },
   {
     id: 5,
     title: "ACM BV",
     category: "",
-    image: photo4,
+    image: photo5,
     description: "ACM X BANASTHALI VIDYAPITH"
   }
 ];
