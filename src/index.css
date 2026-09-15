@@ -13,3 +13,129 @@
         backface-visibility: hidden;
     }
 }
+
+.team-section {
+    padding: 5rem 5%;
+    text-align: center;
+}
+
+.team-header h2 {
+    font-size: 2.5rem;
+    margin: 0.5rem 0;
+}
+
+.team-header h2 span {
+    color: #3b82f6;
+}
+
+.team-header p {
+    color: #9ca3af;
+    margin-bottom: 2rem;
+}
+
+.filter-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 0.8rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #9ca3af;
+    padding: 0.5rem 1.2rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filter-btn.active,
+.filter-btn:hover {
+    background: #2563eb;
+    color: #ffffff;
+    border-color: #2563eb;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 2rem;
+}
+
+.team-card {
+    background: rgba(17, 24, 39, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 1.5rem;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.team-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(59, 130, 246, 0.4);
+}
+
+.avatar-wrapper {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 1.2rem auto;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.avatar-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.social-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(3, 7, 18, 0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.avatar-wrapper:hover .social-overlay {
+    opacity: 1;
+}
+
+.social-overlay a {
+    color: #ffffff;
+    transition: color 0.2s;
+}
+
+.social-overlay a:hover {
+    color: #60a5fa;
+}
+
+.member-info h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.2rem;
+}
+
+.member-role {
+    color: #60a5fa;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 0.6rem;
+}
+
+.domain-tag {
+    font-size: 0.75rem;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+    color: #9ca3af;
+}
