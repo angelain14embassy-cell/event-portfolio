@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import HomePage from "./components/HomePage";
+import DsaArena from "./components/DsaArena";
 import SplashTerminal from "./components/SplashTerminal";
 import Navbar from "./components/Navbar";
-import Hero3D from "./components/Hero3D";
 import EventCard from "./components/EventCard";
 import EventModal from "./components/EventModal";
 import PhotoGallery from "./components/PhotoGallery";
@@ -38,15 +38,11 @@ function App() {
             <Navbar />
 
             <main>
-                {/* RENDER HOMEPAGE SECTION HERE */}
+                {/* CRT HERO HOMEPAGE */}
                 <HomePage />
 
-                {/* HERO / 3D SECTION */}
-                <section className="hero-wrapper">
-                    <div className="hero-3d-box">
-                        <Hero3D />
-                    </div>
-                </section>
+                {/* DSA ARENA / GAME STAGES SECTION */}
+                <DsaArena />
 
                 {/* ACM SESSIONS / EVENTS */}
                 <section className="events-section">
