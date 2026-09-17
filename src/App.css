@@ -1,737 +1,325 @@
-.App {
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: #f7fbff;
+  color: #10213f;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+button {
+  font-family: inherit;
+}
+
+.app-root {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 10% 10%, rgba(67, 153, 255, 0.10), transparent 28%),
+    radial-gradient(circle at 90% 30%, rgba(126, 194, 255, 0.10), transparent 30%),
+    #f7fbff;
+  overflow-x: hidden;
+}
+
+.hero-wrapper {
+  width: 100%;
+  padding: 25px 20px 40px;
+}
+
+.hero-3d-box {
+  width: min(1200px, 100%);
+  min-height: 420px;
+  margin: 0 auto;
+  border-radius: 30px;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(77, 163, 255, 0.25), transparent 30%),
+    linear-gradient(135deg, #ffffff, #eaf5ff);
+  border: 1px solid rgba(56, 139, 255, 0.15);
+  box-shadow:
+    0 30px 80px rgba(29, 92, 170, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  overflow: hidden;
+}
+
+.events-section,
+.memories-section {
+  width: min(1200px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 90px 0;
+}
+
+.memories-section {
+  padding-top: 50px;
+}
+
+.section-heading {
   text-align: center;
+  max-width: 760px;
+  margin: 0 auto 45px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.section-eyebrow {
+  display: inline-block;
+  margin-bottom: 12px;
+  color: #1769ff;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2.5px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.section-heading h2 {
+  margin: 0;
+  font-size: clamp(32px, 5vw, 52px);
+  line-height: 1.05;
+  color: #0e1b35;
+  letter-spacing: -1.5px;
+}
+
+.section-heading p {
+  margin: 18px auto 0;
+  max-width: 650px;
+  color: #61708a;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.category-filter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 38px;
+}
+
+.category-btn {
+  border: 1px solid #c7dcf5;
+  background: rgba(255, 255, 255, 0.8);
+  color: #55708f;
+  padding: 10px 20px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.category-btn:hover {
+  transform: translateY(-2px);
+  color: #1769ff;
+  box-shadow: 0 10px 25px rgba(31, 112, 255, 0.10);
+}
+
+.category-btn.active {
+  color: white;
+  border-color: transparent;
+  background: linear-gradient(135deg, #1769ff, #54b9ff);
+  box-shadow: 0 10px 25px rgba(23, 105, 255, 0.22);
+}
+
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 26px;
+}
+
+.app-bottom-space {
+  height: 100px;
+}
+
+@media (max-width: 700px) {
+  .hero-wrapper {
+    padding: 15px 12px 30px;
+  }
+
+  .hero-3d-box {
+    min-height: 350px;
+    border-radius: 22px;
+  }
+
+  .events-section,
+  .memories-section {
+    width: min(100% - 24px, 1200px);
+    padding: 60px 0;
+  }
+
+  .section-heading h2 {
+    font-size: 34px;
+  }
+
+  .section-heading p {
+    font-size: 14px;
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+
+/* Splash Screen Container */
+.splash-container {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background-color: #f4f7fc;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  overflow: hidden;
+  font-family: 'Courier New', Courier, monospace;
 }
 
-.App-link {
-  color: #61dafb;
+.globe-canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-.club-gallery-section {
-  padding: 80px 40px;
-  max-width: 1280px;
-  margin: 0 auto;
-  text-align: center;
+/* Retro Deck & Card Stack */
+.retro-deck-wrapper {
+  position: relative;
+  width: 90%;
+  max-width: 520px;
+  height: 380px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.gallery-header .eyebrow {
-  color: #6366f1;
-  font-weight: 600;
-  letter-spacing: 2px;
+.retro-card {
+  position: absolute;
+  width: 100%;
+  max-width: 480px;
+  background: #ffffff;
+  border: 3px solid #0044ff;
+  box-shadow: 8px 8px 0px #001a66;
+  opacity: 0;
+  transform: translateY(60px) scale(0.9) rotate(-3deg);
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.retro-card.active {
+  opacity: 1;
+  transform: translateY(0) scale(1) rotate(0deg);
+}
+
+.retro-card.stacked-1 {
+  opacity: 0.9;
+  transform: translate(-14px, -14px) scale(0.96) rotate(-2deg);
+}
+
+.retro-card.stacked-2 {
+  opacity: 0.75;
+  transform: translate(-28px, -28px) scale(0.92) rotate(2deg);
+}
+
+/* 90s Pixel Titlebar */
+.retro-card-titlebar {
+  background: #0044ff;
+  color: #ffffff;
+  padding: 8px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 900;
   font-size: 13px;
+  letter-spacing: 1px;
+}
+
+.retro-window-controls {
+  display: flex;
+  gap: 6px;
+}
+
+.pixel-control-btn {
+  background: #ffffff;
+  border: 1px solid #001a66;
+  color: #0044ff;
+  font-size: 11px;
+  font-weight: bold;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  cursor: pointer;
+}
+
+/* Card Inner Content */
+.retro-card-body {
+  padding: 24px 20px;
+  color: #001a66;
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.card-statement {
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  margin: 0;
+  color: #0044ff;
   text-transform: uppercase;
 }
 
-.gallery-header h2 {
-  font-size: 36px;
-  color: #ffffff;
-  margin-top: 10px;
-  margin-bottom: 50px;
+.card-code-block {
+  background: #040921;
+  color: #55aaff;
+  border: 2px solid #0044ff;
+  padding: 14px;
+  font-size: 13px;
+  line-height: 1.6;
 }
 
-.gallery-3d-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 35px;
-  perspective: 1200px;
+.card-code-block .keyword {
+  color: #ff0055;
 }
 
-.card-3d-wrapper {
-  perspective: 1000px;
+.card-code-block .str {
+  color: #ffcc00;
 }
 
-.card-3d-inner {
-  background: linear-gradient(135deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.9));
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  overflow: hidden;
-  transform-style: preserve-3d;
-  transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+.card-code-block .fn {
+  color: #00ccff;
 }
 
-.card-3d-wrapper:hover .card-3d-inner {
-  transform: rotateY(12deg) rotateX(-12deg) translateZ(20px);
-  box-shadow: -20px 25px 50px rgba(0, 0, 0, 0.7), 0 0 25px rgba(99, 102, 241, 0.3);
-  border-color: rgba(99, 102, 241, 0.4);
+.card-footer-info {
+  margin-top: 14px;
+  font-size: 11px;
+  color: #6688cc;
+  font-weight: bold;
 }
 
-.card-image-container {
-  position: relative;
-  height: 200px;
-  overflow: hidden;
-}
-
-.card-image-container img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s ease;
-}
-
-.card-3d-wrapper:hover .card-image-container img {
-  transform: scale(1.1);
-}
-
-.card-tag {
+/* Floating Action Button */
+.enter-btn-wrap {
   position: absolute;
-  top: 15px;
-  right: 15px;
-  background: rgba(99, 102, 241, 0.85);
-  color: #fff;
-  padding: 5px 12px;
-  font-size: 12px;
-  border-radius: 50px;
-  font-weight: 600;
-  backdrop-filter: blur(4px);
+  bottom: 40px;
+  z-index: 20;
+  transition: all 0.4s ease;
 }
 
-.card-info {
-  padding: 24px;
-  text-align: left;
-}
-
-.card-info h3 {
-  font-size: 18px;
-  color: #f8fafc;
-  margin-bottom: 8px;
-}
-
-.card-info p {
+.uniqode-btn {
+  background: #0044ff;
+  color: #ffffff;
+  border: none;
+  padding: 16px 40px;
+  font-family: inherit;
   font-size: 14px;
-  color: #94a3b8;
-  margin: 0;
-}
-/* =========================================
-   DSA SESSIONS - MOVING CARDS
-========================================= */
-
-.dsa-marquee {
-    width: 100%;
-    overflow: hidden;
-    position: relative;
-
-    padding: 20px 0 35px;
-
-    /* Fade the cards slightly at both edges */
-    mask-image: linear-gradient(
-        to right,
-        transparent 0%,
-        black 7%,
-        black 93%,
-        transparent 100%
-    );
-
-    -webkit-mask-image: linear-gradient(
-        to right,
-        transparent 0%,
-        black 7%,
-        black 93%,
-        transparent 100%
-    );
+  font-weight: 900;
+  letter-spacing: 2px;
+  cursor: pointer;
+  box-shadow: 6px 6px 0px #001a66;
+  transition: all 0.2s ease;
 }
 
-.dsa-marquee-track {
-    display: flex;
-    width: max-content;
-
-    gap: 26px;
-
-    animation:
-        dsa-session-scroll
-        20s
-        linear
-        infinite;
-
-    will-change: transform;
-}
-
-/*
-   IMPORTANT:
-   Hovering anywhere over the marquee
-   pauses the complete animation.
-*/
-.dsa-marquee:hover .dsa-marquee-track {
-    animation-play-state: paused;
-}
-
-
-/* =========================================
-   SESSION CARD
-========================================= */
-
-.dsa-session-card {
-    --session-color: #8B5CF6;
-
-    position: relative;
-
-    flex: 0 0 620px;
-
-    height: 390px;
-
-    display: grid;
-
-    grid-template-columns: 1fr;
-
-    overflow: hidden;
-
-    border-radius: 22px;
-
-    border: 1px solid rgba(75, 110, 170, 0.18);
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(255, 255, 255, 0.96),
-            rgba(240, 247, 255, 0.98)
-        );
-
-    box-shadow:
-        0 20px 45px rgba(46, 94, 150, 0.10);
-
-    cursor: pointer;
-
-    transition:
-        transform 0.3s ease,
-        box-shadow 0.3s ease,
-        border-color 0.3s ease;
-}
-
-.dsa-session-card:hover {
-    transform: translateY(-7px);
-
-    border-color:
-        color-mix(
-            in srgb,
-            var(--session-color) 45%,
-            white
-        );
-
-    box-shadow:
-        0 28px 60px rgba(46, 94, 150, 0.17);
-}
-
-.dsa-session-card-glow {
-    position: absolute;
-
-    width: 220px;
-    height: 220px;
-
-    right: 110px;
-    bottom: -130px;
-
-    border-radius: 50%;
-
-    background: var(--session-color);
-
-    opacity: 0.12;
-
-    filter: blur(45px);
-
-    pointer-events: none;
-}
-
-
-/* =========================================
-   CARD CONTENT
-========================================= */
-
-.dsa-session-card-content {
-    position: relative;
-    z-index: 3;
-
-    display: flex;
-    flex-direction: column;
-
-    padding: 27px;
-}
-
-.dsa-session-top {
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    gap: 12px;
-}
-
-.dsa-session-number {
-    color: #1769ff;
-
-    font-size: 11px;
-
-    font-weight: 800;
-
-    letter-spacing: 2px;
-}
-
-.dsa-session-status {
-    display: flex;
-
-    align-items: center;
-
-    gap: 6px;
-
-    color: #77869c;
-
-    font-size: 10px;
-
-    font-weight: 800;
-
-    text-transform: uppercase;
-
-    white-space: nowrap;
-}
-
-.dsa-session-status.upcoming {
-    color: #10a86a;
-}
-
-.dsa-status-dot {
-    width: 6px;
-    height: 6px;
-
-    border-radius: 50%;
-
-    background: #94a3b8;
-}
-
-.dsa-session-status.upcoming .dsa-status-dot {
-    background: #10b981;
-
-    box-shadow:
-        0 0 10px rgba(16, 185, 129, 0.6);
-}
-
-
-/* =========================================
-   MAIN TEXT
-========================================= */
-
-.dsa-session-main {
-    margin-top: 35px;
-}
-
-.dsa-session-label {
-    margin: 0 0 9px;
-
-    color: #7190b5;
-
-    font-size: 10px;
-
-    font-weight: 800;
-
-    letter-spacing: 1.8px;
-}
-
-.dsa-session-main h3 {
-    margin: 0;
-
-    max-width: 360px;
-
-    color: #0e1b35;
-
-    font-size: 30px;
-
-    line-height: 1.08;
-
-    letter-spacing: -1px;
-}
-
-.dsa-session-subtitle {
-    margin: 10px 0 0;
-
-    color: var(--session-color);
-
-    font-size: 14px;
-
-    font-weight: 800;
-}
-
-.dsa-session-description {
-    max-width: 365px;
-
-    margin: 16px 0 0;
-
-    color: #61708a;
-
-    font-size: 12px;
-
-    line-height: 1.65;
-}
-
-.dsa-session-topics {
-    display: flex;
-
-    flex-wrap: wrap;
-
-    gap: 6px;
-
-    margin-top: 18px;
-}
-
-.dsa-session-topics span {
-    padding: 5px 8px;
-
-    border-radius: 6px;
-
-    background: rgba(23, 105, 255, 0.06);
-
-    color: #5575a2;
-
-    font-family: monospace;
-
-    font-size: 9px;
-}
-
-
-/* =========================================
-   FOOTER
-========================================= */
-
-.dsa-session-footer {
-    display: flex;
-
-    align-items: center;
-
-    gap: 13px;
-
-    margin-top: auto;
-
-    padding-top: 15px;
-
-    border-top:
-        1px solid rgba(72, 105, 150, 0.12);
-
-    color: #71819a;
-
-    font-size: 10px;
-}
-
-.dsa-session-date,
-.dsa-session-time {
-    display: flex;
-
-    align-items: center;
-
-    gap: 5px;
-
-    white-space: nowrap;
-}
-
-.dsa-session-date svg,
-.dsa-session-time svg {
-    color: #7d9bc2;
-}
-
-.dsa-session-details {
-    display: flex;
-
-    align-items: center;
-
-    gap: 2px;
-
-    margin-left: auto;
-
-    color: #1769ff;
-
-    font-weight: 800;
-
-    white-space: nowrap;
-}
-
-
-/* =========================================
-   RIGHT VISUAL AREA
-========================================= */
-
-.dsa-session-visual {
-    position: relative;
-
-    overflow: hidden;
-
-    background:
-        radial-gradient(
-            circle at center,
-            rgba(68, 142, 255, 0.17),
-            transparent 43%
-        ),
-        linear-gradient(
-            135deg,
-            #eef7ff,
-            #dceeff
-        );
-}
-
-.dsa-grid-pattern {
-    position: absolute;
-
-    inset: 0;
-
-    opacity: 0.4;
-
-    background-image:
-        linear-gradient(
-            rgba(23, 105, 255, 0.08) 1px,
-            transparent 1px
-        ),
-        linear-gradient(
-            90deg,
-            rgba(23, 105, 255, 0.08) 1px,
-            transparent 1px
-        );
-
-    background-size: 26px 26px;
-}
-
-
-/* =========================================
-   ORBITS
-========================================= */
-
-.dsa-orbit {
-    position: absolute;
-
-    left: 50%;
-    top: 50%;
-
-    border:
-        1px solid rgba(23, 105, 255, 0.24);
-
-    border-radius: 50%;
-
-    transform:
-        translate(-50%, -50%);
-}
-
-.orbit-1 {
-    width: 235px;
-    height: 90px;
-
-    transform:
-        translate(-50%, -50%)
-        rotate(-20deg);
-}
-
-.orbit-2 {
-    width: 170px;
-    height: 245px;
-
-    transform:
-        translate(-50%, -50%)
-        rotate(55deg);
-}
-
-.orbit-3 {
-    width: 280px;
-    height: 170px;
-
-    transform:
-        translate(-50%, -50%)
-        rotate(110deg);
-
-    opacity: 0.45;
-}
-
-
-/* =========================================
-   SESSION NUMBER CORE
-========================================= */
-
-.dsa-session-core {
-    position: absolute;
-
-    left: 50%;
-    top: 50%;
-
-    width: 105px;
-    height: 105px;
-
-    display: grid;
-
-    place-items: center;
-
-    transform:
-        translate(-50%, -50%)
-        rotate(-7deg);
-
-    border:
-        1px solid rgba(255, 255, 255, 0.85);
-
-    border-radius: 27px;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(255, 255, 255, 0.95),
-            rgba(202, 225, 249, 0.9)
-        );
-
-    box-shadow:
-        0 18px 40px rgba(37, 104, 170, 0.15);
-
-    color: #1769ff;
-
-    font-size: 27px;
-
-    font-weight: 900;
-
-    letter-spacing: -1px;
-
-    z-index: 2;
-}
-
-
-/* =========================================
-   TBA LABEL
-========================================= */
-
-.dsa-tba {
-    position: absolute;
-
-    left: 50%;
-    bottom: 24px;
-
-    transform:
-        translateX(-50%);
-
-    padding: 7px 11px;
-
-    border:
-        1px solid rgba(23, 105, 255, 0.12);
-
-    border-radius: 999px;
-
-    background:
-        rgba(255, 255, 255, 0.72);
-
-    backdrop-filter: blur(8px);
-
-    color: #6682a6;
-
-    font-size: 8px;
-
-    font-weight: 900;
-
-    letter-spacing: 1.4px;
-
-    white-space: nowrap;
-
-    z-index: 4;
-}
-
-
-/* =========================================
-   INFINITE MOVEMENT
-========================================= */
-
-@keyframes dsa-session-scroll {
-
-    from {
-        transform: translateX(0);
-    }
-
-    to {
-        transform: translateX(
-            calc(-50% - 13px)
-        );
-    }
-
-}
-
-
-/* =========================================
-   RESPONSIVE
-========================================= */
-
-@media (max-width: 700px) {
-
-    .dsa-session-card {
-        flex-basis: 340px;
-
-        height: 470px;
-
-        grid-template-columns: 1fr;
-    }
-
-    .dsa-session-card-content {
-        padding: 23px;
-
-        min-height: 295px;
-    }
-
-    .dsa-session-main {
-        margin-top: 24px;
-    }
-
-    .dsa-session-main h3 {
-        font-size: 25px;
-    }
-
-    .dsa-session-description {
-        font-size: 11px;
-    }
-
-    .dsa-session-visual {
-        min-height: 175px;
-    }
-
-    .dsa-session-core {
-        width: 75px;
-        height: 75px;
-
-        border-radius: 20px;
-
-        font-size: 21px;
-    }
-
-    .orbit-1 {
-        width: 180px;
-        height: 65px;
-    }
-
-    .orbit-2 {
-        width: 130px;
-        height: 185px;
-    }
-
-    .orbit-3 {
-        width: 220px;
-        height: 125px;
-    }
-
-    .dsa-session-footer {
-        gap: 8px;
-    }
-
+.uniqode-btn:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 9px 9px 0px #001a66;
+  background: #0033cc;
 }
