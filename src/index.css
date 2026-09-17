@@ -14,25 +14,50 @@
     }
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+/* Global Arcade Font & Dark Theme Override */
+* {
+    font-family: 'Press Start 2P', monospace !important;
+    box-sizing: border-box;
+}
+
+body,
+#root,
+.App {
+    background-color: #0d081e !important;
+    color: #00ff88 !important;
+    margin: 0;
+    padding: 0;
+}
+
+/* --- TEAM SECTION (Pixel Theme) --- */
 .team-section {
     padding: 5rem 5%;
     text-align: center;
+    background-color: #0d081e;
 }
 
 .team-header h2 {
-    font-size: 2.5rem;
-    margin: 0.5rem 0;
+    font-size: 1.8rem;
+    margin: 0.5rem 0 1rem 0;
+    color: #ff00a0;
+    text-shadow: 3px 3px #550033;
 }
 
 .team-header h2 span {
-    color: #3b82f6;
+    color: #00ff88;
+    text-shadow: 3px 3px #005522;
 }
 
 .team-header p {
-    color: #9ca3af;
+    color: #00d5ff;
+    font-size: 0.8rem;
+    line-height: 1.8;
     margin-bottom: 2rem;
 }
 
+/* Filter Buttons */
 .filter-buttons {
     display: flex;
     justify-content: center;
@@ -42,22 +67,26 @@
 }
 
 .filter-btn {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #9ca3af;
-    padding: 0.5rem 1.2rem;
-    border-radius: 20px;
+    background: #140b2e;
+    border: 2px solid #00ff88;
+    color: #00ff88;
+    padding: 0.6rem 1rem;
+    font-size: 0.75rem;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 0 #005522;
 }
 
 .filter-btn.active,
 .filter-btn:hover {
-    background: #2563eb;
-    color: #ffffff;
-    border-color: #2563eb;
+    background: #00ff88;
+    color: #000000;
+    border-color: #ffffff;
+    box-shadow: 0 2px 0 #00aa55;
+    transform: translateY(2px);
 }
 
+/* Team Grid & Cards */
 .team-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -65,24 +94,27 @@
 }
 
 .team-card {
-    background: rgba(17, 24, 39, 0.6);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 16px;
+    background: rgba(20, 11, 46, 0.95);
+    border: 3px solid #00ff88;
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+    border-radius: 12px;
     padding: 1.5rem;
-    transition: transform 0.3s ease, border-color 0.3s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .team-card:hover {
-    transform: translateY(-8px);
-    border-color: rgba(59, 130, 246, 0.4);
+    transform: translateY(-6px);
+    border-color: #ff00a0;
+    box-shadow: 0 0 20px rgba(255, 0, 160, 0.5);
 }
 
 .avatar-wrapper {
     position: relative;
-    width: 120px;
-    height: 120px;
+    width: 110px;
+    height: 110px;
     margin: 0 auto 1.2rem auto;
-    border-radius: 50%;
+    border: 3px solid #ff00a0;
+    border-radius: 8px;
     overflow: hidden;
 }
 
@@ -98,7 +130,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(3, 7, 18, 0.75);
+    background: rgba(13, 8, 30, 0.85);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -112,30 +144,141 @@
 }
 
 .social-overlay a {
-    color: #ffffff;
+    color: #00ff88;
+    font-size: 0.8rem;
     transition: color 0.2s;
 }
 
 .social-overlay a:hover {
-    color: #60a5fa;
+    color: #ff00a0;
 }
 
 .member-info h3 {
-    font-size: 1.2rem;
-    margin-bottom: 0.2rem;
+    font-size: 0.95rem;
+    margin-bottom: 0.4rem;
+    color: #ffffff;
 }
 
 .member-role {
-    color: #60a5fa;
-    font-weight: 600;
-    font-size: 0.9rem;
+    color: #00d5ff;
+    font-size: 0.75rem;
     margin-bottom: 0.6rem;
 }
 
 .domain-tag {
-    font-size: 0.75rem;
-    background: rgba(255, 255, 255, 0.05);
-    padding: 0.2rem 0.6rem;
-    border-radius: 12px;
-    color: #9ca3af;
+    font-size: 0.65rem;
+    background: rgba(255, 0, 160, 0.15);
+    border: 1px solid #ff00a0;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    color: #ff77ff;
+    display: inline-block;
+}
+
+/* --- ARCADE HERO STYLES --- */
+.game-hero-container {
+    min-height: 100vh;
+    background-color: #0d081e;
+    background-image:
+        radial-gradient(white, rgba(255, 255, 255, .2) 2px, transparent 40px),
+        radial-gradient(white, rgba(255, 255, 255, .15) 1px, transparent 30px);
+    background-size: 550px 550px, 350px 350px;
+    background-position: 0 0, 40px 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.arcade-hud {
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    justify-content: space-between;
+    color: #ff2a8d;
+    font-size: 14px;
+    padding: 10px 0;
+}
+
+.arcade-window {
+    border: 4px solid #00ff88;
+    outline: 4px solid #000;
+    box-shadow: 0 0 20px #00ff88, inset 0 0 15px rgba(0, 255, 136, 0.4);
+    background: rgba(10, 6, 25, 0.95);
+    border-radius: 16px;
+    padding: 50px 30px;
+    text-align: center;
+    width: 90%;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.year-title {
+    color: #00ff88;
+    font-size: 32px;
+    margin: 0 0 15px 0;
+    text-shadow: 3px 3px #005522;
+}
+
+.portfolio-title {
+    color: #ff00a0;
+    font-size: 42px;
+    margin: 0 0 35px 0;
+    text-shadow: 4px 4px #550033;
+    letter-spacing: 2px;
+}
+
+.arcade-start-btn {
+    background-color: #00ff88;
+    color: #000;
+    border: 4px solid #ffffff;
+    padding: 16px 36px;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 6px 0 #009944, 0 10px 10px rgba(0, 0, 0, 0.6);
+    transition: all 0.1s ease;
+}
+
+.arcade-start-btn:hover {
+    transform: translateY(3px);
+    box-shadow: 0 3px 0 #009944, 0 5px 5px rgba(0, 0, 0, 0.6);
+    background-color: #33ff99;
+}
+
+.arcade-bottom-bar {
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    justify-content: space-around;
+    color: #55aaff;
+    font-size: 11px;
+    padding-bottom: 10px;
+}
+
+/* Dark retro theme for SplashTerminal card & background */
+.splash-container,
+div[class*="splash"],
+div[class*="terminal"] {
+    background-color: #0d081e !important;
+    color: #00ff88 !important;
+}
+
+/* Fix the bright white card container */
+.retro-card,
+.terminal-card,
+div[style*="background-color: rgb(244"],
+div[style*="background: rgb(255"],
+div[style*="background: white"] {
+    background-color: #140b2e !important;
+    border: 3px solid #00ff88 !important;
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.3) !important;
+    color: #00ff88 !important;
+}
+
+/* Ensure inner code text is bright neon cyan/green */
+.retro-card *,
+.terminal-card * {
+    color: #00ff88 !important;
 }

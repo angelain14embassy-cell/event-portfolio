@@ -128,10 +128,6 @@ button {
   gap: 26px;
 }
 
-.app-bottom-space {
-  height: 100px;
-}
-
 @media (max-width: 700px) {
   .hero-wrapper {
     padding: 15px 12px 30px;

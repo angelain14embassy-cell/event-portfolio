@@ -100,8 +100,6 @@ function App() {
 
                 {/* DSA JOURNEY TIMELINE */}
                 <Timeline />
-
-                <div className="app-bottom-space"></div>
             </main>
 
             {/* EVENT MODAL */}
