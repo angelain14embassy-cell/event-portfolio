@@ -131,3 +131,607 @@
   color: #94a3b8;
   margin: 0;
 }
+/* =========================================
+   DSA SESSIONS - MOVING CARDS
+========================================= */
+
+.dsa-marquee {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+
+    padding: 20px 0 35px;
+
+    /* Fade the cards slightly at both edges */
+    mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        black 7%,
+        black 93%,
+        transparent 100%
+    );
+
+    -webkit-mask-image: linear-gradient(
+        to right,
+        transparent 0%,
+        black 7%,
+        black 93%,
+        transparent 100%
+    );
+}
+
+.dsa-marquee-track {
+    display: flex;
+    width: max-content;
+
+    gap: 26px;
+
+    animation:
+        dsa-session-scroll
+        20s
+        linear
+        infinite;
+
+    will-change: transform;
+}
+
+/*
+   IMPORTANT:
+   Hovering anywhere over the marquee
+   pauses the complete animation.
+*/
+.dsa-marquee:hover .dsa-marquee-track {
+    animation-play-state: paused;
+}
+
+
+/* =========================================
+   SESSION CARD
+========================================= */
+
+.dsa-session-card {
+    --session-color: #8B5CF6;
+
+    position: relative;
+
+    flex: 0 0 620px;
+
+    height: 390px;
+
+    display: grid;
+
+    grid-template-columns: 1fr;
+
+    overflow: hidden;
+
+    border-radius: 22px;
+
+    border: 1px solid rgba(75, 110, 170, 0.18);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.96),
+            rgba(240, 247, 255, 0.98)
+        );
+
+    box-shadow:
+        0 20px 45px rgba(46, 94, 150, 0.10);
+
+    cursor: pointer;
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease,
+        border-color 0.3s ease;
+}
+
+.dsa-session-card:hover {
+    transform: translateY(-7px);
+
+    border-color:
+        color-mix(
+            in srgb,
+            var(--session-color) 45%,
+            white
+        );
+
+    box-shadow:
+        0 28px 60px rgba(46, 94, 150, 0.17);
+}
+
+.dsa-session-card-glow {
+    position: absolute;
+
+    width: 220px;
+    height: 220px;
+
+    right: 110px;
+    bottom: -130px;
+
+    border-radius: 50%;
+
+    background: var(--session-color);
+
+    opacity: 0.12;
+
+    filter: blur(45px);
+
+    pointer-events: none;
+}
+
+
+/* =========================================
+   CARD CONTENT
+========================================= */
+
+.dsa-session-card-content {
+    position: relative;
+    z-index: 3;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 27px;
+}
+
+.dsa-session-top {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 12px;
+}
+
+.dsa-session-number {
+    color: #1769ff;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+}
+
+.dsa-session-status {
+    display: flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    color: #77869c;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    text-transform: uppercase;
+
+    white-space: nowrap;
+}
+
+.dsa-session-status.upcoming {
+    color: #10a86a;
+}
+
+.dsa-status-dot {
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: #94a3b8;
+}
+
+.dsa-session-status.upcoming .dsa-status-dot {
+    background: #10b981;
+
+    box-shadow:
+        0 0 10px rgba(16, 185, 129, 0.6);
+}
+
+
+/* =========================================
+   MAIN TEXT
+========================================= */
+
+.dsa-session-main {
+    margin-top: 35px;
+}
+
+.dsa-session-label {
+    margin: 0 0 9px;
+
+    color: #7190b5;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.8px;
+}
+
+.dsa-session-main h3 {
+    margin: 0;
+
+    max-width: 360px;
+
+    color: #0e1b35;
+
+    font-size: 30px;
+
+    line-height: 1.08;
+
+    letter-spacing: -1px;
+}
+
+.dsa-session-subtitle {
+    margin: 10px 0 0;
+
+    color: var(--session-color);
+
+    font-size: 14px;
+
+    font-weight: 800;
+}
+
+.dsa-session-description {
+    max-width: 365px;
+
+    margin: 16px 0 0;
+
+    color: #61708a;
+
+    font-size: 12px;
+
+    line-height: 1.65;
+}
+
+.dsa-session-topics {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 6px;
+
+    margin-top: 18px;
+}
+
+.dsa-session-topics span {
+    padding: 5px 8px;
+
+    border-radius: 6px;
+
+    background: rgba(23, 105, 255, 0.06);
+
+    color: #5575a2;
+
+    font-family: monospace;
+
+    font-size: 9px;
+}
+
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.dsa-session-footer {
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    margin-top: auto;
+
+    padding-top: 15px;
+
+    border-top:
+        1px solid rgba(72, 105, 150, 0.12);
+
+    color: #71819a;
+
+    font-size: 10px;
+}
+
+.dsa-session-date,
+.dsa-session-time {
+    display: flex;
+
+    align-items: center;
+
+    gap: 5px;
+
+    white-space: nowrap;
+}
+
+.dsa-session-date svg,
+.dsa-session-time svg {
+    color: #7d9bc2;
+}
+
+.dsa-session-details {
+    display: flex;
+
+    align-items: center;
+
+    gap: 2px;
+
+    margin-left: auto;
+
+    color: #1769ff;
+
+    font-weight: 800;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   RIGHT VISUAL AREA
+========================================= */
+
+.dsa-session-visual {
+    position: relative;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(68, 142, 255, 0.17),
+            transparent 43%
+        ),
+        linear-gradient(
+            135deg,
+            #eef7ff,
+            #dceeff
+        );
+}
+
+.dsa-grid-pattern {
+    position: absolute;
+
+    inset: 0;
+
+    opacity: 0.4;
+
+    background-image:
+        linear-gradient(
+            rgba(23, 105, 255, 0.08) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(23, 105, 255, 0.08) 1px,
+            transparent 1px
+        );
+
+    background-size: 26px 26px;
+}
+
+
+/* =========================================
+   ORBITS
+========================================= */
+
+.dsa-orbit {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    border:
+        1px solid rgba(23, 105, 255, 0.24);
+
+    border-radius: 50%;
+
+    transform:
+        translate(-50%, -50%);
+}
+
+.orbit-1 {
+    width: 235px;
+    height: 90px;
+
+    transform:
+        translate(-50%, -50%)
+        rotate(-20deg);
+}
+
+.orbit-2 {
+    width: 170px;
+    height: 245px;
+
+    transform:
+        translate(-50%, -50%)
+        rotate(55deg);
+}
+
+.orbit-3 {
+    width: 280px;
+    height: 170px;
+
+    transform:
+        translate(-50%, -50%)
+        rotate(110deg);
+
+    opacity: 0.45;
+}
+
+
+/* =========================================
+   SESSION NUMBER CORE
+========================================= */
+
+.dsa-session-core {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 105px;
+    height: 105px;
+
+    display: grid;
+
+    place-items: center;
+
+    transform:
+        translate(-50%, -50%)
+        rotate(-7deg);
+
+    border:
+        1px solid rgba(255, 255, 255, 0.85);
+
+    border-radius: 27px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.95),
+            rgba(202, 225, 249, 0.9)
+        );
+
+    box-shadow:
+        0 18px 40px rgba(37, 104, 170, 0.15);
+
+    color: #1769ff;
+
+    font-size: 27px;
+
+    font-weight: 900;
+
+    letter-spacing: -1px;
+
+    z-index: 2;
+}
+
+
+/* =========================================
+   TBA LABEL
+========================================= */
+
+.dsa-tba {
+    position: absolute;
+
+    left: 50%;
+    bottom: 24px;
+
+    transform:
+        translateX(-50%);
+
+    padding: 7px 11px;
+
+    border:
+        1px solid rgba(23, 105, 255, 0.12);
+
+    border-radius: 999px;
+
+    background:
+        rgba(255, 255, 255, 0.72);
+
+    backdrop-filter: blur(8px);
+
+    color: #6682a6;
+
+    font-size: 8px;
+
+    font-weight: 900;
+
+    letter-spacing: 1.4px;
+
+    white-space: nowrap;
+
+    z-index: 4;
+}
+
+
+/* =========================================
+   INFINITE MOVEMENT
+========================================= */
+
+@keyframes dsa-session-scroll {
+
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(
+            calc(-50% - 13px)
+        );
+    }
+
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 700px) {
+
+    .dsa-session-card {
+        flex-basis: 340px;
+
+        height: 470px;
+
+        grid-template-columns: 1fr;
+    }
+
+    .dsa-session-card-content {
+        padding: 23px;
+
+        min-height: 295px;
+    }
+
+    .dsa-session-main {
+        margin-top: 24px;
+    }
+
+    .dsa-session-main h3 {
+        font-size: 25px;
+    }
+
+    .dsa-session-description {
+        font-size: 11px;
+    }
+
+    .dsa-session-visual {
+        min-height: 175px;
+    }
+
+    .dsa-session-core {
+        width: 75px;
+        height: 75px;
+
+        border-radius: 20px;
+
+        font-size: 21px;
+    }
+
+    .orbit-1 {
+        width: 180px;
+        height: 65px;
+    }
+
+    .orbit-2 {
+        width: 130px;
+        height: 185px;
+    }
+
+    .orbit-3 {
+        width: 220px;
+        height: 125px;
+    }
+
+    .dsa-session-footer {
+        gap: 8px;
+    }
+
+}

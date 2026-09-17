@@ -7,18 +7,12 @@ import EventModal from "./components/EventModal";
 import PhotoGallery from "./components/PhotoGallery";
 import Timeline from "./components/Timeline";
 
-import { acmDsaEvents, categories } from "./data/eventsData";
+import { acmDsaEvents } from "./data/eventsData";
 
 import "./App.css";
 
 function App() {
-  const [activeCategory, setActiveCategory] = useState("All");
   const [selectedEvent, setSelectedEvent] = useState(null);
-
-  const filteredEvents = acmDsaEvents.filter(
-    (event) =>
-      activeCategory === "All" || event.category === activeCategory
-  );
 
   return (
     <div className="app-root">
@@ -43,9 +37,9 @@ function App() {
 
 
         {/* =========================================
-            ACM SESSIONS / EVENTS
+            DSA SESSIONS / EVENTS
         ========================================= */}
-        <section className="events-section">
+        <section className="events-section" id="events">
 
           <div className="section-heading">
 
@@ -54,48 +48,43 @@ function App() {
             </span>
 
             <h2>
-              ACM Sessions & Events
+              DSA Sessions &amp; Events
             </h2>
 
             <p>
-              Explore our technical sessions, workshops,
-              challenges and learning experiences.
+              Explore our DSA sessions, learning experiences,
+              resources and problem-solving journey.
             </p>
 
           </div>
 
 
-          {/* Category filters */}
-          <div className="category-filter">
+          {/* =========================================
+              MOVING DSA SESSION CARDS
+          ========================================= */}
+          <div className="dsa-marquee">
 
-            {categories.map((category) => (
-              <button
-                key={category}
-                type="button"
-                className={
-                  activeCategory === category
-                    ? "category-btn active"
-                    : "category-btn"
-                }
-                onClick={() => setActiveCategory(category)}
-              >
-                {category}
-              </button>
-            ))}
+            <div className="dsa-marquee-track">
 
-          </div>
+              {/* First set of cards */}
+              {acmDsaEvents.map((event) => (
+                <EventCard
+                  key={`first-${event.id}`}
+                  event={event}
+                  onClick={() => setSelectedEvent(event)}
+                />
+              ))}
 
+              {/* Duplicate set for seamless infinite movement */}
+              {acmDsaEvents.map((event) => (
+                <EventCard
+                  key={`second-${event.id}`}
+                  event={event}
+                  onClick={() => setSelectedEvent(event)}
+                />
+              ))}
 
-          {/* Event cards */}
-          <div className="events-grid">
-
-            {filteredEvents.map((event) => (
-              <EventCard
-                key={event.id}
-                event={event}
-                onClick={() => setSelectedEvent(event)}
-              />
-            ))}
+            </div>
 
           </div>
 
@@ -286,75 +275,6 @@ style.innerHTML = `
     color: #61708a;
     font-size: 16px;
     line-height: 1.7;
-  }
-
-  .category-filter {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-
-    gap: 10px;
-
-    margin-bottom: 38px;
-  }
-
-  .category-btn {
-    border: 1px solid #c7dcf5;
-
-    background: rgba(255,255,255,0.8);
-    color: #55708f;
-
-    padding: 10px 20px;
-    border-radius: 999px;
-
-    font-size: 14px;
-    font-weight: 700;
-
-    cursor: pointer;
-
-    transition:
-      transform 0.25s ease,
-      background 0.25s ease,
-      color 0.25s ease,
-      box-shadow 0.25s ease;
-  }
-
-  .category-btn:hover {
-    transform: translateY(-2px);
-
-    color: #1769ff;
-
-    box-shadow:
-      0 10px 25px rgba(31, 112, 255, 0.10);
-  }
-
-  .category-btn.active {
-    color: white;
-
-    border-color: transparent;
-
-    background:
-      linear-gradient(
-        135deg,
-        #1769ff,
-        #54b9ff
-      );
-
-    box-shadow:
-      0 10px 25px rgba(23, 105, 255, 0.22);
-  }
-
-  .events-grid {
-    display: grid;
-
-    grid-template-columns:
-      repeat(
-        auto-fit,
-        minmax(280px, 1fr)
-      );
-
-    gap: 26px;
   }
 
   .app-bottom-space {
