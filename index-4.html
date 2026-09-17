@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACM Banasthali — Glass UI</title>
+<style>
+:root{
+  --bg:#eef7ff; --text:#0b2b55; --muted:#55749a; --blue:#168cff;
+  --glass:rgba(255,255,255,.46); --glass2:rgba(255,255,255,.68);
+  --border:rgba(255,255,255,.78); --shadow:0 20px 60px rgba(18,108,205,.16);
+}
+body.dark{
+  --bg:#03132d; --text:#f4f9ff; --muted:#b9d0ed; --blue:#49a9ff;
+  --glass:rgba(10,39,78,.42); --glass2:rgba(8,31,65,.62);
+  --border:rgba(125,196,255,.30); --shadow:0 25px 80px rgba(0,110,255,.22);
+}
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+body{
+  margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;
+  color:var(--text);background:var(--bg);transition:.45s ease;
+  background-image:
+   radial-gradient(circle at 10% 10%,rgba(0,145,255,.18),transparent 28%),
+   radial-gradient(circle at 90% 20%,rgba(95,190,255,.16),transparent 28%),
+   radial-gradient(circle at 50% 100%,rgba(0,95,255,.12),transparent 35%);
+}
+body::before{
+  content:"";
+  position:fixed;
+  width:360px;height:360px;
+  left:calc(var(--mx, 50vw) - 180px);
+  top:calc(var(--my, 40vh) - 180px);
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(55,174,255,.13), transparent 65%);
+  pointer-events:none;
+  z-index:-1;
+  transition:left .15s ease-out, top .15s ease-out;
+}
+body.dark{background-image:
+   radial-gradient(circle at 10% 10%,rgba(0,105,255,.25),transparent 30%),
+   radial-gradient(circle at 90% 20%,rgba(0,174,255,.14),transparent 30%),
+   radial-gradient(circle at 50% 100%,rgba(0,58,190,.20),transparent 40%);
+}
+.glass{
+  background:var(--glass);border:1px solid var(--border);
+  box-shadow:var(--shadow);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
+}
+nav{
+  position:fixed;top:18px;left:4%;right:4%;z-index:20;border-radius:25px;
+  padding:10px 16px;display:flex;align-items:center;justify-content:space-between;
+}
+.logo{font-weight:800;font-size:20px;letter-spacing:.3px;display:flex;gap:10px;align-items:center}
+.logo-badge{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;
+  background:linear-gradient(135deg,#1b9cff,#0b62dc);color:#fff;box-shadow:0 0 28px rgba(30,150,255,.45)}
+.navlinks{display:flex;gap:8px;align-items:center}.navlinks a{
+  color:var(--text);text-decoration:none;padding:11px 15px;border-radius:15px;opacity:.9}
+.navlinks a:hover,.navlinks a.active{background:rgba(54,166,255,.17);box-shadow:inset 0 0 0 1px rgba(75,175,255,.3)}
+.actions{display:flex;align-items:center;gap:10px}
+.theme-toggle{
+  width:128px;height:48px;border-radius:999px;border:1px solid rgba(100,190,255,.45);
+  background:rgba(255,255,255,.14);display:flex;align-items:center;padding:4px;cursor:pointer;
+  color:var(--text);box-shadow:inset 0 0 18px rgba(255,255,255,.12),0 8px 30px rgba(0,120,255,.14);
+}
+.theme-track{height:38px;width:120px;border-radius:999px;position:relative;display:flex;justify-content:space-between;align-items:center;padding:0 12px}
+.theme-icon{font-size:16px;opacity:.75}.thumb{
+  position:absolute;top:3px;left:3px;width:42px;height:42px;border-radius:50%;
+  display:grid;place-items:center;color:#fff;background:linear-gradient(145deg,#53b7ff,#0874ee);
+  box-shadow:0 0 22px rgba(35,156,255,.65);transition:.45s cubic-bezier(.2,.8,.2,1);font-size:20px;
+}
+body.dark .thumb{transform:translateX(78px);background:linear-gradient(145deg,#163c75,#071c43)}
+.mode{font-size:13px;font-weight:700;margin-left:4px}
+.join,.cta{
+  border:1px solid rgba(115,201,255,.65);color:var(--text);text-decoration:none;
+  border-radius:16px;padding:12px 17px;background:rgba(40,151,255,.17);
+  box-shadow:inset 0 0 20px rgba(255,255,255,.10),0 8px 28px rgba(0,120,255,.16);
+  transition:.25s
+}.join:hover,.cta:hover{transform:translateY(-2px);background:rgba(47,157,255,.28)}
+main{padding-top:110px}
+.hero{min-height:650px;padding:80px 8%;display:grid;grid-template-columns:1.05fr .95fr;gap:30px;align-items:center}
+.eyebrow{display:inline-flex;gap:10px;padding:10px 16px;border-radius:999px;font-size:13px;color:#167de3}
+h1{font-size:clamp(46px,6vw,82px);line-height:.98;margin:22px 0 14px;letter-spacing:-3px}
+h1 span{background:linear-gradient(90deg,var(--text),#2299ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{max-width:620px;color:var(--muted);font-size:18px;line-height:1.7}.hero-buttons{display:flex;gap:12px;margin-top:28px}
+.visual{min-height:390px;border-radius:36px;position:relative;overflow:hidden;display:grid;place-items:center}
+.orb{width:240px;height:240px;border-radius:50%;display:grid;place-items:center;font-size:70px;
+ background:linear-gradient(145deg,rgba(67,183,255,.55),rgba(9,72,175,.30));border:1px solid rgba(151,220,255,.65);
+ box-shadow:0 0 90px rgba(30,157,255,.55),inset 0 0 45px rgba(255,255,255,.20);animation:float 4s ease-in-out infinite}
+.ring{position:absolute;width:330px;height:160px;border:2px solid rgba(72,180,255,.65);border-radius:50%;transform:rotate(-18deg);box-shadow:0 0 25px rgba(44,163,255,.35)}
+.ring2{width:390px;transform:rotate(28deg);opacity:.55}@keyframes float{50%{transform:translateY(-14px) rotate(2deg)}}
+.section{padding:70px 7%}.section-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:24px}
+.section h2{font-size:34px;margin:0 0 6px}.section-sub{color:var(--muted);margin:0}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.card{border-radius:25px;padding:20px;min-height:190px;transition:.25s}
+.card:hover{transform:translateY(-5px);box-shadow:0 25px 65px rgba(0,120,255,.22)}
+.date{display:inline-block;border-radius:13px;padding:9px 11px;background:rgba(36,148,255,.17);font-weight:800;color:#147ee0}
+.card h3{margin:20px 0 8px}.card p{color:var(--muted);line-height:1.5;font-size:14px}.meta{color:var(--muted);font-size:12px}
+.gallery{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}.photo{
+ height:180px;border-radius:22px;overflow:hidden;position:relative;
+ background:linear-gradient(135deg,rgba(30,151,255,.35),rgba(5,44,95,.7));
+ display:grid;place-items:center;font-size:44px;border:1px solid var(--border)
+}
+.photo span{font-size:13px;position:absolute;bottom:12px;left:12px;font-weight:700}
+footer{padding:35px 7%;border-top:1px solid var(--border);color:var(--muted);text-align:center}
+.top{position:fixed;right:25px;bottom:25px;width:48px;height:48px;border-radius:50%;cursor:pointer;font-size:20px}
+@media(max-width:950px){.navlinks{display:none}.hero{grid-template-columns:1fr;padding-top:60px}.grid{grid-template-columns:repeat(2,1fr)}.gallery{grid-template-columns:repeat(2,1fr)}.actions .join{display:none}}
+@media(max-width:600px){nav{left:3%;right:3%}.theme-toggle{width:90px}.theme-track{width:82px}.mode{display:none}.hero{padding:50px 6%;min-height:auto}h1{letter-spacing:-2px}.grid{grid-template-columns:1fr}.gallery{grid-template-columns:1fr}.section{padding:55px 6%}.visual{min-height:300px}}
+
+/* =========================
+   GLOBAL GLASS BUTTON SYSTEM
+   ========================= */
+button, a { -webkit-tap-highlight-color: transparent; }
+
+.cta, .join, .navlinks a, .top, .theme-toggle {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition:
+    transform .28s cubic-bezier(.2,.8,.2,1),
+    box-shadow .28s ease,
+    border-color .28s ease,
+    background .28s ease,
+    color .28s ease;
+}
+
+.cta::before, .join::before, .navlinks a::before, .top::before,
+.theme-toggle::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  z-index: -2;
+  border-radius: inherit;
+  background:
+    linear-gradient(120deg,
+      transparent 0%,
+      rgba(255,255,255,.05) 28%,
+      rgba(255,255,255,.72) 48%,
+      rgba(110,202,255,.30) 55%,
+      transparent 75%);
+  transform: translateX(-125%);
+  transition: transform .65s ease;
+}
+
+.cta::after, .join::after, .navlinks a::after, .top::after,
+.theme-toggle::after {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  z-index: -1;
+  background: radial-gradient(circle at 50% -30%,
+    rgba(255,255,255,.30), transparent 58%);
+  pointer-events: none;
+}
+
+.cta:hover, .join:hover, .navlinks a:hover, .top:hover, .theme-toggle:hover {
+  transform: translateY(-3px) scale(1.025);
+  border-color: rgba(111,205,255,.90);
+  box-shadow:
+    0 0 0 1px rgba(101,194,255,.22),
+    0 0 18px rgba(32,155,255,.35),
+    0 12px 38px rgba(0,110,255,.25),
+    inset 0 0 24px rgba(255,255,255,.16);
+}
+
+.cta:hover::before, .join:hover::before, .navlinks a:hover::before,
+.top:hover::before, .theme-toggle:hover::before {
+  transform: translateX(125%);
+}
+
+.cta:active, .join:active, .navlinks a:active, .top:active, .theme-toggle:active {
+  transform: translateY(0) scale(.97);
+}
+
+.cta, .join {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 46px;
+}
+
+.navlinks a {
+  border: 1px solid transparent;
+  background: rgba(255,255,255,.035);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.navlinks a.active {
+  border-color: rgba(91,191,255,.65);
+  background: linear-gradient(135deg, rgba(53,170,255,.28), rgba(255,255,255,.09));
+  box-shadow:
+    0 0 18px rgba(24,145,255,.30),
+    inset 0 0 18px rgba(255,255,255,.12);
+}
+
+body.dark .navlinks a {
+  background: rgba(30,130,220,.07);
+}
+
+body.dark .navlinks a.active {
+  background: linear-gradient(135deg, rgba(25,139,255,.30), rgba(255,255,255,.07));
+}
+
+.cta {
+  background:
+    linear-gradient(135deg, rgba(75,185,255,.24), rgba(255,255,255,.10)),
+    rgba(255,255,255,.08);
+  border-color: rgba(101,201,255,.60);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.join {
+  background:
+    linear-gradient(135deg, rgba(32,154,255,.30), rgba(255,255,255,.10)),
+    rgba(255,255,255,.08);
+  border-color: rgba(113,207,255,.72);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.top {
+  border: 1px solid rgba(108,205,255,.70);
+  background: rgba(30,150,255,.16);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  color: var(--text);
+}
+
+.top::before {
+  animation: buttonShimmer 3.8s infinite;
+}
+
+@keyframes buttonShimmer {
+  0%, 55%, 100% { transform: translateX(-125%); }
+  72% { transform: translateX(125%); }
+}
+
+/* Give every glass card a tiny luminous edge */
+.card, .visual, .photo {
+  position: relative;
+}
+.card::after, .visual::after, .photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  box-shadow: inset 0 0 28px rgba(105,201,255,.07);
+}
+
+/* Animated blue ambient glow behind interactive controls */
+.actions::before {
+  content: "";
+  position: absolute;
+  width: 180px;
+  height: 55px;
+  right: 0;
+  border-radius: 50%;
+  background: rgba(27,145,255,.18);
+  filter: blur(28px);
+  z-index: -1;
+  animation: actionGlow 3s ease-in-out infinite;
+}
+.actions { position: relative; }
+@keyframes actionGlow {
+  0%,100% { opacity: .45; transform: scale(.92); }
+  50% { opacity: .95; transform: scale(1.08); }
+}
+
+/* Make the theme switch feel like a premium glass control */
+.theme-toggle {
+  border-color: rgba(110,202,255,.65);
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.18), rgba(75,170,255,.09)),
+    rgba(255,255,255,.08);
+}
+.theme-toggle:focus-visible, .cta:focus-visible, .join:focus-visible,
+.navlinks a:focus-visible, .top:focus-visible {
+  outline: 2px solid rgba(91,202,255,.95);
+  outline-offset: 3px;
+}
+
+/* Ripple created on click */
+.glass-ripple {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  pointer-events: none;
+  background: rgba(255,255,255,.75);
+  transform: translate(-50%,-50%) scale(0);
+  animation: ripple .65s ease-out forwards;
+  mix-blend-mode: screen;
+  z-index: 5;
+}
+@keyframes ripple {
+  to { transform: translate(-50%,-50%) scale(18); opacity: 0; }
+}
+
+
+/* =========================
+   GLASS EFFECT INSIDE EVENT ICONS / DATE BADGES
+   ========================= */
+.date{
+  position:relative;
+  overflow:hidden;
+  isolation:isolate;
+  min-width:64px;
+  text-align:center;
+  color:var(--text);
+  background:
+    linear-gradient(145deg, rgba(78,190,255,.28), rgba(255,255,255,.13)),
+    rgba(255,255,255,.10);
+  border:1px solid rgba(111,207,255,.68);
+  box-shadow:
+    inset 0 0 22px rgba(255,255,255,.12),
+    0 0 20px rgba(28,151,255,.20),
+    0 10px 28px rgba(0,105,220,.13);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  transition:.3s cubic-bezier(.2,.8,.2,1);
+}
+
+.date::before{
+  content:"";
+  position:absolute;
+  inset:-40%;
+  z-index:-1;
+  background:linear-gradient(
+    115deg,
+    transparent 38%,
+    rgba(255,255,255,.72) 49%,
+    rgba(99,205,255,.28) 54%,
+    transparent 66%
+  );
+  transform:translateX(-75%) rotate(8deg);
+  transition:transform .7s ease;
+}
+
+.date::after{
+  content:"";
+  position:absolute;
+  inset:1px;
+  border-radius:12px;
+  pointer-events:none;
+  background:radial-gradient(circle at 50% 0%,rgba(255,255,255,.28),transparent 62%);
+}
+
+.card:hover .date{
+  transform:translateY(-3px) scale(1.06);
+  border-color:rgba(134,220,255,.95);
+  box-shadow:
+    inset 0 0 25px rgba(255,255,255,.16),
+    0 0 28px rgba(30,160,255,.42),
+    0 12px 34px rgba(0,110,255,.20);
+}
+.card:hover .date::before{
+  transform:translateX(75%) rotate(8deg);
+}
+
+/* Glass treatment for the small event-detail icons/text */
+.meta{
+  display:inline-flex;
+  align-items:center;
+  padding:8px 11px;
+  border-radius:13px;
+  border:1px solid rgba(106,198,255,.30);
+  background:rgba(255,255,255,.06);
+  box-shadow:inset 0 0 15px rgba(255,255,255,.06);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  transition:.25s ease;
+}
+.card:hover .meta{
+  border-color:rgba(106,198,255,.55);
+  background:rgba(44,158,255,.10);
+  box-shadow:0 0 18px rgba(35,155,255,.16),inset 0 0 18px rgba(255,255,255,.08);
+}
+
+/* Glass icons in gallery / visual areas */
+.photo > span{
+  padding:7px 10px;
+  border-radius:11px;
+  border:1px solid rgba(118,207,255,.38);
+  background:rgba(4,36,76,.25);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  box-shadow:inset 0 0 15px rgba(255,255,255,.08),0 0 15px rgba(30,150,255,.12);
+}
+
+/* Make the event cards themselves sparkle slightly */
+.card{
+  overflow:hidden;
+}
+.card::before{
+  content:"";
+  position:absolute;
+  width:130px;height:130px;
+  right:-55px;top:-55px;
+  border-radius:50%;
+  background:rgba(54,176,255,.13);
+  filter:blur(12px);
+  transition:.4s ease;
+  pointer-events:none;
+}
+.card:hover::before{
+  transform:scale(1.55);
+  background:rgba(54,190,255,.22);
+}
+
+</style>
+</head>
+<body>
+<nav class="glass">
+  <div class="logo"><div class="logo-badge">⌁</div> ACM BV</div>
+  <div class="navlinks">
+    <a class="active" href="#home">⌂ Home</a><a href="#events">▣ Events</a><a href="#memories">▧ Memories</a><a href="#journey">☆ Journey</a>
+  </div>
+  <div class="actions">
+    <button class="theme-toggle" id="themeBtn" aria-label="Toggle theme">
+      <div class="theme-track"><span class="theme-icon">☀</span><span class="theme-icon">☾</span><div class="thumb" id="thumb">☀</div></div>
+      <span class="mode" id="mode">Light</span>
+    </button>
+    <a class="join" href="#join">♟ Join Us</a>
+  </div>
+</nav>
+
+<main id="home">
+<section class="hero">
+  <div>
+    <div class="eyebrow glass">Code <b>✦</b> Learn <b>✦</b> Grow <b>✦</b> Together</div>
+    <h1>ACM <span>Banasthali</span><br>Where Tech Meets Community</h1>
+    <p>A polished glassmorphism experience for events, memories, learning and the ACM community — with one consistent blue & white visual system across the whole website.</p>
+    <div class="hero-buttons"><a class="cta" href="#events">Explore Events →</a><a class="cta" href="#join">Join Our Community</a></div>
+  </div>
+  <div class="visual glass"><div class="ring"></div><div class="ring ring2"></div><div class="orb">⌘</div></div>
+</section>
+
+<section class="section" id="events">
+ <div class="section-head"><div><h2>Upcoming Events</h2><p class="section-sub">Explore workshops, sessions and tech activities.</p></div><a class="cta" href="#events">View All →</a></div>
+ <div class="grid">
+  <article class="card glass"><span class="date">12<br>SEP</span><h3>Web Development Workshop</h3><p>Learn modern web development with hands-on practice.</p><div class="meta">◷ 10:00 AM &nbsp; • &nbsp; ◇ Lab 1</div></article>
+  <article class="card glass"><span class="date">18<br>SEP</span><h3>DSA Session</h3><p>Strengthen problem-solving and algorithmic thinking.</p><div class="meta">◷ 4:00 PM &nbsp; • &nbsp; ◇ Seminar Hall</div></article>
+  <article class="card glass"><span class="date">25<br>SEP</span><h3>Tech Talk — AI & Future</h3><p>Explore how AI is shaping the future of technology.</p><div class="meta">◷ 11:00 AM &nbsp; • &nbsp; ◇ Auditorium</div></article>
+  <article class="card glass"><span class="date">02<br>OCT</span><h3>Hackathon Prep</h3><p>Prepare for your next hackathon with expert guidance.</p><div class="meta">◷ 3:00 PM &nbsp; • &nbsp; ◇ Lab 2</div></article>
+ </div>
+</section>
+
+<section class="section" id="memories">
+ <div class="section-head"><div><h2>Gallery / Memories</h2><p class="section-sub">Moments that make the journey special.</p></div><a class="cta" href="#memories">View All →</a></div>
+ <div class="gallery">
+  <div class="photo glass">👥<span>Team Moments</span></div><div class="photo glass">💻<span>Workshops</span></div><div class="photo glass">⌘<span>ACM Sessions</span></div><div class="photo glass">🏆<span>Achievements</span></div><div class="photo glass">✨<span>Good Vibes</span></div>
+ </div>
+</section>
+
+<section class="section" id="journey">
+ <div class="visual glass" style="min-height:260px;padding:35px;text-align:center">
+   <div><h2>One community. Endless possibilities.</h2><p class="section-sub">This is the same glass language applied beyond the navbar — cards, buttons, sections and floating controls.</p><a class="cta" href="#join">Start Your Journey →</a></div>
+ </div>
+</section>
+
+<section class="section" id="join">
+ <div class="visual glass" style="min-height:220px;padding:30px;text-align:center">
+  <div><h2>Ready to be part of ACM?</h2><p class="section-sub">Join the community and build, learn and grow together.</p><a class="join" href="#">Join Us ↗</a></div>
+ </div>
+</section>
+</main>
+
+<button class="top glass" onclick="scrollTo({top:0,behavior:'smooth'})">↑</button>
+<footer>© ACM Banasthali • Blue Glass Design System</footer>
+
+<script>
+const btn=document.getElementById('themeBtn'), mode=document.getElementById('mode'), thumb=document.getElementById('thumb');
+const saved=localStorage.getItem('acm-theme');
+if(saved==='dark') document.body.classList.add('dark');
+function sync(){
+ const dark=document.body.classList.contains('dark');
+ mode.textContent=dark?'Dark':'Light'; thumb.textContent=dark?'☾':'☀';
+}
+sync();
+btn.addEventListener('click',()=>{
+ document.body.classList.toggle('dark');
+ localStorage.setItem('acm-theme',document.body.classList.contains('dark')?'dark':'light');
+ sync();
+});
+document.querySelectorAll('.navlinks a').forEach(a=>a.addEventListener('click',()=>{
+ document.querySelectorAll('.navlinks a').forEach(x=>x.classList.remove('active'));a.classList.add('active');
+}));
+
+// Premium glass click ripple on every interactive button/link.
+document.querySelectorAll('button, a').forEach(el => {
+  el.addEventListener('click', function(e) {
+    const r = this.getBoundingClientRect();
+    const ripple = document.createElement('span');
+    ripple.className = 'glass-ripple';
+    ripple.style.left = (e.clientX - r.left) + 'px';
+    ripple.style.top = (e.clientY - r.top) + 'px';
+    this.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 700);
+  });
+});
+
+// Subtle moving glow for the whole page.
+document.addEventListener('pointermove', (e) => {
+  document.body.style.setProperty('--mx', e.clientX + 'px');
+  document.body.style.setProperty('--my', e.clientY + 'px');
+});
+
+</script>
+</body>
+</html>
