@@ -257,12 +257,16 @@ body,
     padding-bottom: 10px;
 }
 
-/* Dark retro theme for SplashTerminal card & background */
+/* SplashTerminal interface background */
 .splash-container,
 div[class*="splash"],
 div[class*="terminal"] {
-    background-color: #0d081e !important;
+    background-color: #02040a !important;
     color: #00ff88 !important;
+}
+
+.splash-container.error-complete {
+    background-color: #ffffff !important;
 }
 
 /* Fix the bright white card container */

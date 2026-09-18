@@ -83,7 +83,7 @@ export default function SplashTerminal({ onEnter }) {
             const cx = width / 2;
             const cy = height / 2;
 
-            // Deep Black Backdrop
+            // Keep the spotlight stage dark until the error transition.
             ctx.fillStyle = "#02040a";
             ctx.fillRect(0, 0, width, height);
 
@@ -240,7 +240,10 @@ export default function SplashTerminal({ onEnter }) {
     ];
 
     return (
-        <div className="splash-container" style={{ backgroundColor: showDeck ? "#f4f7fc" : "#02040a" }}>
+        <div
+            className={`splash-container ${showDeck ? "error-complete" : ""}`}
+            style={{ backgroundColor: showDeck ? "#ffffff" : "#02040a" }}
+        >
             {!showDeck && <canvas ref={canvasRef} className="globe-canvas" />}
 
             {/* Retro Deck Container popping cards like a stack */}
