@@ -7,6 +7,7 @@ import EventCard from "./components/EventCard";
 import EventModal from "./components/EventModal";
 import PhotoGallery from "./components/PhotoGallery";
 import Timeline from "./components/Timeline";
+import Footer from './components/Footer/Footer';
 
 import { acmDsaEvents, categories } from "./data/eventsData";
 import "./App.css";
@@ -97,6 +98,7 @@ function App() {
                 {/* DSA JOURNEY TIMELINE */}
                 <Timeline />
             </main>
+            <Footer />
 
             {/* EVENT MODAL */}
             <EventModal
