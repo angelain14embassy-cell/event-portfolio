@@ -8,6 +8,7 @@ import EventModal from "./components/EventModal";
 import PhotoGallery from "./components/PhotoGallery";
 import Timeline from "./components/Timeline";
 import DSAEvents from "./components/DSAEvents";
+import Footer from './components/Footer/Footer';
 
 import "./App.css";
 
