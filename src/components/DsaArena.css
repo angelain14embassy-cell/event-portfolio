@@ -1,138 +1,370 @@
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
-.dsa-arena-container {
+/* --- Main Container & Sky Setup --- */
+.quest-container {
+    position: relative;
     min-height: 100vh;
-    background-color: #0d081e;
+    background-color: #93a3c0; /* Deep tech blue sky */
     color: #ffffff;
-    padding: 60px 20px;
+    padding: 40px 20px 120px 20px;
     font-family: 'Press Start 2P', monospace !important;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     align-items: center;
-    border-top: 6px solid #3d5afe;
+    border-top: 6px solid #415a77;
+    overflow: hidden;
 }
 
-.arena-header {
-    text-align: center;
-    max-width: 800px;
+/* --- Animated Pixel Sky Container --- */
+.pixel-sky {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* --- Pixel Moon --- */
+.pixel-moon {
+    position: absolute;
+    top: 40px;
+    right: 80px;
+    width: 32px;
+    height: 32px;
+    background: #ffea00;
+    box-shadow: 
+        -4px 0 0 #ffea00,
+        4px 0 0 #ffea00,
+        0 -4px 0 #ffea00,
+        0 4px 0 #ffea00,
+        0 0 15px rgba(255, 234, 0, 0.4);
+    z-index: 1;
+}
+
+/* --- Pixel Twinkling Stars --- */
+.pixel-stars {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.star {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #ffffff;
+    box-shadow: 0 0 6px #ffffff;
+    animation: twinkle 2s infinite ease-in-out;
+}
+
+.star-1 { top: 15%; left: 20%; animation-delay: 0s; }
+.star-2 { top: 25%; left: 70%; animation-delay: 0.7s; }
+.star-3 { top: 10%; left: 50%; animation-delay: 1.3s; }
+.star-4 { top: 35%; left: 35%; animation-delay: 0.4s; }
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.4); }
+}
+
+/* --- High-Detail Static Pixel Clouds --- */
+.cloud {
+    position: absolute;
+    background: #e0e1dd;
+    box-shadow:
+        10px 0 0 #e0e1dd, -10px 0 0 #e0e1dd,
+        20px 0 0 #e0e1dd, -20px 0 0 #e0e1dd,
+        30px 0 0 #e0e1dd, -30px 0 0 #e0e1dd,
+        0 10px 0 #e0e1dd, 0 -10px 0 #e0e1dd,
+        0 20px 0 #e0e1dd, 0 -20px 0 #e0e1dd,
+        10px 10px 0 #e0e1dd, -10px 10px 0 #e0e1dd,
+        10px -10px 0 #e0e1dd, -10px -10px 0 #e0e1dd,
+        20px 10px 0 #e0e1dd, -20px 10px 0 #e0e1dd,
+        20px -10px 0 #e0e1dd, -20px -10px 0 #e0e1dd,
+        30px 10px 0 #e0e1dd, -30px 10px 0 #e0e1dd,
+        10px 20px 0 #e0e1dd, -10px 20px 0 #e0e1dd;
+    opacity: 0.9;
+    z-index: 1;
+    animation: none !important;
+    transform: none !important;
+}
+
+.cloud-1 {
+    width: 180px;
+    height: 55px;
+    top: 10%;
+    left: 8%;
+}
+
+.cloud-2 {
+    width: 240px;
+    height: 70px;
+    top: 26%;
+    right: 8%;
+}
+
+.cloud-3 {
+    width: 150px;
+    height: 50px;
+    top: 46%;
+    left: 12%;
+}
+
+/* --- Taller Pixel Mountain Silhouette Layers --- */
+.pixel-mountains {
+    position: absolute;
+    bottom: 0;
+    left: 0;
     width: 100%;
-    margin-bottom: 40px;
+    height: 280px;
+    z-index: 2;
+    pointer-events: none;
+    overflow: hidden;
 }
 
-.arena-title {
-    color: #ffea00;
-    font-size: 24px;
-    margin-bottom: 25px;
-    text-shadow: 3px 3px 0 #000;
+.mountain-layer {
+    position: absolute;
+    bottom: 0;
+    width: 200%;
+    height: 100%;
 }
 
-.terminal-script {
-    background: #150d30;
-    border: 3px solid #00f0ff;
-    border-radius: 12px;
-    padding: 20px;
-    text-align: left;
-    font-size: 10px;
-    line-height: 2;
-    box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+.back-mountains {
+    background-color: #0d1b2a;
+    opacity: 0.75;
+    clip-path: polygon(
+        0% 100%, 0% 40%, 7% 10%, 15% 45%, 22% 15%, 30% 55%, 
+        38% 5%, 45% 40%, 50% 100%, 50% 40%, 57% 10%, 65% 45%, 
+        72% 15%, 80% 55%, 88% 5%, 95% 40%, 100% 100%
+    );
+    animation: parallaxScroll 45s linear infinite;
 }
 
-.green-text {
-    color: #00ff88;
+.front-mountains {
+    background-color: #132a4a;
+    border-top: 3px solid #415a77;
+    clip-path: polygon(
+        0% 100%, 0% 60%, 5% 30%, 12% 70%, 18% 35%, 25% 75%, 
+        32% 20%, 40% 65%, 50% 100%, 50% 60%, 55% 30%, 62% 70%, 
+        68% 35%, 75% 75%, 82% 20%, 90% 65%, 100% 100%
+    );
+    animation: parallaxScroll 25s linear infinite;
 }
 
-.cyan-text {
-    color: #00f0ff;
+@keyframes parallaxScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
 }
 
-.yellow-text {
-    color: #ffea00;
-}
-
-/* Grid Cards */
-.sessions-grid {
-    display: flex;
-    gap: 25px;
-    flex-wrap: wrap;
-    justify-content: center;
-    max-width: 1100px;
-    width: 100%;
-}
-
-.session-card {
-    background: #180f38;
-    border: 4px solid #ffffff;
-    border-radius: 12px;
-    padding: 25px;
-    width: 300px;
+/* --- UI Wrapper (Sits Above Sky & Mountains) --- */
+.quest-ui-wrapper {
+    position: relative;
+    z-index: 10;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    position: relative;
-    box-shadow: 6px 6px 0 #000;
-    transition: transform 0.2s ease;
+    align-items: center;
+    width: 100%;
 }
 
-.session-card:hover {
-    transform: translateY(-5px);
+/* --- Navigation Tabs --- */
+.quest-top-nav {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    max-width: 900px;
 }
 
-.card-badge {
-    position: absolute;
-    top: -12px;
-    right: 15px;
-    background: #ff0055;
-    color: #fff;
+.nav-tab {
+    background: #415a77;
+    color: #e0e1dd;
+    border: 3px solid #0d1b2a;
+    padding: 10px 14px;
     font-size: 8px;
-    padding: 4px 8px;
-    border: 2px solid #fff;
+    font-family: 'Press Start 2P', monospace;
+    cursor: pointer;
+    box-shadow: 3px 3px 0px #0d1b2a;
+    transition: transform 0.1s ease;
 }
 
-.stage-id {
-    font-size: 9px;
-    color: #00f0ff;
+.nav-tab:hover, .active-tab {
+    background: #778da9;
+    color: #ffffff;
+    transform: translateY(-2px);
 }
 
-.stage-title {
-    font-size: 14px;
-    margin: 15px 0;
-    line-height: 1.4;
+.heart-icons {
+    font-size: 12px;
+    margin-left: 10px;
+}
+
+/* --- Main Header --- */
+.quest-main-heading {
+    color: #e0e1dd;
+    font-size: 20px;
+    margin-bottom: 25px;
+    text-shadow: 3px 3px 0px #0d1b2a;
+    letter-spacing: 1px;
+    text-align: center;
+}
+
+/* --- Quest Parchment Frame --- */
+.quest-paper-box {
+    background: #e0e1dd;
+    border: 5px solid #0d1b2a;
+    box-shadow: 10px 10px 0px #0d1b2a;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 750px;
+    padding: 30px;
+    color: #1b263b;
+    box-sizing: border-box;
+}
+
+/* --- Quest Content Sections --- */
+.quest-section {
+    margin-bottom: 25px;
+}
+
+.section-tag {
+    display: inline-block;
+    background: #415a77;
+    color: #ffffff;
+    border: 3px solid #0d1b2a;
+    padding: 8px 12px;
+    font-size: 8px;
+    font-weight: bold;
+    box-shadow: 3px 3px 0px #0d1b2a;
+    margin-bottom: -4px;
+    position: relative;
+    z-index: 2;
+}
+
+.section-content-box {
+    background: #ffffff;
+    border: 3px solid #0d1b2a;
+    padding: 20px;
+    font-size: 8px;
+    line-height: 2.2;
+    color: #1b263b;
+    box-shadow: 4px 4px 0px #415a77;
+    border-radius: 4px;
+}
+
+.center-text {
+    text-align: center;
+}
+
+.highlight-text {
+    font-weight: bold;
+    color: #1b263b;
+}
+
+/* --- Rewards Grid --- */
+.rewards-grid {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.reward-card {
+    flex: 1;
+    min-width: 130px;
+    border: 3px solid #0d1b2a;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 4px 4px 0px #0d1b2a;
+    border-radius: 4px;
+}
+
+.gold-card {
+    background: #90e0ef;
+    color: #0d1b2a;
+}
+
+.badge-card {
+    background: #778da9;
     color: #ffffff;
 }
 
-.stage-desc {
-    font-size: 8px;
-    color: #a092cb;
-    line-height: 1.8;
-    margin-bottom: 20px;
+.reward-icon {
+    font-size: 16px;
+    display: block;
+    margin-bottom: 8px;
 }
 
-.action-btn {
-    font-family: 'Press Start 2P', monospace !important;
+.reward-title {
     font-size: 9px;
-    padding: 12px;
-    background: #00ff88;
-    color: #000;
-    border: 2px solid #000;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.reward-sub {
+    font-size: 7px;
+    opacity: 0.85;
+}
+
+/* --- Notice Notes Box --- */
+.notice-box {
+    background: #f8f9fa;
+    border: 3px solid #0d1b2a;
+    border-radius: 4px;
+    padding: 15px 20px;
+    font-size: 7px;
+    line-height: 2.2;
+    color: #1b263b;
+    box-shadow: 4px 4px 0px #415a77;
+}
+
+.notice-box p {
+    margin: 5px 0;
+}
+
+/* --- Footer Action Buttons --- */
+.quest-footer {
+    margin-top: 35px;
+    text-align: center;
+    width: 100%;
+    max-width: 750px;
+}
+
+.accept-quest-btn {
+    font-family: 'Press Start 2P', monospace !important;
+    font-size: 10px;
+    width: 100%;
+    padding: 18px;
+    background: #415a77;
+    color: #ffffff;
+    border: 4px solid #0d1b2a;
     cursor: pointer;
-    box-shadow: 0 4px 0 #008844;
+    box-shadow: 0 6px 0 #0d1b2a;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+    border-radius: 4px;
 }
 
-.action-btn:hover {
+.accept-quest-btn:hover {
+    background: #778da9;
     transform: translateY(2px);
-    box-shadow: 0 2px 0 #008844;
+    box-shadow: 0 4px 0 #0d1b2a;
 }
 
-/* Locked Card Variation */
-.session-card.locked {
-    opacity: 0.6;
-    border-color: #555;
+.accept-quest-btn.accepted {
+    background: #2a9d8f;
 }
 
-.session-card.locked .action-btn {
-    background: #444;
-    color: #888;
-    box-shadow: none;
-    cursor: not-allowed;
+.skip-link {
+    display: inline-block;
+    margin-top: 15px;
+    font-size: 8px;
+    color: #90e0ef;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.skip-link:hover {
+    color: #ffffff;
 }
