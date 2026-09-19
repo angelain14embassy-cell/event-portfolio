@@ -1,24 +1,21 @@
 import React, { useState, useEffect } from "react";
+
 import HomePage from "./components/HomePage";
 import DsaArena from "./components/DsaArena";
 import SplashTerminal from "./components/SplashTerminal";
 import Navbar from "./components/Navbar";
-import EventCard from "./components/EventCard";
-import EventModal from "./components/EventModal";
 import PhotoGallery from "./components/PhotoGallery";
 import Timeline from "./components/Timeline";
-import DSAEvents from "./components/DSAEvents";
 import Footer from "./components/Footer/Footer";
 
 import "./App.css";
 
 function App() {
-    const [showSplash, setShowSplash] = useState(true);
-    const [isEntering, setIsEntering] = useState(false);
+    const [showSplash, setShowSplash] =
+        useState(true);
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            setIsEntering(true);
             setShowSplash(false);
         }, 15000);
 
@@ -28,43 +25,40 @@ function App() {
     if (showSplash) {
         return (
             <SplashTerminal
-                onEnter={() => {
-                    setIsEntering(true);
-                    setShowSplash(false);
-                }}
+                onEnter={() =>
+                    setShowSplash(false)
+                }
             />
         );
     }
 
     return (
-        <div className={`app-root ${isEntering ? "portfolio-enter" : ""}`}>
+        <div className="app-root">
             <Navbar />
 
             <main>
-                {/* CRT HERO HOMEPAGE */}
+                {/* HOME */}
                 <HomePage />
 
-                {/* DSA ARENA / GAME STAGES SECTION */}
+                {/* DSA LEVEL MAP + POPUPS */}
                 <DsaArena />
 
-                {/* DSA LEVEL MAP */}
-                <DSAEvents />
-
                 {/* EVENT MEMORIES */}
-                <section
-                    className="memories-section"
-                    id="memories"
-                >
+                <section className="memories-section">
                     <div className="section-heading">
                         <span className="section-eyebrow">
                             EVENT MEMORIES
                         </span>
 
-                        <h2>Moments That Matter</h2>
+                        <h2>
+                            Moments That Matter
+                        </h2>
 
                         <p>
-                            A glimpse into the experiences, teamwork, and
-                            memories created together.
+                            A glimpse into the
+                            experiences, teamwork,
+                            and memories created
+                            together.
                         </p>
                     </div>
 
@@ -75,7 +69,6 @@ function App() {
                 <Timeline />
             </main>
 
-            {/* Added Footer here */}
             <Footer />
         </div>
     );
