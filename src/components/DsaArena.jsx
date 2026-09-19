@@ -74,29 +74,7 @@ export default function DsaArena() {
                         </div>
                     </div>
 
-                    {/* Section 3: Rewards */}
-                    <div className="quest-section">
-                        <div className="section-tag">🏆 REWARDS</div>
-                        <div className="rewards-grid">
-                            <div className="reward-card gold-card">
-                                <span className="reward-icon">⭐</span>
-                                <div className="reward-title">+350 XP</div>
-                                <div className="reward-sub">Base Reward</div>
-                            </div>
-                            <div className="reward-card gold-card">
-                                <span className="reward-icon">🔥</span>
-                                <div className="reward-title">+50 XP</div>
-                                <div className="reward-sub">Streak Bonus (3d)</div>
-                            </div>
-                            <div className="reward-card badge-card">
-                                <span className="reward-icon">🛡️</span>
-                                <div className="reward-title">Tree Knight</div>
-                                <div className="reward-sub">Rare Badge</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Section 4: Notice Notes */}
+                    {/* Section 3: Notice Notes */}
                     <div className="notice-box">
                         <p>☘ Two session will be held every month.</p>
                         <p>☘ Details About every next session will be given in previous session.</p>
