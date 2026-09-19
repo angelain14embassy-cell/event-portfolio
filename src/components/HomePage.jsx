@@ -42,7 +42,7 @@ export default function HomePage() {
                     {/* Top Arcade HUD Header */}
                     <div className="crt-hud">
                         <span className="hud-badge">LEVEL 01: BANASTHALI ACM</span>
-                        <span className="hud-score">SCORE: 99990</span>
+
                     </div>
 
                     {/* Core Content - Giant Pixel Typography */}

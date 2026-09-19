@@ -18,12 +18,61 @@ button {
 }
 
 .app-root {
+  position: relative;
   min-height: 100vh;
   background:
     radial-gradient(circle at 10% 10%, rgba(67, 153, 255, 0.10), transparent 28%),
     radial-gradient(circle at 90% 30%, rgba(126, 194, 255, 0.10), transparent 30%),
     #f7fbff;
   overflow-x: hidden;
+}
+
+/* Swipe the portfolio in from the right after the splash screen. */
+.app-root.portfolio-enter {
+  animation: portfolio-swipe-in 850ms cubic-bezier(0.2, 0.82, 0.25, 1) both;
+  isolation: isolate;
+}
+
+.app-root.portfolio-enter::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 -24px;
+  width: 24px;
+  z-index: 20;
+  pointer-events: none;
+  background: #02040a;
+  box-shadow: 12px 0 28px rgba(2, 4, 10, 0.28);
+  animation: swipe-leading-edge 850ms cubic-bezier(0.2, 0.82, 0.25, 1) both;
+}
+
+@keyframes portfolio-swipe-in {
+  0% {
+    transform: translateX(100%);
+    box-shadow: -28px 0 70px rgba(2, 4, 10, 0.32);
+  }
+
+  100% {
+    transform: translateX(0);
+    box-shadow: none;
+  }
+}
+
+@keyframes swipe-leading-edge {
+  0% {
+    transform: translateX(calc(100vw + 24px));
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .app-root.portfolio-enter,
+  .app-root.portfolio-enter::after {
+    animation-duration: 1ms;
+  }
 }
 
 .hero-wrapper {

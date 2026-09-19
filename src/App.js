@@ -8,15 +8,17 @@ import EventModal from "./components/EventModal";
 import PhotoGallery from "./components/PhotoGallery";
 import Timeline from "./components/Timeline";
 import DSAEvents from "./components/DSAEvents";
-import Footer from './components/Footer/Footer';
+import Footer from "./components/Footer/Footer";
 
 import "./App.css";
 
 function App() {
     const [showSplash, setShowSplash] = useState(true);
+    const [isEntering, setIsEntering] = useState(false);
 
     useEffect(() => {
         const timer = setTimeout(() => {
+            setIsEntering(true);
             setShowSplash(false);
         }, 15000);
 
@@ -24,11 +26,18 @@ function App() {
     }, []);
 
     if (showSplash) {
-        return <SplashTerminal onEnter={() => setShowSplash(false)} />;
+        return (
+            <SplashTerminal
+                onEnter={() => {
+                    setIsEntering(true);
+                    setShowSplash(false);
+                }}
+            />
+        );
     }
 
     return (
-        <div className="app-root">
+        <div className={`app-root ${isEntering ? "portfolio-enter" : ""}`}>
             <Navbar />
 
             <main>
@@ -65,6 +74,9 @@ function App() {
                 {/* DSA JOURNEY */}
                 <Timeline />
             </main>
+
+            {/* Added Footer here */}
+            <Footer />
         </div>
     );
 }

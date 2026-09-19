@@ -15,21 +15,15 @@
     min-height: 100vh;
     overflow: hidden;
     background:
-        radial-gradient(
-            circle at 50% 20%,
+        radial-gradient(circle at 50% 20%,
             rgba(104, 42, 177, 0.16),
-            transparent 28%
-        ),
-        radial-gradient(
-            circle at 10% 70%,
+            transparent 28%),
+        radial-gradient(circle at 10% 70%,
             rgba(0, 213, 255, 0.08),
-            transparent 25%
-        ),
-        radial-gradient(
-            circle at 90% 60%,
+            transparent 25%),
+        radial-gradient(circle at 90% 60%,
             rgba(255, 0, 160, 0.08),
-            transparent 25%
-        ),
+            transparent 25%),
         #05030d;
     color: var(--white);
 }
@@ -64,12 +58,10 @@
     top: 190px;
     bottom: 0;
     width: 1px;
-    background: linear-gradient(
-        to bottom,
-        transparent,
-        rgba(168, 85, 247, 0.25),
-        transparent
-    );
+    background: linear-gradient(to bottom,
+            transparent,
+            rgba(168, 85, 247, 0.25),
+            transparent);
     pointer-events: none;
 }
 
@@ -188,6 +180,7 @@
 }
 
 @keyframes starFloat {
+
     0%,
     100% {
         transform: translateY(0);
@@ -363,11 +356,9 @@
     bottom: 100px;
     width: 4px;
     transform: translateX(-50%);
-    background: repeating-linear-gradient(
-        to bottom,
-        var(--pink) 0 13px,
-        transparent 13px 25px
-    );
+    background: repeating-linear-gradient(to bottom,
+            var(--pink) 0 13px,
+            transparent 13px 25px);
     box-shadow: 0 0 14px rgba(255, 42, 166, 0.55);
     opacity: 0.75;
 }
@@ -436,6 +427,7 @@
 }
 
 @keyframes platformFloat {
+
     0%,
     100% {
         transform: translateY(0);
@@ -506,14 +498,12 @@
     background: #281b48;
     border-left: 3px solid #4c3472;
     border-right: 3px solid #160f2b;
-    clip-path: polygon(
-        18% 0,
-        82% 0,
-        100% 30%,
-        77% 100%,
-        23% 100%,
-        0 30%
-    );
+    clip-path: polygon(18% 0,
+            82% 0,
+            100% 30%,
+            77% 100%,
+            23% 100%,
+            0 30%);
 }
 
 .platform-rock-one {
@@ -590,11 +580,9 @@
     text-align: left;
     color: var(--white);
     background:
-        linear-gradient(
-            135deg,
+        linear-gradient(135deg,
             rgba(17, 11, 45, 0.97),
-            rgba(7, 5, 20, 0.97)
-        );
+            rgba(7, 5, 20, 0.97));
     border: 2px solid #51456f;
     box-shadow:
         5px 5px 0 #17102c,
@@ -720,12 +708,10 @@
 .footer-line {
     width: 100%;
     height: 2px;
-    background: linear-gradient(
-        to right,
-        transparent,
-        var(--purple),
-        transparent
-    );
+    background: linear-gradient(to right,
+            transparent,
+            var(--purple),
+            transparent);
     margin-bottom: 25px;
 }
 
@@ -853,10 +839,8 @@
     padding: 45px 45px 40px;
     min-height: 650px;
     background:
-        linear-gradient(
-            rgba(11, 8, 32, 0.97),
-            rgba(6, 4, 17, 0.98)
-        );
+        linear-gradient(rgba(11, 8, 32, 0.97),
+            rgba(6, 4, 17, 0.98));
 }
 
 .screen-glow {
@@ -866,11 +850,9 @@
     width: 320px;
     height: 180px;
     transform: translateX(-50%);
-    background: radial-gradient(
-        ellipse,
-        rgba(0, 255, 145, 0.12),
-        transparent 70%
-    );
+    background: radial-gradient(ellipse,
+            rgba(0, 255, 145, 0.12),
+            transparent 70%);
     pointer-events: none;
 }
 
@@ -964,11 +946,9 @@
 .explore-heading div {
     flex: 1;
     height: 2px;
-    background: linear-gradient(
-        to right,
-        rgba(0, 255, 145, 0.6),
-        transparent
-    );
+    background: linear-gradient(to right,
+            rgba(0, 255, 145, 0.6),
+            transparent);
 }
 
 .session-topics {
@@ -1031,7 +1011,7 @@
     line-height: 2;
 }
 
-.session-message > span:first-child {
+.session-message>span:first-child {
     color: var(--pink);
     margin-right: 7px;
 }
@@ -1313,7 +1293,7 @@
         padding: 12px;
     }
 
-   
+
 
     .footer-text {
         gap: 12px;

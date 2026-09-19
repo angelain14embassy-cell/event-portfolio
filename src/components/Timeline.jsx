@@ -1,387 +1,460 @@
-// src/components/Timeline.jsx
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./Timeline.css";
 
-const STATIONS = [
-  { id: "register", x: 18, name: "REGISTER.EXE", icon: "📜", label: "Registration Scroll" },
-  { id: "quests", x: 42, name: "DSA_QUESTS", icon: "⚔️", label: "DSA Arena Dungeon" },
-  { id: "resources", x: 66, name: "RESOURCES", icon: "📁", label: "Knowledge Chest" },
-  { id: "prizes", x: 88, name: "PRIZES.DAT", icon: "🎁", label: "Mystery Loot Box" },
-];
+// ⚠️ REPLACE WITH YOUR ACTUAL GOOGLE FORM ENDPOINT & ENTRY IDs
+const GOOGLE_FORM_ACTION_URL =
+  "https://docs.google.com/forms/d/e/YOUR_FORM_ID_HERE/formResponse";
 
-const DSA_QUESTS = [
-  {
-    id: 1,
-    title: "Array Dungeon: Two Sum",
-    difficulty: "EASY",
-    exp: "100 XP",
-    icon: "🗡️",
-    platform: "Internal Challenge",
-    desc: "Find two numbers in an array that add up to a target value.",
-  },
-  {
-    id: 2,
-    title: "Stack Citadel: Valid Parentheses",
-    difficulty: "EASY",
-    exp: "120 XP",
-    icon: "🛡️",
-    platform: "Internal Challenge",
-    desc: "Verify if character brackets inside strings are balanced correctly.",
-  },
-  {
-    id: 3,
-    title: "Tree Boss: Invert Binary Tree",
-    difficulty: "MEDIUM",
-    exp: "250 XP",
-    icon: "🌲",
-    platform: "Internal Challenge",
-    desc: "Flip a binary tree horizontally so all left children become right children.",
-  },
-  {
-    id: 4,
-    title: "Graph Realm: Shortest Path",
-    difficulty: "HARD",
-    exp: "500 XP",
-    icon: "👑",
-    platform: "Internal Challenge",
-    desc: "Calculate minimum cost routing using Dijkstra's shortest path algorithm.",
-  },
-];
+const FORM_FIELD_IDS = {
+  fullName: "entry.123456789",
+  collegeEmail: "entry.987654321",
+  handle: "entry.456789012",
+  playerClass: "entry.789012345",
+};
 
-const RESOURCE_CHESTS = [
-  { id: 1, title: "Strivers A2Z DSA Sheet", icon: "📜", desc: "Complete Topic-wise Roadmap PDF" },
-  { id: 2, title: "NeetCode Practice Map", icon: "🗺️", desc: "150 Handpicked Array & Tree Problems" },
-  { id: 3, title: "Competitive Programming Handbook", icon: "📚", desc: "Core Algorithms & Data Structures Guide" },
-];
+// Retro Web Audio Synthesizer
+const playAudioFX = (type) => {
+  if (typeof window === "undefined") return;
+  const AudioCtx = window.AudioContext || window.webkitAudioContext;
+  if (!AudioCtx) return;
+
+  try {
+    const ctx = new AudioCtx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    if (type === "click") {
+      osc.type = "square";
+      osc.frequency.setValueAtTime(400, ctx.currentTime);
+      gain.gain.setValueAtTime(0.05, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.08);
+    } else if (type === "unlock") {
+      osc.type = "triangle";
+      osc.frequency.setValueAtTime(523.25, ctx.currentTime);
+      osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.1);
+      osc.frequency.setValueAtTime(783.99, ctx.currentTime + 0.2);
+      osc.frequency.setValueAtTime(1046.5, ctx.currentTime + 0.3);
+      gain.gain.setValueAtTime(0.08, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.5);
+    }
+  } catch (e) { }
+};
 
 export default function Timeline() {
-  const [gameStarted, setGameStarted] = useState(false);
-  const [activeWindow, setActiveWindow] = useState(null); // 'register' | 'quests' | 'resources' | 'prizes'
-  const [coins, setCoins] = useState(305);
-  const [selectedQuest, setSelectedQuest] = useState(DSA_QUESTS[0]);
+  const [activeTab, setActiveTab] = useState("registration");
+  const [isLocked, setIsLocked] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isRegistered, setIsRegistered] = useState(false);
+  const [xp, setXp] = useState(0);
 
-  // Interactive Walk Position State
-  const [characterX, setCharacterX] = useState(10);
-  const [facing, setFacing] = useState("right");
-  const [nearStation, setNearStation] = useState(null);
+  const canvasRef = useRef(null);
 
-  // Retro Web Audio SFX Generator
-  const playRetroSound = (freq = 440, type = "sine") => {
-    try {
-      const AudioCtx = window.AudioContext || window.webkitAudioContext;
-      if (!AudioCtx) return;
-      const ctx = new AudioCtx();
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
+  const [formData, setFormData] = useState({
+    fullName: "",
+    collegeEmail: "",
+    handle: "",
+    playerClass: "Array Warrior",
+  });
 
-      osc.type = type;
-      osc.frequency.setValueAtTime(freq, ctx.currentTime);
-      gain.gain.setValueAtTime(0.08, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.15);
-
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.start();
-      osc.stop(ctx.currentTime + 0.15);
-    } catch (e) {
-      // Audio context fallbacks
-    }
-  };
-
-  // Keyboard Movement & Interaction Controls (Arrow keys & 'E')
+  // FALLING STARS & NIGHT SKY CANVAS ENGINE
   useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (!gameStarted || activeWindow) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
 
-      if (e.key === "ArrowLeft" || e.key === "a") {
-        moveHero("left");
-      } else if (e.key === "ArrowRight" || e.key === "d") {
-        moveHero("right");
-      } else if ((e.key === "e" || e.key === "E" || e.key === " ") && nearStation) {
-        handleOpenWindow(nearStation.id);
+    let animationFrameId;
+    let width = (canvas.width = canvas.parentElement.clientWidth);
+    let height = (canvas.height = canvas.parentElement.clientHeight);
+
+    const handleResize = () => {
+      if (!canvas.parentElement) return;
+      width = canvas.width = canvas.parentElement.clientWidth;
+      height = canvas.height = canvas.parentElement.clientHeight;
+    };
+    window.addEventListener("resize", handleResize);
+
+    // Generate falling stars
+    const stars = Array.from({ length: 45 }, () => ({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      size: Math.random() > 0.7 ? 4 : 2,
+      speedY: Math.random() * 1.5 + 0.5,
+      speedX: Math.random() * 0.4 - 0.2,
+      color: ["#ffffff", "#ffcc00", "#00ffff", "#ff69b4"][Math.floor(Math.random() * 4)],
+      opacity: Math.random() * 0.8 + 0.2,
+    }));
+
+    // Shooting star state
+    let shootingStar = null;
+    const createShootingStar = () => {
+      if (Math.random() < 0.02 && !shootingStar) {
+        shootingStar = {
+          x: Math.random() * width,
+          y: Math.random() * (height / 2),
+          length: Math.random() * 80 + 40,
+          speed: Math.random() * 10 + 6,
+          opacity: 1,
+        };
       }
     };
 
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [gameStarted, activeWindow, nearStation, characterX]);
+    const render = () => {
+      ctx.clearRect(0, 0, width, height);
 
-  // Check proximity to stations whenever position changes
-  useEffect(() => {
-    const matched = STATIONS.find((st) => Math.abs(st.x - characterX) < 6);
-    if (matched && matched !== nearStation) {
-      playRetroSound(700, "triangle");
-      setNearStation(matched);
-    } else if (!matched && nearStation) {
-      setNearStation(null);
+      // Draw Pixel Falling Stars
+      stars.forEach((star) => {
+        star.y += star.speedY;
+        star.x += star.speedX;
+
+        if (star.y > height) {
+          star.y = -10;
+          star.x = Math.random() * width;
+        }
+
+        ctx.fillStyle = star.color;
+        ctx.globalAlpha = star.opacity;
+        ctx.fillRect(Math.floor(star.x), Math.floor(star.y), star.size, star.size);
+      });
+
+      // Draw Shooting Star
+      createShootingStar();
+      if (shootingStar) {
+        ctx.strokeStyle = "#ffffff";
+        ctx.lineWidth = 2;
+        ctx.globalAlpha = shootingStar.opacity;
+        ctx.beginPath();
+        ctx.moveTo(shootingStar.x, shootingStar.y);
+        ctx.lineTo(shootingStar.x - shootingStar.length, shootingStar.y + shootingStar.length / 2);
+        ctx.stroke();
+
+        shootingStar.x += shootingStar.speed;
+        shootingStar.y += shootingStar.speed / 2;
+        shootingStar.opacity -= 0.02;
+
+        if (shootingStar.opacity <= 0 || shootingStar.x > width) {
+          shootingStar = null;
+        }
+      }
+
+      ctx.globalAlpha = 1;
+      animationFrameId = requestAnimationFrame(render);
+    };
+
+    render();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
+
+  const handleInputChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleTabChange = (tabName) => {
+    playAudioFX("click");
+    setActiveTab(tabName);
+  };
+
+  const handleRegisterSubmit = async (e) => {
+    e.preventDefault();
+    if (!formData.fullName || !formData.collegeEmail) return;
+
+    setIsSubmitting(true);
+
+    const formPayload = new FormData();
+    formPayload.append(FORM_FIELD_IDS.fullName, formData.fullName);
+    formPayload.append(FORM_FIELD_IDS.collegeEmail, formData.collegeEmail);
+    formPayload.append(FORM_FIELD_IDS.handle, formData.handle);
+    formPayload.append(FORM_FIELD_IDS.playerClass, formData.playerClass);
+
+    try {
+      await fetch(GOOGLE_FORM_ACTION_URL, {
+        method: "POST",
+        mode: "no-cors",
+        body: formPayload,
+      });
+    } catch (err) {
+      console.error("Submission error:", err);
+    } finally {
+      setIsSubmitting(false);
+      setIsRegistered(true);
+      setXp(500);
+      playAudioFX("unlock");
     }
-  }, [characterX, nearStation]);
-
-  const moveHero = (direction) => {
-    playRetroSound(220, "sawtooth");
-    setFacing(direction);
-    setCharacterX((prev) => {
-      if (direction === "left") return Math.max(4, prev - 4);
-      if (direction === "right") return Math.min(94, prev + 4);
-      return prev;
-    });
   };
 
-  const handleStartGame = () => {
-    playRetroSound(880, "square");
-    setGameStarted(true);
-  };
-
-  const handleOpenWindow = (winType) => {
-    playRetroSound(520, "triangle");
-    setActiveWindow(winType);
-  };
-
-  const handleCloseWindow = () => {
-    playRetroSound(300, "sawtooth");
-    setActiveWindow(null);
-  };
-
-  const handleGainCoins = () => {
-    playRetroSound(987, "square");
-    setCoins((prev) => prev + 50);
-  };
+  const leaderboardData = [
+    { rank: 1, name: "PixelKnight", solved: "8/8", score: "2450 pts", time: "42m 10s", avatar: "🗡️" },
+    { rank: 2, name: "AlgoMage", solved: "8/8", score: "2380 pts", time: "48m 35s", avatar: "🧙‍♂️" },
+    { rank: 3, name: "ByteRogue", solved: "7/8", score: "2100 pts", time: "55m 02s", avatar: "🧝" },
+    { rank: 4, name: "CodeArcher", solved: "7/8", score: "1980 pts", time: "59m 40s", avatar: "🏹" },
+    { rank: 5, name: "StackPaladin", solved: "6/8", score: "1750 pts", time: "61m 15s", avatar: "🛡️" },
+  ];
 
   return (
-    <div className="retro-os-wrapper">
-      {/* Top Menu Status Bar */}
-      <div className="os-top-bar">
-        <div className="os-title">
-          <span className="os-icon">🕹️</span> BANASTHALI ACM CHAPTER - DSA ARENA 2026
+    <div className="retro-game-viewport">
+      {/* HUD OVERLAY */}
+      <div className="pixel-hud">
+        <div className="hud-hearts">
+          <span>❤️</span><span>❤️</span><span>❤️</span>
         </div>
-        <div className="os-stats">
-          <button type="button" className="coin-badge-btn" onClick={handleGainCoins}>
-            🪙 {coins} COINS <span className="add-hint">(+50)</span>
-          </button>
-          <span className="os-time">16:23 PM</span>
+        <div className="hud-title">BANASTHALI DSA QUEST</div>
+        <div className="hud-xp">
+          🪙 XP: {xp.toString().padStart(5, "0")}
         </div>
       </div>
 
-      {/* Retro Canvas Monitor Viewport */}
-      <div className="retro-monitor">
-        <div className="landscape-screen">
-          <div className="sky-gradient">
-            <div className="loading-bar-container">
-              <span className="loading-text">LOADING LANDSCAPE.EXE...</span>
-              <div className="loading-bar">
-                <div className="loading-fill"></div>
-              </div>
-            </div>
+      {/* NIGHT SKY SCENERY WITH FALLING STARS & AIRPLANES */}
+      <div className="pixel-scenery">
+        <canvas ref={canvasRef} className="star-canvas" />
+
+        {/* MOON */}
+        <div className="pixel-moon">🌙</div>
+
+        {/* WELCOME BANNER */}
+        <div className="pixel-welcome-sign">
+          <div className="sign-title">WELCOME</div>
+          <div className="sign-subtitle">TO DSA CODING ARENA</div>
+        </div>
+
+        {/* FLYING AIRPLANES WITH VAPOR TRAILS */}
+        <div className="pixel-sky-traffic">
+          <div className="pixel-airplane plane-high">
+            <span className="vapor-trail"></span>
+            ✈️
           </div>
+          <div className="pixel-airplane plane-mid">
+            <span className="vapor-trail"></span>
+            🛫
+          </div>
+          <div className="pixel-airplane plane-low">
+            <span className="vapor-trail"></span>
+            🛩️
+          </div>
+        </div>
 
-          <div className="window-app-title">LANDSCAPE.EXE ✖</div>
+        {/* PIXEL SKYLINE GRID */}
+        <div className="pixel-horizon"></div>
+      </div>
 
-          {/* START OVERLAY */}
-          {!gameStarted ? (
-            <div className="start-modal-card">
-              <div className="start-banner-glow">DSA CHALLENGERS 2026</div>
-              <p className="start-subtext">WALK YOUR HERO TO INTERACT WITH STATIONS</p>
+      {/* PIXEL TAB CONTROL PANEL */}
+      <div className="pixel-controls-container">
+        <div className="pixel-nav-bar">
+          <button
+            className={`pixel-btn nav-btn ${activeTab === "registration" ? "active" : ""}`}
+            onClick={() => handleTabChange("registration")}
+          >
+            📜 1. REGISTER
+          </button>
+          <button
+            className={`pixel-btn nav-btn ${activeTab === "leaderboard" ? "active" : ""}`}
+            onClick={() => handleTabChange("leaderboard")}
+          >
+            ⚔️ 2. LEADERBOARD
+          </button>
+          <button
+            className={`pixel-btn nav-btn ${activeTab === "halloffame" ? "active" : ""}`}
+            onClick={() => handleTabChange("halloffame")}
+          >
+            🏆 3. HALL OF FAME
+          </button>
+        </div>
+
+        {/* TAB 1: REGISTRATION CARD */}
+        {activeTab === "registration" && (
+          <div className="pixel-card">
+            <div className="pixel-card-header">
+              <h3>📜 PLAYER REGISTRATION</h3>
+              <span className="pixel-badge badge-live">EVENT LIVE</span>
+            </div>
+
+            {!isRegistered ? (
+              <form onSubmit={handleRegisterSubmit} className="pixel-form">
+                <div className="pixel-field">
+                  <label>FULL NAME / PLAYER NAME:</label>
+                  <input
+                    type="text"
+                    name="fullName"
+                    required
+                    placeholder="e.g. Aditi Sharma"
+                    value={formData.fullName}
+                    onChange={handleInputChange}
+                    className="pixel-input"
+                  />
+                </div>
+
+                <div className="pixel-field">
+                  <label>COLLEGE EMAIL:</label>
+                  <input
+                    type="email"
+                    name="collegeEmail"
+                    required
+                    placeholder="student@banasthali.in"
+                    value={formData.collegeEmail}
+                    onChange={handleInputChange}
+                    className="pixel-input"
+                  />
+                </div>
+
+                <div className="pixel-grid">
+                  <div className="pixel-field">
+                    <label>LEETCODE HANDLE:</label>
+                    <input
+                      type="text"
+                      name="handle"
+                      placeholder="e.g. cyber_coder99"
+                      value={formData.handle}
+                      onChange={handleInputChange}
+                      className="pixel-input"
+                    />
+                  </div>
+
+                  <div className="pixel-field">
+                    <label>PLAYER CLASS:</label>
+                    <select
+                      name="playerClass"
+                      value={formData.playerClass}
+                      onChange={handleInputChange}
+                      className="pixel-input"
+                    >
+                      <option value="Array Warrior">⚔️ Array Warrior</option>
+                      <option value="DP Wizard">🧙 DP Wizard</option>
+                      <option value="Graph Hacker">👾 Graph Hacker</option>
+                      <option value="Recursion Rogue">🗡️ Recursion Rogue</option>
+                    </select>
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="pixel-btn submit-btn"
+                >
+                  {isSubmitting ? "SAVING TO QUEST LOG..." : "💖 JOIN THE CONTEST (+500 XP)"}
+                </button>
+              </form>
+            ) : (
+              <div className="pixel-success-box">
+                <div className="success-icon">🪙</div>
+                <h3>REGISTRATION COMPLETE!</h3>
+                <p>
+                  Player <b>{formData.fullName.toUpperCase()}</b> [{formData.playerClass}] joined the quest database!
+                </p>
+                <div className="xp-claimed">+500 STARTER XP CLAIMED!</div>
+                <button
+                  className="pixel-btn nav-btn active"
+                  onClick={() => handleTabChange("leaderboard")}
+                >
+                  GO TO LEADERBOARD ▶
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* TAB 2: LEADERBOARD VIEW */}
+        {activeTab === "leaderboard" && (
+          <div className="pixel-card">
+            <div className="pixel-card-header">
+              <h3>⚔️ CONTEST LEADERBOARD</h3>
               <button
-                type="button"
-                className="pixel-start-btn"
-                onClick={handleStartGame}
+                className="pixel-btn lock-btn"
+                onClick={() => {
+                  playAudioFX("click");
+                  setIsLocked(!isLocked);
+                }}
               >
-                ▶ START GAME
+                {isLocked ? "🔒 LOCK: ON" : "🔓 LOCK: OFF"}
               </button>
             </div>
-          ) : (
-            /* DESKTOP TOP QUICK-LAUNCH ICONS */
-            <div className="desktop-icons-container">
-              {STATIONS.map((st) => (
-                <button
-                  key={st.id}
-                  type="button"
-                  className="desktop-icon"
-                  onClick={() => handleOpenWindow(st.id)}
-                >
-                  <div className="icon-frame">{st.icon}</div>
-                  <span>{st.name}</span>
-                </button>
-              ))}
-            </div>
-          )}
 
-          {/* CONTROLS OVERLAY & PROXIMITY ACTION BAR */}
-          {gameStarted && (
-            <div className="game-hud-bar">
-              <div className="dpad-controls">
-                <span className="hud-label">CONTROLS:</span>
-                <button type="button" onClick={() => moveHero("left")}>◀ LEFT [A]</button>
-                <button type="button" onClick={() => moveHero("right")}>RIGHT [D] ▶</button>
-              </div>
+            <div className="pixel-table-wrapper">
+              <table className="pixel-table">
+                <thead>
+                  <tr>
+                    <th>RANK</th>
+                    <th>PLAYER</th>
+                    <th>SOLVED</th>
+                    <th>SCORE</th>
+                    <th>TIME</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {leaderboardData.map((row) => (
+                    <tr key={row.rank}>
+                      <td className="rank-cell">#{row.rank}</td>
+                      <td>{row.avatar} {row.name}</td>
+                      <td className="solved-cell">{row.solved}</td>
+                      <td className="score-cell">{row.score}</td>
+                      <td className="time-cell">{row.time}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
 
-              {nearStation ? (
-                <button
-                  type="button"
-                  className="interact-prompt-btn pulse"
-                  onClick={() => handleOpenWindow(nearStation.id)}
-                >
-                  ⚡ PRESS [E] TO OPEN {nearStation.name}
-                </button>
-              ) : (
-                <span className="walk-hint-text">WALK NEAR A CHEST/STATION TO OPEN IT</span>
+              {/* FROSTED GLASS LOCKDOWN OVERLAY */}
+              {isLocked && (
+                <div className="pixel-lockdown-overlay">
+                  <div className="lock-icon">🔒</div>
+                  <h4>LEADERBOARD FROZEN</h4>
+                  <p>FINAL RESULTS PENDING VERIFICATION</p>
+                  <div className="countdown-badge">
+                    ⏳ 01:23:45 UNTIL REVEAL
+                  </div>
+                </div>
               )}
             </div>
-          )}
+          </div>
+        )}
 
-          {/* BACKGROUND MOUNTAINS */}
-          <div className="pixel-mountain-bg"></div>
+        {/* TAB 3: HALL OF FAME PODIUM */}
+        {activeTab === "halloffame" && (
+          <div className="pixel-card">
+            <div className="pixel-card-header">
+              <h3>🏆 HALL OF FAME</h3>
+              <span className="pixel-badge badge-live">TOP PLAYERS</span>
+            </div>
 
-          {/* GRASS FLOOR WITH INTERACTIVE STATIONS & HERO */}
-          <div className="pixel-grass-floor">
-            {/* World Stations / Chests placed along the ground */}
-            {STATIONS.map((st) => (
-              <div
-                key={st.id}
-                className={`world-station ${nearStation?.id === st.id ? "highlight" : ""}`}
-                style={{ left: `${st.x}%` }}
-                onClick={() => handleOpenWindow(st.id)}
-              >
-                <div className="station-tooltip">{st.label}</div>
-                <div className="station-chest-icon">{st.icon}</div>
+            <div className="pixel-podium-container">
+              {/* 2ND PLACE (LEFT) */}
+              <div className="podium-card rank-2">
+                <div className="podium-crown">🥈</div>
+                <div className="podium-avatar">🧙‍♂️</div>
+                <h4>AlgoMage</h4>
+                <div className="podium-stats">8/8 SOLVED</div>
+                <span className="podium-tag tag-cyan">MASTER</span>
               </div>
-            ))}
 
-            {/* Walkable Hero Character */}
-            <div
-              className={`player-character ${facing === "left" ? "flip-left" : ""}`}
-              style={{ left: `${characterX}%` }}
-            >
-              <div className="player-tag">YOU</div>
-              <div className="player-sprite">🚶‍♂️</div>
+              {/* 1ST PLACE (CENTER) */}
+              <div className="podium-card rank-1">
+                <div className="podium-crown">👑</div>
+                <div className="podium-avatar">🗡️</div>
+                <h3>PixelKnight</h3>
+                <div className="podium-stats">8/8 SOLVED (42m)</div>
+                <span className="podium-tag tag-gold">LEGENDARY</span>
+              </div>
+
+              {/* 3RD PLACE (RIGHT) */}
+              <div className="podium-card rank-3">
+                <div className="podium-crown">🥉</div>
+                <div className="podium-avatar">🧝</div>
+                <h4>ByteRogue</h4>
+                <div className="podium-stats">7/8 SOLVED</div>
+                <span className="podium-tag tag-bronze">EXPERT</span>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
-
-      {/* MODAL 1: REGISTRATION */}
-      {activeWindow === "register" && (
-        <div className="os-modal-overlay">
-          <div className="os-modal-box large">
-            <div className="os-modal-header">
-              <span>📜 DSA REGISTRATION FORM - GOOGLE FORM</span>
-              <button type="button" className="os-close-btn" onClick={handleCloseWindow}>
-                ✖
-              </button>
-            </div>
-            <div className="os-modal-body">
-              <iframe
-                src="https://docs.google.com/forms/d/e/1FAIpQLSc_EXAMPLE/viewform?embedded=true"
-                width="100%"
-                height="520"
-                frameBorder="0"
-                title="Registration Form"
-              >
-                Loading…
-              </iframe>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* MODAL 2: DSA QUESTS */}
-      {activeWindow === "quests" && (
-        <div className="os-modal-overlay">
-          <div className="os-modal-box large">
-            <div className="os-modal-header">
-              <span>⚔️ DSA PRACTICE QUESTS</span>
-              <button type="button" className="os-close-btn" onClick={handleCloseWindow}>
-                ✖
-              </button>
-            </div>
-            <div className="os-modal-body dsa-split-view">
-              <div className="quest-list-panel">
-                {DSA_QUESTS.map((quest) => (
-                  <button
-                    key={quest.id}
-                    type="button"
-                    className={`quest-item-btn ${selectedQuest.id === quest.id ? "active" : ""
-                      }`}
-                    onClick={() => {
-                      playRetroSound(600, "sine");
-                      setSelectedQuest(quest);
-                    }}
-                  >
-                    <span>{quest.icon} {quest.title}</span>
-                    <span className="quest-xp">{quest.exp}</span>
-                  </button>
-                ))}
-              </div>
-
-              <div className="quest-detail-panel">
-                <h3>{selectedQuest.title}</h3>
-                <div className="quest-meta-tags">
-                  <span className="meta-tag diff">{selectedQuest.difficulty}</span>
-                  <span className="meta-tag plat">{selectedQuest.platform}</span>
-                </div>
-                <p className="quest-description">{selectedQuest.desc}</p>
-
-                <button
-                  type="button"
-                  className="quest-launch-link"
-                  onClick={() => alert(`Starting quest: ${selectedQuest.title}`)}
-                >
-                  ⚔️ START QUEST IN ARENA
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* MODAL 3: RESOURCES */}
-      {activeWindow === "resources" && (
-        <div className="os-modal-overlay">
-          <div className="os-modal-box">
-            <div className="os-modal-header">
-              <span>📁 PREPARATION CHEST</span>
-              <button type="button" className="os-close-btn" onClick={handleCloseWindow}>
-                ✖
-              </button>
-            </div>
-            <div className="os-modal-body">
-              <div className="resources-grid">
-                {RESOURCE_CHESTS.map((res) => (
-                  <div key={res.id} className="resource-card">
-                    <span className="res-icon">{res.icon}</span>
-                    <div>
-                      <div className="res-title">{res.title}</div>
-                      <div className="res-desc">{res.desc}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* MODAL 4: PRIZES */}
-      {activeWindow === "prizes" && (
-        <div className="os-modal-overlay">
-          <div className="os-modal-box small warning-theme">
-            <div className="os-modal-header warning-bar">
-              <span>⚠️ WARNING: LOCKED AREA</span>
-              <button type="button" className="os-close-btn" onClick={handleCloseWindow}>
-                ✖
-              </button>
-            </div>
-            <div className="os-modal-body warning-content">
-              <div className="warning-icon">🔒</div>
-              <h3>PRIZES YET TO BE ANNOUNCED!</h3>
-              <p>Grand cash rewards, badges, and certificates will be unlocked during Stage 04.</p>
-              <button type="button" className="pixel-ok-btn" onClick={handleCloseWindow}>
-                GOT IT
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

@@ -142,7 +142,7 @@ function GameDecoration() {
             </div>
 
             <div className="floating-console console-left">
-               <span>DSA</span>
+                <span>DSA</span>
             </div>
 
             <div className="floating-console console-right">
@@ -156,9 +156,8 @@ function GameDecoration() {
 function LevelPlatform({ session }) {
     return (
         <div
-            className={`level-platform ${
-                session.unlocked ? "unlocked-platform" : "locked-platform"
-            }`}
+            className={`level-platform ${session.unlocked ? "unlocked-platform" : "locked-platform"
+                }`}
         >
             <div className="platform-top">
                 {session.unlocked ? (
@@ -193,11 +192,10 @@ function LevelCard({ session, onClick }) {
     return (
         <button
             type="button"
-            className={`level-info-card ${
-                session.unlocked
+            className={`level-info-card ${session.unlocked
                     ? "level-info-unlocked"
                     : "level-info-locked"
-            }`}
+                }`}
             onClick={onClick}
         >
             <div className="level-card-top">
@@ -206,9 +204,8 @@ function LevelCard({ session, onClick }) {
                 </span>
 
                 <span
-                    className={`level-status ${
-                        session.unlocked ? "status-unlocked" : "status-locked"
-                    }`}
+                    className={`level-status ${session.unlocked ? "status-unlocked" : "status-locked"
+                        }`}
                 >
                     {session.unlocked ? "UNLOCKED" : "LOCKED"}
                 </span>
@@ -270,11 +267,10 @@ function SessionDetail({ session, onBack }) {
                 </div>
 
                 <div
-                    className={`session-machine ${
-                        isUnlocked
+                    className={`session-machine ${isUnlocked
                             ? "session-machine-open"
                             : "session-machine-locked"
-                    }`}
+                        }`}
                 >
                     <div className="machine-top-bar">
                         <div className="machine-dot"></div>
@@ -402,8 +398,8 @@ function SessionDetail({ session, onBack }) {
                             <span></span>
                         </div>
 
-                        
-    
+
+
                     </div>
                 </div>
             </div>
@@ -485,11 +481,10 @@ export default function DSAEvents() {
 
                 {sessions.map((session, index) => (
                     <div
-                        className={`level-row ${
-                            index % 2 === 0
+                        className={`level-row ${index % 2 === 0
                                 ? "level-row-left"
                                 : "level-row-right"
-                        }`}
+                            }`}
                         key={session.id}
                     >
                         <div className="level-side-card">
