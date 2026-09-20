@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import HomePage from "./components/HomePage";
+import DsaAbout from "./components/DsaAbout";
 import DsaArena from "./components/DsaArena";
 import SplashTerminal from "./components/SplashTerminal";
 import Navbar from "./components/Navbar";
@@ -11,8 +12,7 @@ import Footer from "./components/Footer/Footer";
 import "./App.css";
 
 function App() {
-    const [showSplash, setShowSplash] =
-        useState(true);
+    const [showSplash, setShowSplash] = useState(true);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -25,9 +25,7 @@ function App() {
     if (showSplash) {
         return (
             <SplashTerminal
-                onEnter={() =>
-                    setShowSplash(false)
-                }
+                onEnter={() => setShowSplash(false)}
             />
         );
     }
@@ -40,7 +38,10 @@ function App() {
                 {/* HOME */}
                 <HomePage />
 
-                {/* DSA LEVEL MAP + POPUPS */}
+                {/* DSA ABOUT OVERVIEW */}
+                <DsaAbout />
+
+                {/* DSA ROADMAP LEVEL MAP + POPUPS */}
                 <DsaArena />
 
                 {/* EVENT MEMORIES */}
@@ -50,15 +51,10 @@ function App() {
                             EVENT MEMORIES
                         </span>
 
-                        <h2>
-                            Moments That Matter
-                        </h2>
+                        <h2>Moments That Matter</h2>
 
                         <p>
-                            A glimpse into the
-                            experiences, teamwork,
-                            and memories created
-                            together.
+                            A glimpse into the experiences, teamwork, and memories created together.
                         </p>
                     </div>
 
