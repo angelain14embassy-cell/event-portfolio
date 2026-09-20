@@ -1248,10 +1248,8 @@ main {
 }
 
 /* Retro Terminal Card Overrides */
-.splash-container,
-div[class*="splash"],
-div[class*="terminal"] {
-    background-color: #0d081e !important;
+.splash-container {
+    background-color: #ffffff !important;
     color: #00ff88 !important;
 }
 

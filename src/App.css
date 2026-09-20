@@ -8,8 +8,8 @@ html {
 
 body {
   margin: 0;
-  background-color: #0d081e !important;
-  color: #00ff88 !important;
+  background-color: #ffffff !important;
+  color: #0d081e !important;
   font-family: 'Press Start 2P', monospace, sans-serif !important;
 }
 
@@ -19,10 +19,10 @@ button {
 
 .app-root {
   min-height: 100vh;
-  background-color: #0d081e !important;
+  background-color: #ffffff !important;
   background-image:
-    radial-gradient(circle at 10% 10%, rgba(168, 85, 247, 0.15), transparent 28%),
-    radial-gradient(circle at 90% 30%, rgba(33, 230, 255, 0.12), transparent 30%);
+    radial-gradient(circle at 10% 10%, rgba(0, 229, 255, 0.1), transparent 28%),
+    radial-gradient(circle at 90% 30%, rgba(168, 85, 247, 0.1), transparent 30%);
   overflow-x: hidden;
 }
 
@@ -80,7 +80,7 @@ button {
 .section-heading p {
   margin: 18px auto 0;
   max-width: 650px;
-  color: #a99bc8;
+  color: #555566;
   font-size: 14px;
   line-height: 1.7;
 }
@@ -152,12 +152,13 @@ button {
   }
 }
 
-/* --- SPLASH SCREEN CONTAINER --- */
+/* --- SPLASH SCREEN CONTAINER (WHITE BACKGROUND) --- */
 .splash-container {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background-color: #0d081e !important;
+  background-color: #ffffff !important;
+  /* Forces White Screen Background */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -171,7 +172,7 @@ button {
   z-index: 1;
 }
 
-/* --- RETRO DECK & CARD STACK --- */
+/* --- RETRO DECK & DARK CARD STACK --- */
 .retro-deck-wrapper {
   position: relative;
   width: 90%;
@@ -187,9 +188,10 @@ button {
   position: absolute;
   width: 100%;
   max-width: 480px;
-  background: #140b2e !important;
+  background: #0d081e !important;
+  /* Dark Card Body */
   border: 3px solid #00ff88 !important;
-  box-shadow: 6px 6px 0px #005522, 0 0 15px rgba(0, 255, 136, 0.3) !important;
+  box-shadow: 6px 6px 0px #009944, 0 0 20px rgba(0, 255, 136, 0.3) !important;
   opacity: 0;
   transform: translateY(60px) scale(0.9) rotate(-3deg);
   transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -211,8 +213,9 @@ button {
 }
 
 .retro-card-titlebar {
-  background: #00ff88 !important;
-  color: #000000 !important;
+  background: #00e5ff !important;
+  /* Cyan Header Bar */
+  color: #0d081e !important;
   padding: 8px 12px;
   display: flex;
   justify-content: space-between;
@@ -220,6 +223,10 @@ button {
   font-weight: 900;
   font-size: 11px;
   letter-spacing: 1px;
+}
+
+.retro-card-titlebar>span {
+  color: #0d081e !important;
 }
 
 .retro-window-controls {
@@ -230,7 +237,7 @@ button {
 .pixel-control-btn {
   background: #0d081e;
   border: 1px solid #000000;
-  color: #00ff88;
+  color: #00e5ff;
   font-size: 11px;
   font-weight: bold;
   width: 18px;
@@ -256,15 +263,15 @@ button {
   font-weight: 900;
   letter-spacing: 1.5px;
   margin: 0;
-  color: #ff00a0 !important;
+  color: #00ff88 !important;
   text-transform: uppercase;
-  text-shadow: 2px 2px #550033;
+  text-shadow: 2px 2px #005522;
 }
 
 .card-code-block {
   background: #080519 !important;
   color: #00ff88 !important;
-  border: 2px solid #00ff88 !important;
+  border: 2px solid #00e5ff !important;
   padding: 14px;
   font-size: 11px;
   line-height: 1.6;
@@ -289,6 +296,7 @@ button {
   font-weight: bold;
 }
 
+/* --- ENTER PORTFOLIO BUTTON (CYAN / BLUE) --- */
 .enter-btn-wrap {
   position: absolute;
   bottom: 40px;
@@ -296,22 +304,25 @@ button {
   transition: all 0.4s ease;
 }
 
-.uniqode-btn {
-  background: #00ff88 !important;
-  color: #000000 !important;
-  border: 3px solid #ffffff !important;
+.uniqode-btn,
+.enter-portfolio-btn {
+  background: #00e5ff !important;
+  /* Cyan / Blue Accent */
+  color: #03030c !important;
+  border: 3px solid #03030c !important;
   padding: 16px 40px;
   font-family: inherit;
   font-size: 12px;
   font-weight: 900;
   letter-spacing: 2px;
   cursor: pointer;
-  box-shadow: 6px 6px 0px #005522;
+  box-shadow: 6px 6px 0px #0088cc, 0 0 15px rgba(0, 229, 255, 0.4) !important;
   transition: all 0.2s ease;
 }
 
-.uniqode-btn:hover {
+.uniqode-btn:hover,
+.enter-portfolio-btn:hover {
   transform: translate(-3px, -3px);
-  box-shadow: 9px 9px 0px #00aa55;
-  background: #33ff99 !important;
+  box-shadow: 9px 9px 0px #00aaff, 0 0 25px rgba(0, 229, 255, 0.7) !important;
+  background: #33efff !important;
 }

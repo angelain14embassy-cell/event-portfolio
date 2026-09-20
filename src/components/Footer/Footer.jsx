@@ -159,17 +159,18 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* CONTACT COLUMN */}
+        {/* CONTACT COLUMN (With Expanded Query Space & Form Link) */}
         <div className="overlay-col reveal-2">
           <h4>{footerData.contact.title}</h4>
-          <p className="query-text">{footerData.contact.queryText}</p>
+          <p className="query-text">Got questions, event feedback, or project inquiries? Drop us a line below!</p>
+
           <a
             href={footerData.contact.contactLinkHref}
             className="contact-cta"
             target={footerData.contact.isExternal ? "_blank" : "_self"}
             rel={footerData.contact.isExternal ? "noopener noreferrer" : undefined}
           >
-            → {footerData.contact.contactLinkText}
+            → OPEN QUERY FORM
           </a>
 
           <div className="contact-info">
