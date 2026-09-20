@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import HomePage from "./components/HomePage";
+import DsaAbout from "./components/DsaAbout";
 import DsaArena from "./components/DsaArena";
 import DSAEvents from "./components/DSAEvents";
 import SplashTerminal from "./components/SplashTerminal";

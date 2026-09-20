@@ -1,0 +1,887 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+/* =========================================================
+   DSA ARENA — Space Arcade Pixel UI
+   ========================================================= */
+
+.space-arcade-container {
+    --ink: #000000;
+    --navy-900: #090514;
+    --navy-800: #0f172a;
+    --navy-700: #1e1b4b;
+    --gold: #fbbf24;
+    --cyan: #38bdf8;
+    --teal: #06b6d4;
+    --orange: #f97316;
+    --purple: #a855f7;
+    --red: #e11d48;
+    --green: #22c55e;
+
+    position: relative;
+    min-height: 100vh;
+    padding: 30px 15px 70px 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+    color: #ffffff;
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(7px, 0.62vw, 9px);
+    image-rendering: pixelated;
+
+    /* Galaxy Nebula Gradient Backing */
+    background:
+        radial-gradient(circle at 15% 20%, rgba(168, 85, 247, 0.45), transparent 40%),
+        radial-gradient(circle at 85% 18%, rgba(56, 189, 248, 0.35), transparent 45%),
+        radial-gradient(circle at 50% 50%, rgba(236, 72, 153, 0.25), transparent 50%),
+        radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.35), transparent 40%),
+        radial-gradient(circle at 80% 85%, rgba(217, 70, 239, 0.30), transparent 45%),
+        #070314;
+}
+
+.space-arcade-container,
+.space-arcade-container *,
+.space-arcade-container *::before,
+.space-arcade-container *::after {
+    box-sizing: border-box;
+}
+
+.space-arcade-container * {
+    font-family: 'Press Start 2P', monospace;
+}
+
+/* --- Space background layer --- */
+.space-bg-elements {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Dense Pixel Galaxy Dust */
+.space-bg-elements::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 2px;
+    background: #ffffff;
+    opacity: 0.9;
+    box-shadow:
+        40px 30px #fff, 120px 80px #c4b5fd, 220px 40px #7dd3fc, 310px 90px #fff,
+        420px 25px #fde68a, 530px 110px #f472b6, 650px 45px #fff, 780px 85px #7dd3fc,
+        890px 30px #fff, 990px 105px #c4b5fd, 1100px 40px #fde68a, 1220px 95px #fff,
+        1350px 35px #7dd3fc, 1440px 115px #f472b6,
+        70px 220px #7dd3fc, 180px 310px #fff, 290px 190px #f472b6, 390px 340px #c4b5fd,
+        490px 240px #fff, 610px 360px #fde68a, 720px 210px #fff, 840px 330px #7dd3fc,
+        960px 230px #f472b6, 1070px 350px #fff, 1190px 200px #c4b5fd, 1310px 320px #fff,
+        50px 480px #fff, 160px 590px #c4b5fd, 270px 450px #7dd3fc, 380px 580px #fff,
+        510px 490px #fde68a, 630px 620px #f472b6, 750px 460px #fff, 870px 590px #7dd3fc,
+        980px 480px #fff, 1090px 610px #c4b5fd, 1230px 470px #fde68a, 1380px 580px #fff,
+        90px 720px #f472b6, 210px 810px #fff, 340px 690px #7dd3fc, 460px 830px #c4b5fd,
+        580px 710px #fff, 690px 840px #fde68a, 810px 730px #fff, 930px 820px #7dd3fc,
+        1050px 700px #f472b6, 1180px 850px #fff, 1320px 740px #c4b5fd;
+}
+
+/* Bright Pixel Color Bulbs */
+.space-bg-elements::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 3px;
+    background: #38bdf8;
+    box-shadow:
+        140px 160px #e879f9, 360px 70px #facc15, 580px 200px #38bdf8,
+        810px 120px #4ade80, 1030px 180px #f43f5e, 1260px 60px #38bdf8,
+        210px 400px #facc15, 450px 460px #e879f9, 680px 390px #38bdf8,
+        910px 440px #4ade80, 1140px 410px #facc15, 1370px 490px #e879f9,
+        110px 650px #38bdf8, 320px 750px #f43f5e, 760px 670px #facc15,
+        990px 780px #e879f9, 1210px 660px #38bdf8;
+}
+
+/* Cross-Sparkle Stars */
+.starburst {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: #ffffff;
+    box-shadow: 
+        0 -4px 0 #ffffff, 0 4px 0 #ffffff, 
+        -4px 0 0 #ffffff, 4px 0 0 #ffffff,
+        0 0 6px #ffffff;
+    animation: burstGlow 2.5s infinite ease-in-out;
+}
+
+.sb1 { top: 12%; left: 18%; animation-delay: 0s; }
+.sb2 { top: 25%; left: 82%; animation-delay: 0.8s; }
+.sb3 { top: 65%; left: 12%; animation-delay: 1.4s; }
+.sb4 { top: 72%; left: 88%; animation-delay: 0.4s; }
+.sb5 { top: 45%; left: 50%; animation-delay: 1.9s; }
+
+@keyframes burstGlow {
+    0%, 100% { transform: scale(0.8); opacity: 0.3; }
+    50%      { transform: scale(1.3); opacity: 1; }
+}
+
+/* =========================================================
+   PIXELATED PLANETS — Reference Image Match
+   ========================================================= */
+
+.pixel-planet {
+    position: absolute;
+    border-radius: 50%;
+    image-rendering: pixelated;
+    border: 3px solid #000000;
+}
+
+/* --- 1. Top-Left Blue Giant (Neptune/Earth) --- */
+.planet-earth {
+    top: 20px;
+    left: 2%;
+    width: 76px;
+    height: 76px;
+    background: 
+        radial-gradient(circle at 70% 80%, #030712 0%, transparent 60%),
+        radial-gradient(circle at 35% 35%, #60a5fa 0%, #2563eb 50%, #1d4ed8 75%, #0f172a 100%);
+    box-shadow: 
+        0 0 16px rgba(59, 130, 246, 0.4),
+        inset -8px -8px 0 0 rgba(0, 0, 0, 0.5),
+        inset 5px 5px 0 0 rgba(255, 255, 255, 0.35);
+}
+
+.planet-earth::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: 
+        radial-gradient(circle at 40% 30%, rgba(255, 255, 255, 0.4) 0%, transparent 20%),
+        radial-gradient(circle at 60% 65%, rgba(147, 197, 253, 0.3) 0%, transparent 25%);
+}
+
+/* --- 2. Top-Left Small Orange Moon --- */
+.planet-violet {
+    top: 25px;
+    left: 13.5%;
+    width: 38px;
+    height: 38px;
+    background: radial-gradient(circle at 35% 35%, #fb923c, #f97316 55%, #7c2d12 100%);
+    box-shadow: 
+        inset -5px -5px 0 0 rgba(0, 0, 0, 0.5),
+        inset 3px 3px 0 0 #ffedd5;
+}
+
+.planet-violet::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 8px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #c2410c;
+    box-shadow: 12px 10px 0 -1px #ea580c, 6px 16px 0 -2px #c2410c;
+}
+
+/* --- 3. Mid-Left Red Planet (Mars) --- */
+.planet-mars {
+    top: 200px;
+    left: 7.5%;
+    width: 48px;
+    height: 48px;
+    background: radial-gradient(circle at 35% 35%, #f87171, #ef4444 45%, #991b1b 80%, #450a0a 100%);
+    box-shadow: 
+        inset -6px -6px 0 0 rgba(0, 0, 0, 0.5),
+        inset 4px 4px 0 0 #fca5a5;
+}
+
+.planet-mars::before {
+    content: '';
+    position: absolute;
+    top: 14px;
+    left: 10px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #7f1d1d;
+    box-shadow: 14px 12px 0 -2px #991b1b;
+}
+
+/* --- 4. Top-Right Saturn (Striped + Ring) --- */
+.planet-saturn {
+    top: 15px;
+    right: 1.5%;
+    width: 86px;
+    height: 86px;
+    background: repeating-linear-gradient(
+        -15deg,
+        #fef08a 0px,
+        #fef08a 8px,
+        #fde047 8px,
+        #fde047 16px,
+        #eab308 16px,
+        #eab308 24px,
+        #ca8a04 24px,
+        #ca8a04 32px,
+        #854d0e 32px,
+        #854d0e 40px
+    );
+    box-shadow: 
+        inset -10px -10px 0 0 rgba(0, 0, 0, 0.5),
+        inset 6px 6px 0 0 #fef9c3;
+    overflow: visible;
+}
+
+.planet-saturn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 140px;
+    height: 34px;
+    border-radius: 50%;
+    border: 5px solid #fef08a;
+    border-top-color: #ca8a04;
+    outline: 3px solid #000000;
+    transform: translate(-50%, -50%) rotate(-18deg);
+    box-shadow: inset 0 0 0 4px #854d0e;
+    pointer-events: none;
+}
+
+/* --- 5. Mid-Right Green-Blue Globe --- */
+.planet-jupiter {
+    top: 170px;
+    right: 9.5%;
+    width: 46px;
+    height: 46px;
+    background: radial-gradient(circle at 35% 35%, #38bdf8 0%, #0284c7 60%, #0f172a 100%);
+    box-shadow: 
+        inset -6px -6px 0 0 rgba(0, 0, 0, 0.5),
+        inset 4px 4px 0 0 #bae6fd;
+}
+
+.planet-jupiter::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    width: 16px;
+    height: 14px;
+    border-radius: 40%;
+    background: #4ade80;
+    box-shadow: 14px 14px 0 -2px #22c55e, 4px 18px 0 -3px #16a34a;
+}
+
+/* Twinkling stars */
+.space-stars .s-star {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #ffffff;
+    box-shadow: 0 0 8px #ffffff;
+    animation: starTwinkle 2s infinite ease-in-out;
+}
+
+.s1 { top: 10%; left: 30%; animation-delay: 0s; }
+.s2 { top: 18%; left: 75%; animation-delay: 0.5s; }
+.s3 { top: 35%; left: 5%;  animation-delay: 1.2s; }
+.s4 { top: 40%; left: 92%; animation-delay: 0.8s; }
+.s5 { top: 75%; left: 15%; animation-delay: 0.3s; }
+.s6 { top: 80%; left: 85%; animation-delay: 1.5s; }
+.s7 { top: 6%;  left: 55%; animation-delay: 1s; }
+.s8 { top: 52%; left: 48%; animation-delay: 1.8s; }
+
+@keyframes starTwinkle {
+    0%, 100% { opacity: 0.2; transform: scale(1); }
+    50%      { opacity: 1;   transform: scale(1.5); }
+}
+
+/* Bottom floating UI sheets */
+.bottom-ui-sheet {
+    position: absolute;
+    bottom: -10px;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.88);
+    border: 3px solid #000000;
+    border-radius: 8px;
+    color: #0f172a;
+    font-size: 0.75em;
+    line-height: 1.7;
+    box-shadow: 4px 4px 0 #000000;
+}
+
+.sheet-left  { left: 20px;  max-width: 190px; transform: rotate(-5deg); }
+.sheet-right { right: 20px; transform: rotate(5deg); font-size: 16px; }
+
+.sheet-header { margin-bottom: 4px; color: #ff0055; font-weight: bold; }
+.bottom-ui-sheet p { margin: 0; }
+
+/* Content wrapper */
+.arcade-content-wrapper {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1450px;
+}
+
+/* --- Marquee banner --- */
+.marquee-banner-frame {
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+    margin-bottom: 40px;
+    padding: 12px 14px 14px 14px;
+    text-align: center;
+    background: linear-gradient(180deg, #2e1065, #1e1b4b);
+    border: 5px solid var(--gold);
+    outline: 5px solid #000000;
+    border-radius: 10px;
+    box-shadow: 0 0 30px rgba(251, 191, 36, 0.45);
+}
+
+.marquee-banner-frame::before {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    border: 5px dotted #fef08a;
+    border-radius: 6px;
+    pointer-events: none;
+    animation: bulbBlink 1.4s steps(1) infinite;
+}
+
+@keyframes bulbBlink {
+    0%, 100% { border-color: #fef08a; }
+    50%      { border-color: #f97316; }
+}
+
+.banner-top-tag {
+    padding: 6px 0 12px 0;
+    font-size: clamp(9px, 1vw, 14px);
+    letter-spacing: 1px;
+    color: #ffffff;
+    text-shadow: 2px 2px 0 #e11d48;
+}
+
+.banner-inner {
+    padding: 14px 20px 12px 20px;
+    background: #fef3c7;
+    border: 4px solid #000000;
+    border-radius: 6px;
+    box-shadow: inset 0 0 0 3px var(--gold);
+}
+
+.banner-main-title {
+    margin: 4px 0 10px 0;
+    font-size: clamp(13px, 2.1vw, 30px);
+    line-height: 1.45;
+    color: #f97316;
+    text-shadow: 3px 3px 0 #1e1b4b;
+}
+
+.banner-bottom-tag {
+    font-size: clamp(8px, 0.9vw, 12px);
+    letter-spacing: 1px;
+    color: #1e1b4b;
+}
+
+.banner-side-screen {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    background: #0f172a;
+    border: 3px solid var(--cyan);
+    box-shadow: 0 0 12px rgba(56, 189, 248, 0.7), 3px 3px 0 #000000;
+}
+
+.side-left  { left: -66px; }
+.side-right { right: -66px; }
+
+/* --- 5-column grid --- */
+.arcade-columns-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 14px;
+    width: 100%;
+    margin-bottom: 35px;
+}
+
+/* Cards */
+.arcade-card {
+    --accent: var(--cyan);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 22px 12px 16px 12px;
+    background: linear-gradient(180deg, #16224d 0%, #0b1330 100%);
+    border: 4px solid var(--accent);
+    outline: 3px solid #000000;
+    border-radius: 8px;
+    box-shadow: 6px 6px 0 #000000;
+}
+
+.arcade-card > :last-child {
+    margin-top: auto;
+}
+
+.card-blue-theme   { --accent: #38bdf8; }
+.card-orange-theme { --accent: #f97316; }
+.card-cyan-theme   { --accent: #06b6d4; }
+.card-purple-theme { --accent: #a855f7; }
+.card-red-theme    { --accent: #e11d48; }
+
+.highlight-cohort {
+    --accent: #fbbf24;
+    box-shadow: 0 0 15px rgba(251, 191, 36, 0.4), 6px 6px 0 #000000;
+}
+
+/* Number badges */
+.card-badge {
+    position: absolute;
+    top: -16px;
+    left: 12px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid #000000;
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: bold;
+    color: #000000;
+}
+
+.badge-cyan   { background: #38bdf8; }
+.badge-orange { background: #f97316; }
+.badge-yellow { background: #facc15; }
+.badge-red    { background: #f43f5e; color: #ffffff; }
+
+.card-title {
+    min-height: 3.4em;
+    margin: 4px 0 12px 0;
+    padding: 4px 0 8px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 1.25em;
+    line-height: 1.5;
+    color: #ffffff;
+    text-shadow: 2px 2px 0 #000000;
+    border-bottom: 2px dashed var(--accent);
+}
+
+/* Visual placeholders */
+.card-visual-frame {
+    margin-bottom: 12px;
+    padding: 10px;
+    background: linear-gradient(180deg, #1e293b, #172033);
+    border: 2px solid #334155;
+    border-radius: 6px;
+    box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.35);
+}
+
+/* Card 1 — workstation */
+.dev-monitors-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 4px;
+    padding: 6px 0 16px 0;
+}
+
+.dev-monitors-container::after {
+    content: '';
+    position: absolute;
+    left: 2%;
+    right: 2%;
+    bottom: 4px;
+    height: 6px;
+    background: #7c3aed;
+    border: 2px solid #000000;
+}
+
+.monitor {
+    position: relative;
+    height: 5.4em;
+    background: #0b1120;
+    border: 2px solid var(--cyan);
+    border-radius: 2px;
+    box-shadow: 0 0 8px rgba(56, 189, 248, 0.4);
+    overflow: hidden;
+}
+
+.mon-left,
+.mon-right { width: 27%; }
+
+.mon-center {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.code-lines {
+    position: absolute;
+    inset: 5px;
+    background: repeating-linear-gradient(to bottom, #4ade80 0 2px, transparent 2px 5px);
+    opacity: 0.85;
+}
+
+.mon-right .code-lines {
+    background: repeating-linear-gradient(to bottom, #f472b6 0 2px, transparent 2px 5px);
+}
+
+.opt-label { font-size: 0.7em; color: #4ade80; }
+
+.orbit-graph {
+    position: relative;
+    width: 2.2em;
+    height: 2.2em;
+    border: 1px dashed var(--cyan);
+    border-radius: 50%;
+}
+
+.orbit-graph::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: 50%;
+    width: 4px;
+    height: 4px;
+    background: #facc15;
+}
+
+.pixel-developer {
+    position: absolute;
+    right: 6%;
+    bottom: -2px;
+    z-index: 2;
+    font-size: 2em;
+}
+
+/* Card 2 — avatars */
+.avatars-art-box {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.student-avatar-card {
+    flex: 1;
+    padding: 6px 2px;
+    text-align: center;
+    font-size: 2em;
+    line-height: 1.2;
+    background: #334155;
+    border: 2px solid #000000;
+    border-radius: 4px;
+}
+
+.student-avatar-card:nth-child(1) { background: linear-gradient(180deg, #3b82f6, #1e3a8a); }
+.student-avatar-card:nth-child(2) { background: linear-gradient(180deg, #a855f7, #581c87); }
+.student-avatar-card:nth-child(3) { background: linear-gradient(180deg, #14b8a6, #115e59); }
+
+/* Lists */
+.pixel-bullet-list {
+    margin: 0 0 12px 0;
+    padding: 0;
+    list-style: none;
+}
+
+.pixel-bullet-list li {
+    margin-bottom: 6px;
+    font-size: 1em;
+    line-height: 1.8;
+    color: #e2e8f0;
+}
+
+/* Eligibility widget */
+.eligibility-widget-box {
+    position: relative;
+    margin-bottom: 10px;
+    padding: 8px;
+    background: #1e293b;
+    border: 2px solid #475569;
+    border-radius: 4px;
+    font-size: 0.85em;
+}
+
+.widget-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    color: #38bdf8;
+}
+
+.check-row { margin-bottom: 4px; color: #4ade80; }
+
+.youre-in-stamp {
+    position: absolute;
+    right: -4px;
+    bottom: -8px;
+    padding: 3px 6px;
+    background: #e11d48;
+    color: #ffffff;
+    border: 2px solid #ffffff;
+    transform: rotate(-8deg);
+}
+
+/* Card 3 — how sessions run */
+.conduct-dual-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.conduct-box {
+    overflow: hidden;
+    text-align: center;
+    background: #1e293b;
+    border: 2px solid var(--teal);
+    border-radius: 4px;
+}
+
+.conduct-box.box-orange { border-color: var(--orange); }
+
+.art-screen {
+    padding: 10px 4px;
+    font-size: 2.2em;
+    background: linear-gradient(180deg, #1e3a5f, #0f172a);
+}
+
+.conduct-text {
+    display: block;
+    padding: 6px 4px;
+    font-size: 0.85em;
+    line-height: 1.5;
+    color: #facc15;
+    background: #0b1120;
+}
+
+.highlight-info-banner {
+    padding: 8px;
+    font-size: 0.85em;
+    line-height: 1.7;
+    text-align: center;
+    background: #0369a1;
+    border: 2px solid #000000;
+    border-radius: 4px;
+}
+
+.highlight-info-banner p { margin: 0; }
+.bold-gold { margin-top: 4px !important; color: #facc15; }
+
+/* Card 4 — calendar */
+.calendar-ui-window {
+    margin-bottom: 10px;
+    padding: 6px;
+    background: #f8fafc;
+    color: #0f172a;
+    border: 2px solid #0f172a;
+    border-radius: 4px;
+    box-shadow: 3px 3px 0 #000000;
+}
+
+.cal-window-bar {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    padding-bottom: 4px;
+    font-size: 0.8em;
+    font-weight: bold;
+    border-bottom: 2px solid #0f172a;
+}
+
+.cal-grid-layout {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 3px;
+    font-size: 0.8em;
+    text-align: center;
+}
+
+.cal-dow { padding-bottom: 2px; font-size: 0.8em; color: #64748b; }
+
+.cal-cell {
+    padding: 4px 0;
+    background: #e2e8f0;
+    border-radius: 2px;
+}
+
+.cal-cell.empty { background: transparent; }
+
+.highlight-orange { background: #f97316; color: #ffffff; }
+.highlight-gold   { background: #eab308; color: #ffffff; }
+
+.cal-event-pill {
+    grid-column: 1 / -1;
+    padding: 4px 5px;
+    font-size: 0.8em;
+    color: #ffffff;
+    text-align: left;
+    border-radius: 2px;
+}
+
+.event-blue   { background: #0284c7; }
+.event-purple { background: #9333ea; }
+
+.schedule-meta-text { text-align: center; }
+.schedule-meta-text h4 { margin: 0 0 6px 0; font-size: 1.15em; line-height: 1.5; color: #facc15; text-shadow: 2px 2px 0 #000000; }
+.schedule-meta-text p  { margin: 0; font-size: 0.85em; color: #94a3b8; }
+
+/* Card 5 — apply */
+.apply-now-ribbon {
+    margin-bottom: 8px;
+    padding: 8px 6px;
+    text-align: center;
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #000000;
+    background: linear-gradient(180deg, #fb923c, #f97316);
+    border: 2px solid #000000;
+}
+
+.building-art-frame {
+    margin-bottom: 8px;
+    padding: 10px;
+    text-align: center;
+    background: #1e293b;
+    border-radius: 4px;
+}
+
+.pixel-building-icon { font-size: 2.4em; }
+.building-label { margin-top: 4px; font-size: 0.8em; color: #94a3b8; }
+
+.progress-deadline-box { margin-bottom: 10px; }
+.deadline-label { display: block; margin-bottom: 4px; font-size: 0.8em; color: #f43f5e; }
+
+.progress-bar-track {
+    height: 10px;
+    overflow: hidden;
+    background: #334155;
+    border: 2px solid #000000;
+    border-radius: 4px;
+}
+
+.progress-bar-fill {
+    width: 75%;
+    height: 100%;
+    background:
+        repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.28) 0 4px, transparent 4px 8px),
+        linear-gradient(90deg, #f97316, #22c55e);
+    background-size: 16px 16px, 100% 100%;
+    animation: barShift 1s linear infinite;
+}
+
+@keyframes barShift {
+    to { background-position: 16px 0, 0 0; }
+}
+
+/* Buttons */
+.pixel-btn {
+    width: 100%;
+    padding: 11px 8px;
+    font-size: 1em;
+    cursor: pointer;
+    border: 2px solid #000000;
+    border-radius: 4px;
+    box-shadow: 0 3px 0 #000000;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.pixel-btn:hover { transform: translateY(2px); box-shadow: 0 1px 0 #000000; }
+.pixel-btn:focus-visible { outline: 3px solid #ffffff; outline-offset: 2px; }
+
+.btn-orange { background: #f97316; color: #000000; }
+.btn-green  { background: #22c55e; color: #ffffff; }
+.btn-green.applied { background: #0284c7; }
+
+/* --- Footer --- */
+.arcade-bottom-footer {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.footer-tagline {
+    margin: 0 0 18px 0;
+    font-size: clamp(12px, 1.7vw, 26px);
+    line-height: 1.5;
+    color: #ffffff;
+    text-shadow:
+        -2px -2px 0 #1e1b4b,
+         2px -2px 0 #1e1b4b,
+        -2px  2px 0 #1e1b4b,
+         3px  3px 0 #e11d48;
+}
+
+.footer-pixel-stickers {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
+
+.sticker {
+    width: 58px;
+    height: 58px;
+    display: grid;
+    place-items: center;
+    font-size: 26px;
+    background: #1e1b4b;
+    border: 3px solid #000000;
+    border-radius: 8px;
+    box-shadow: 3px 3px 0 #000000;
+    transform: rotate(-4deg);
+}
+
+.sticker:nth-child(even) { transform: rotate(4deg); }
+
+/* --- Responsive --- */
+@media (max-width: 1250px) {
+    .space-arcade-container { font-size: 10px; }
+    .arcade-columns-grid { grid-template-columns: repeat(2, 1fr); }
+    .arcade-card:last-child { grid-column: 1 / -1; }
+}
+
+@media (max-width: 1120px) {
+    .banner-side-screen { display: none; }
+}
+
+@media (max-width: 900px) {
+    .bottom-ui-sheet,
+    .planet-mars,
+    .planet-jupiter { display: none; }
+}
+
+@media (max-width: 650px) {
+    .space-arcade-container { padding: 20px 12px 50px 12px; font-size: 9px; }
+    .arcade-columns-grid { grid-template-columns: 1fr; }
+    .arcade-card:last-child { grid-column: auto; }
+    .planet-earth  { width: 44px; height: 44px; }
+    .planet-saturn { width: 48px; height: 48px; }
+    .planet-saturn::after { width: 76px; left: -18px; }
+    .sticker { width: 48px; height: 48px; font-size: 22px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .space-stars .s-star,
+    .starburst,
+    .marquee-banner-frame::before,
+    .progress-bar-fill { animation: none; }
+}
