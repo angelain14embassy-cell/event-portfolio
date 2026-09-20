@@ -89,7 +89,6 @@ export default function Navbar() {
     setIsMobileOpen(false);
     setActiveSection(id);
 
-    // 1. Home Page Navigation
     if (id === 'home') {
       const homeElement = document.getElementById('home') || document.getElementById('hero');
       if (homeElement) {
@@ -100,10 +99,8 @@ export default function Navbar() {
       return;
     }
 
-    // 2. Direct ID Search
     let targetElement = document.getElementById(id);
 
-    // 3. Fallback for DSA Journey Section
     if (!targetElement && id === 'journey') {
       targetElement =
         document.getElementById('dsa') ||
@@ -120,7 +117,6 @@ export default function Navbar() {
       }
     }
 
-    // 4. Generic Section Fallback Search (events, memories)
     if (!targetElement) {
       targetElement =
         document.querySelector(`[data-section="${id}"]`) ||
@@ -134,7 +130,6 @@ export default function Navbar() {
       }
     }
 
-    // Smooth Scroll with Header Offset Handling
     if (targetElement) {
       const navbarOffset = 60;
       const elementPosition = targetElement.getBoundingClientRect().top;
@@ -155,7 +150,9 @@ export default function Navbar() {
         >
           {/* Brand Identity */}
           <div className="brand-badge" onClick={() => handleNavigate('home')}>
-            <img src={logo} alt="ACM Logo" className="brand-logo" />
+            <div className="brand-logo-wrapper">
+              <img src={logo} alt="ACM Logo" className="brand-logo" />
+            </div>
             <div className="brand-details">
               <span className="brand-title">BANASTHALI</span>
               <span className="brand-sub">ACM Chapter</span>
@@ -178,7 +175,6 @@ export default function Navbar() {
                   <span className="icon-box">{item.icon}</span>
                   <span className="nav-text-label">{item.title}</span>
 
-                  {/* Micro Tooltip */}
                   <div className="tooltip-box">
                     <span className="tooltip-main">{item.title}</span>
                     <span className="tooltip-sub">{item.subtext}</span>
@@ -210,7 +206,7 @@ export default function Navbar() {
             <button
               onClick={() => {
                 triggerGlowAnimation();
-                window.open('https://forms.google.com', '_blank');
+                window.open('https://docs.google.com/forms/d/e/1FAIpQLSciDgYoQdDBqsCNYXIujrsB6GZavjms8tqdXX37IqTCENCs5w/viewform?usp=dialog', '_blank');
               }}
               className="join-tier-btn"
             >
@@ -218,7 +214,6 @@ export default function Navbar() {
               <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </button>
 
-            {/* Mobile Toggle */}
             <button
               className="mobile-hamburger"
               onClick={() => {
@@ -255,7 +250,7 @@ export default function Navbar() {
           <button
             onClick={() => {
               triggerGlowAnimation();
-              window.open('https://forms.google.com', '_blank');
+              window.open('https://docs.google.com/forms/d/e/1FAIpQLSciDgYoQdDBqsCNYXIujrsB6GZavjms8tqdXX37IqTCENCs5w/viewform?usp=dialog', '_blank');
             }}
             className="mobile-join-btn"
           >
@@ -285,7 +280,7 @@ export default function Navbar() {
           align-items: center;
           justify-content: space-between;
           gap: 16px;
-          padding: 5px 32px;
+          padding: 6px 32px;
           border-radius: 0 0 14px 14px;
           overflow: visible;
           width: 100%;
@@ -344,30 +339,52 @@ export default function Navbar() {
         .brand-badge {
           display: flex;
           align-items: center;
-          gap: 10px;
+          gap: 12px;
           cursor: pointer;
           user-select: none;
         }
 
+        /* Fixed outer white box without changing size */
+        .brand-logo-wrapper {
+          width: 70px;
+          height: 38px;
+          padding: 0;
+          border-radius: 8px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: #ffffff;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+          flex-shrink: 0;
+          overflow: hidden;
+        }
+
+        /* Inner logo occupies complete box area with bold/thick effect */
         .brand-logo {
-          height: 32px; /* Logo size increased here */
-          width: auto;
-          border-radius: 6px;
-          object-fit: contain;
+          width: 100%;
+          height: 100%;
+          object-fit: fill;
+          transform: scale(1.12);
+          filter: contrast(135%) saturate(120%) drop-shadow(0.3px 0.3px 0px rgba(0, 51, 102, 0.8)) drop-shadow(-0.3px -0.3px 0px rgba(0, 51, 102, 0.8));
+          transition: transform 0.25s ease, filter 0.25s ease;
+        }
+
+        .brand-badge:hover .brand-logo {
+          transform: scale(1.18);
         }
 
         .brand-details {
           display: flex;
           flex-direction: column;
-          line-height: 1.1;
+          line-height: 1.15;
         }
 
-        .dark-theme .brand-title { color: #ffffff; font-weight: 800; font-size: 0.75rem; letter-spacing: 0.5px; }
-        .light-theme .brand-title { color: #1e3a8a; font-weight: 800; font-size: 0.75rem; letter-spacing: 0.5px; }
-        .dark-theme .brand-sub { color: #818cf8; font-size: 0.58rem; font-weight: 700; }
-        .light-theme .brand-sub { color: #3b82f6; font-size: 0.58rem; font-weight: 700; }
+        .dark-theme .brand-title { color: #ffffff; font-weight: 800; font-size: 0.8rem; letter-spacing: 0.5px; }
+        .light-theme .brand-title { color: #1e3a8a; font-weight: 800; font-size: 0.8rem; letter-spacing: 0.5px; }
+        .dark-theme .brand-sub { color: #818cf8; font-size: 0.62rem; font-weight: 700; }
+        .light-theme .brand-sub { color: #3b82f6; font-size: 0.62rem; font-weight: 700; }
 
-        .nav-divider { width: 1px; height: 18px; }
+        .nav-divider { width: 1px; height: 22px; }
         .dark-theme .nav-divider { background: rgba(255, 255, 255, 0.15); }
         .light-theme .nav-divider { background: rgba(191, 219, 254, 0.8); }
 

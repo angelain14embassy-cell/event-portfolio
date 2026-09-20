@@ -51,38 +51,34 @@ const Footer = () => {
     return () => clearInterval(interval);
   }, [isNavVisible]);
 
-  // Deep DOM Text Node Search Engine
   const handleSmoothScroll = (e, targetId, labelText) => {
+    // External links ke liye smooth scroll bypass karenge
+    if (!targetId || targetId.startsWith('http')) return;
+
     e.preventDefault();
 
-    // 1. Sirf Home Link par Hero / Top Scroll Hoga
     if (targetId === '#home' || labelText.toLowerCase().includes('home')) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
 
-    // 2. Direct ID Match Check
     const directElement = document.querySelector(targetId);
     if (directElement) {
       directElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
       return;
     }
 
-    // 3. Exact Title Targets according to Screenshots
     let targetPhrase = "";
     if (labelText.toLowerCase().includes("event")) {
-      targetPhrase = "ACM Sessions & Events";
+      targetPhrase = "ACM-W Sessions & Events";
     } else if (labelText.toLowerCase().includes("memorie")) {
       targetPhrase = "Moments That Matter";
     } else if (labelText.toLowerCase().includes("journey")) {
       targetPhrase = "DSA Journey";
-    } else if (labelText.toLowerCase().includes("queri")) {
-      targetPhrase = "GET IN TOUCH";
     }
 
     if (!targetPhrase) return;
 
-    // Deep Node Iterator: Text nodes ko find karke target block find karega
     const walker = document.createTreeWalker(
       document.body,
       NodeFilter.SHOW_TEXT,
@@ -100,12 +96,10 @@ const Footer = () => {
       }
     }
 
-    // Agar exact match mill gaya toh target section vertical scroll offset Calculate karenge
     if (targetContainer) {
-      // Container/Header block top offset calculation
       const rect = targetContainer.getBoundingClientRect();
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      const targetY = rect.top + scrollTop - 80; // 80px offset floating header gap ke liye
+      const targetY = rect.top + scrollTop - 80;
 
       window.scrollTo({
         top: targetY,
@@ -114,7 +108,7 @@ const Footer = () => {
     }
   };
 
-  const subtextItems = ["Explore", "Connect", "Learn", "Grow"];
+  const subtextItems = ["Empower", "Connect", "Learn", "Lead"];
 
   return (
     <footer ref={footerRef} className={`full-footer-container ${isNavVisible ? 'animate-in' : ''}`}>
@@ -149,8 +143,14 @@ const Footer = () => {
                 <span className="nav-icon">{item.icon}</span>
                 <a
                   href={item.href}
-                  className="nav-link"
-                  onClick={(e) => handleSmoothScroll(e, item.href, item.label)}
+                  className={`nav-link ${item.isButton ? 'query-btn-highlight' : ''}`}
+                  target={item.isExternal ? "_blank" : "_self"}
+                  rel={item.isExternal ? "noopener noreferrer" : undefined}
+                  onClick={(e) => {
+                    if (!item.isExternal) {
+                      handleSmoothScroll(e, item.href, item.label);
+                    }
+                  }}
                 >
                   {item.label}
                 </a>
@@ -166,7 +166,8 @@ const Footer = () => {
           <a
             href={footerData.contact.contactLinkHref}
             className="contact-cta"
-            onClick={(e) => handleSmoothScroll(e, footerData.contact.contactLinkHref, footerData.contact.contactLinkText)}
+            target={footerData.contact.isExternal ? "_blank" : "_self"}
+            rel={footerData.contact.isExternal ? "noopener noreferrer" : undefined}
           >
             → {footerData.contact.contactLinkText}
           </a>

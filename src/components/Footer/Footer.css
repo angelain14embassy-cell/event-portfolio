@@ -170,7 +170,7 @@
   text-decoration: none;
   font-size: clamp(0.68rem, 0.85vw, 0.8rem);
   position: relative;
-  transition: color 0.2s ease;
+  transition: all 0.25s ease;
 }
 
 .nav-link::after {
@@ -199,32 +199,60 @@
   width: 100%;
 }
 
-/* Contact Details */
+/* Highlighted Button Style for Queries (Contact Us) */
+.nav-link.query-btn-highlight {
+  display: inline-block;
+  padding: 3px 10px;
+  background: rgba(56, 189, 248, 0.18);
+  border: 1px solid var(--acm-cyan);
+  border-radius: 6px;
+  color: var(--acm-neon-yellow) !important;
+  font-weight: bold;
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.35);
+  transition: all 0.25s ease;
+}
+
+.nav-link.query-btn-highlight::after {
+  display: none; /* Button look ke liye underline remove kiya hai */
+}
+
+.nav-item:hover .nav-link.query-btn-highlight {
+  background: var(--acm-neon-yellow);
+  color: #0b193c !important;
+  border-color: var(--acm-neon-yellow);
+  box-shadow: 0 0 14px rgba(250, 204, 21, 0.7);
+  transform: translateY(-1px);
+}
+
+/* Contact Details & CTA Button */
 .query-text {
   color: var(--acm-text-sub);
   font-size: clamp(0.65rem, 0.8vw, 0.75rem);
-  margin: 0 0 0.2rem 0;
+  margin: 0 0 0.3rem 0;
 }
 
 .contact-cta {
-  display: inline-block;
-  color: var(--acm-neon-yellow);
-  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: #0b193c;
+  background: var(--acm-neon-yellow);
+  padding: 4px 12px;
+  border-radius: 6px;
   font-weight: bold;
   font-size: clamp(0.68rem, 0.85vw, 0.8rem);
-  margin-bottom: 0.7rem;
-  position: relative;
+  margin-bottom: 0.8rem;
+  text-decoration: none;
+  box-shadow: 0 0 10px rgba(250, 204, 21, 0.4);
+  transition: all 0.25s ease;
   width: fit-content;
 }
 
-.contact-cta::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: -2px;
-  width: 100%;
-  height: 2px;
-  background-color: var(--acm-neon-yellow);
+.contact-cta:hover {
+  background: #ffffff;
+  color: #0f2b6e;
+  box-shadow: 0 0 14px rgba(255, 255, 255, 0.8);
+  transform: scale(1.04);
 }
 
 .info-item {
