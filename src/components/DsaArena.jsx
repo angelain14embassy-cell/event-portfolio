@@ -281,6 +281,7 @@ function SessionPopup({ session, onClose }) {
                         DSA_TERMINAL.EXE
                     </span>
 
+<<<<<<< HEAD
                     <span className="popup-level">
                         LEVEL {session.level} / 6
                     </span>
@@ -290,6 +291,23 @@ function SessionPopup({ session, onClose }) {
                         className="popup-close"
                         onClick={onClose}
                         aria-label="Close session"
+=======
+                    {/* Section 3: Notice Notes */}
+                    <div className="notice-box">
+                        <p>☘ Two session will be held every month.</p>
+                        <p>☘ Details About every next session will be given in previous session.</p>
+                        <p>☘ References and questions will be sent to prepare and compete.</p>
+                    </div>
+
+                </div>
+
+                {/* Action Footer */}
+                <div className="quest-footer">
+                    <button 
+                        type="button" 
+                        className={`accept-quest-btn ${accepted ? "accepted" : ""}`} 
+                        onClick={handleAcceptQuest}
+>>>>>>> origin/feature/dsa-arena-ui
                     >
                         <X size={20} />
                     </button>
