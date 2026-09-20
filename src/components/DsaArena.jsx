@@ -22,8 +22,8 @@ const sessions = [
         title: "ORIENTATION SESSION",
         shortTitle: "ORIENTATION SESSION",
         unlocked: true,
-        date: "22 September 2026",
-        venue: "To be announced",
+        date: "21 September 2026",
+        venue: "CMS AUDI APAJI SANSTHAN",
         description:
             "An orientation session introducing students to the DSA Series and explaining how the complete learning journey will move forward.",
         topics: [
@@ -155,8 +155,8 @@ function LevelPlatform({ session }) {
     return (
         <div
             className={`level-platform ${session.unlocked
-                    ? "unlocked-platform"
-                    : "locked-platform"
+                ? "unlocked-platform"
+                : "locked-platform"
                 }`}
         >
             <div className="platform-top">
@@ -193,8 +193,8 @@ function LevelCard({ session, onClick }) {
         <button
             type="button"
             className={`level-info-card ${session.unlocked
-                    ? "level-info-unlocked"
-                    : "level-info-locked"
+                ? "level-info-unlocked"
+                : "level-info-locked"
                 }`}
             onClick={onClick}
         >
@@ -205,8 +205,8 @@ function LevelCard({ session, onClick }) {
 
                 <span
                     className={`level-status ${session.unlocked
-                            ? "status-unlocked"
-                            : "status-locked"
+                        ? "status-unlocked"
+                        : "status-locked"
                         }`}
                 >
                     {session.unlocked
@@ -507,8 +507,8 @@ export default function DsaArena() {
                     (session, index) => (
                         <div
                             className={`level-row ${index % 2 === 0
-                                    ? "level-row-left"
-                                    : "level-row-right"
+                                ? "level-row-left"
+                                : "level-row-right"
                                 }`}
                             key={session.id}
                         >
