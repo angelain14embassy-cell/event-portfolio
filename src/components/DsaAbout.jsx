@@ -8,21 +8,7 @@ import sessionConductImg from "../assets/session-conduct.png";
 import calendarUiImg from "../assets/calendar-ui.png";
 import academyBuildingImg from "../assets/academy-building.png";
 
-const CAL_DOW = ["S", "M", "T", "W", "T", "F", "S"];
 
-const CALENDAR_WEEKS = [
-    {
-        days: [12, 13, 14, 15, 16, 17, 18],
-        highlights: { 15: "highlight-orange" },
-        event: { label: "SESSION 1: CONCEPT", tone: "event-blue" },
-    },
-    { days: [19, 20, 21, 22, 23, 24, 25] },
-    {
-        days: [26, 27, 28, 29, 30, null, null],
-        highlights: { 29: "highlight-gold" },
-        event: { label: "SESSION 2: APPLICATION", tone: "event-purple" },
-    },
-];
 
 export default function DsaAbout() {
     const [applied, setApplied] = useState(false);
@@ -97,9 +83,9 @@ export default function DsaAbout() {
                         <h3 className="card-title">WHY DSA IS IMPORTANT</h3>
 
                         <div className="card-visual-frame">
-                            <img 
-                                src={devWorkstationImg} 
-                                alt="Developer Workstation" 
+                            <img
+                                src={devWorkstationImg}
+                                alt="Developer Workstation"
                                 className="pixel-card-image"
                             />
                         </div>
@@ -122,9 +108,9 @@ export default function DsaAbout() {
                         <h3 className="card-title">WHO CAN APPLY</h3>
 
                         <div className="card-visual-frame">
-                            <img 
-                                src={avatarsGroupImg} 
-                                alt="Applicants Group" 
+                            <img
+                                src={avatarsGroupImg}
+                                alt="Applicants Group"
                                 className="pixel-card-image"
                             />
                         </div>
@@ -152,9 +138,9 @@ export default function DsaAbout() {
                         <h3 className="card-title">HOW WILL THE SESSION CONDUCT</h3>
 
                         <div className="card-visual-frame">
-                            <img 
-                                src={sessionConductImg} 
-                                alt="Live Session Conduct" 
+                            <img
+                                src={sessionConductImg}
+                                alt="Live Session Conduct"
                                 className="pixel-card-image"
                             />
                         </div>
@@ -171,9 +157,9 @@ export default function DsaAbout() {
                         <h3 className="card-title">THE MONTHLY SCHEDULE</h3>
 
                         <div className="card-visual-frame">
-                            <img 
-                                src={calendarUiImg} 
-                                alt="Monthly Schedule Calendar" 
+                            <img
+                                src={calendarUiImg}
+                                alt="Monthly Schedule Calendar"
                                 className="pixel-card-image"
                             />
                         </div>
@@ -189,18 +175,18 @@ export default function DsaAbout() {
                         <div className="card-badge badge-red">5</div>
                         <h3 className="card-title">APPLY NOW FOR THE COHORT</h3>
 
-                        <div 
-                            className="apply-now-ribbon" 
-                            style={{ cursor: "pointer" }} 
+                        <div
+                            className="apply-now-ribbon"
+                            style={{ cursor: "pointer" }}
                             onClick={handleApply}
                         >
                             APPLY NOW
                         </div>
 
                         <div className="card-visual-frame">
-                            <img 
-                                src={academyBuildingImg} 
-                                alt="Corporate Academy Building" 
+                            <img
+                                src={academyBuildingImg}
+                                alt="Corporate Academy Building"
                                 className="pixel-card-image"
                             />
                         </div>
