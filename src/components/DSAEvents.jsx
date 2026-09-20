@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import {
-    ArrowLeft,
     ArrowRight,
-    CalendarDays,
+    X,
     LockKeyhole,
+    CalendarDays,
     MapPin,
-    Sparkles,
-    Trophy,
     BookOpen,
     Code2,
     Target,
     Users,
+    Trophy,
+    Sparkles,
 } from "lucide-react";
 
 import "./DSAEvents.css";
@@ -19,13 +19,13 @@ const sessions = [
     {
         id: 1,
         level: 1,
-        title: "DSA SESSION 1",
-        subtitle: "ORIENTATION SESSION",
+        title: "ORIENTATION SESSION",
+        shortTitle: "ORIENTATION SESSION",
         unlocked: true,
         date: "22 September 2026",
-        mode: "Offline",
+        venue: "To be announced",
         description:
-            "An orientation session introducing students to the DSA Series and helping them understand how the complete learning journey will move forward.",
+            "An orientation session introducing students to the DSA Series and explaining how the complete learning journey will move forward.",
         topics: [
             {
                 icon: <BookOpen size={17} />,
@@ -54,44 +54,39 @@ const sessions = [
             },
         ],
     },
-
     {
         id: 2,
         level: 2,
-        title: "DSA SESSION 2",
-        subtitle: "LOCKED",
+        title: "DSA SESSION 1",
+        shortTitle: "DSA SESSION 1",
         unlocked: false,
     },
-
     {
         id: 3,
         level: 3,
-        title: "DSA SESSION 3",
-        subtitle: "LOCKED",
+        title: "DSA SESSION 2",
+        shortTitle: "DSA SESSION 2",
         unlocked: false,
     },
-
     {
         id: 4,
         level: 4,
-        title: "DSA SESSION 4",
-        subtitle: "LOCKED",
+        title: "DSA SESSION 3",
+        shortTitle: "DSA SESSION 3",
         unlocked: false,
     },
-
     {
         id: 5,
         level: 5,
-        title: "DSA SESSION 5",
-        subtitle: "LOCKED",
+        title: "DSA SESSION 4",
+        shortTitle: "DSA SESSION 4",
         unlocked: false,
     },
-
     {
         id: 6,
         level: 6,
-        title: "DSA SESSION 6",
-        subtitle: "LOCKED",
+        title: "DSA SESSION 5",
+        shortTitle: "DSA SESSION 5",
         unlocked: false,
     },
 ];
@@ -108,14 +103,10 @@ function PixelCloud({ className = "" }) {
 }
 
 function FloatingStar({ className = "" }) {
-    return (
-        <div className={`floating-star ${className}`}>
-            ✦
-        </div>
-    );
+    return <div className={`floating-star ${className}`}>✦</div>;
 }
 
-function GameDecoration() {
+function GameDecorations() {
     return (
         <>
             <div className="game-moon"></div>
@@ -131,23 +122,21 @@ function GameDecoration() {
             <FloatingStar className="star-five" />
 
             <div className="pixel-sign sign-left">
-                <span>LEARN</span>
-                <span>PRACTICE</span>
-                <span>LEVEL UP</span>
+                <span>SMALL</span>
+                <span>STEPS</span>
+                <span>BIG</span>
+                <span>SKILLS</span>
             </div>
 
             <div className="pixel-sign sign-right">
-                <span>SMALL STEPS</span>
-                <span>BIG SKILLS</span>
+                <span>SOLVE</span>
+                <span>LEARN</span>
+                <span>LEVEL UP</span>
+                <span>REPEAT</span>
             </div>
 
             <div className="floating-console console-left">
                 <span>DSA</span>
-            </div>
-
-            <div className="floating-console console-right">
-                <span>LEVEL</span>
-                <strong>01 / 06</strong>
             </div>
         </>
     );
@@ -166,7 +155,7 @@ function LevelPlatform({ session }) {
                     </div>
                 ) : (
                     <div className="level-lock">
-                        <LockKeyhole size={29} />
+                        <LockKeyhole size={28} />
                     </div>
                 )}
             </div>
@@ -181,9 +170,7 @@ function LevelPlatform({ session }) {
             <div className="platform-rock platform-rock-two"></div>
             <div className="platform-rock platform-rock-three"></div>
 
-            <div className="platform-label">
-                LEVEL {session.level}
-            </div>
+            <div className="platform-label">LEVEL {session.level}</div>
         </div>
     );
 }
@@ -192,16 +179,12 @@ function LevelCard({ session, onClick }) {
     return (
         <button
             type="button"
-            className={`level-info-card ${session.unlocked
-                    ? "level-info-unlocked"
-                    : "level-info-locked"
+            className={`level-info-card ${session.unlocked ? "level-info-unlocked" : "level-info-locked"
                 }`}
             onClick={onClick}
         >
             <div className="level-card-top">
-                <span className="level-card-number">
-                    LEVEL {session.level}
-                </span>
+                <span className="level-card-number">LEVEL {session.level}</span>
 
                 <span
                     className={`level-status ${session.unlocked ? "status-unlocked" : "status-locked"
@@ -211,26 +194,26 @@ function LevelCard({ session, onClick }) {
                 </span>
             </div>
 
-            <div className="level-card-title">
-                {session.title}
-            </div>
-
-            <div className="level-card-subtitle">
-                {session.unlocked
-                    ? session.subtitle
-                    : "TO BE ANNOUNCED"}
-            </div>
+            <div className="level-card-title">{session.shortTitle}</div>
 
             {session.unlocked ? (
-                <div className="level-card-date">
-                    <CalendarDays size={15} />
-                    <span>{session.date}</span>
-                </div>
+                <>
+                    <div className="level-card-subtitle">DSA SERIES ORIENTATION</div>
+
+                    <div className="level-card-date">
+                        <CalendarDays size={14} />
+                        <span>{session.date}</span>
+                    </div>
+                </>
             ) : (
-                <div className="level-card-locked-line">
-                    <LockKeyhole size={14} />
-                    <span>STAY TUNED</span>
-                </div>
+                <>
+                    <div className="level-card-subtitle">TO BE ANNOUNCED</div>
+
+                    <div className="level-card-locked-line">
+                        <LockKeyhole size={13} />
+                        <span>STAY TUNED</span>
+                    </div>
+                </>
             )}
 
             <div className="level-card-arrow">
@@ -240,166 +223,137 @@ function LevelCard({ session, onClick }) {
     );
 }
 
-function SessionDetail({ session, onBack }) {
+function SessionPopup({ session, onClose }) {
     const isUnlocked = session.unlocked;
 
     return (
-        <div className="session-detail-screen">
-            <div className="session-detail-background">
-                <GameDecoration />
-            </div>
-
-            <div className="session-detail-inner">
-                <button
-                    type="button"
-                    className="session-back-button"
-                    onClick={onBack}
-                >
-                    <ArrowLeft size={17} />
-                    BACK TO LEVELS
-                </button>
-
-                <div className="session-detail-hud">
-                    <span>DSA SERIES</span>
-                    <span>
-                        LEVEL {session.level} / {sessions.length}
-                    </span>
-                </div>
-
-                <div
-                    className={`session-machine ${isUnlocked
-                            ? "session-machine-open"
-                            : "session-machine-locked"
-                        }`}
-                >
-                    <div className="machine-top-bar">
-                        <div className="machine-dot"></div>
-                        <div className="machine-dot"></div>
-                        <div className="machine-dot"></div>
-
-                        <span>DSA_TERMINAL.EXE</span>
-
-                        <div className="machine-level">
-                            LEVEL {session.level}
-                        </div>
+        <div
+            className="session-popup-overlay"
+            onMouseDown={(event) => {
+                if (event.target === event.currentTarget) {
+                    onClose();
+                }
+            }}
+        >
+            <div className="session-popup">
+                <div className="popup-top-bar">
+                    <div className="popup-dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
                     </div>
 
-                    <div className="machine-screen">
-                        {isUnlocked ? (
-                            <>
-                                <div className="screen-glow"></div>
+                    <span className="popup-terminal">DSA_TERMINAL.EXE</span>
 
-                                <div className="session-title-badge">
-                                    DSA SESSION 1
-                                </div>
+                    <span className="popup-level">LEVEL {session.level} / 6</span>
 
-                                <h1>ORIENTATION SESSION</h1>
+                    <button
+                        type="button"
+                        className="popup-close"
+                        onClick={onClose}
+                        aria-label="Close session"
+                    >
+                        <X size={20} />
+                    </button>
+                </div>
 
-                                <p className="session-intro">
-                                    Begin your DSA journey. Understand the
-                                    roadmap, resources, guidance and the path
-                                    ahead.
-                                </p>
+                <div className="popup-screen">
+                    {isUnlocked ? (
+                        <>
+                            <div className="popup-title-badge">{session.title}</div>
 
-                                <div className="session-meta-grid">
-                                    <div className="session-meta-box">
-                                        <CalendarDays size={19} />
-                                        <div>
-                                            <small>DATE</small>
-                                            <strong>
-                                                22 September 2026
-                                            </strong>
-                                        </div>
-                                    </div>
+                            <div className="popup-subtitle">DSA SERIES ORIENTATION</div>
 
-                                    <div className="session-meta-box">
-                                        <MapPin size={19} />
-                                        <div>
-                                            <small>MODE</small>
-                                            <strong>Offline</strong>
-                                        </div>
+                            <div className="popup-meta">
+                                <div className="popup-meta-box">
+                                    <CalendarDays size={18} />
+
+                                    <div>
+                                        <small>DATE</small>
+                                        <strong>{session.date}</strong>
                                     </div>
                                 </div>
 
-                                <div className="explore-heading">
-                                    <span>WHAT YOU'LL EXPLORE</span>
-                                    <div></div>
+                                <div className="popup-meta-box">
+                                    <MapPin size={20} />
+
+                                    <div>
+                                        <small>VENUE</small>
+                                        <strong>{session.venue || "To be announced"}</strong>
+                                    </div>
                                 </div>
+                            </div>
 
-                                <div className="session-topics">
-                                    {session.topics.map((topic, index) => (
-                                        <div
-                                            className="session-topic"
-                                            key={index}
-                                        >
-                                            <div className="topic-icon">
-                                                {topic.icon}
-                                            </div>
+                            <p className="popup-description">{session.description}</p>
 
-                                            <div className="topic-content">
+                            <div className="popup-section-title">
+                                <span>WHAT YOU'LL EXPLORE</span>
+                                <div></div>
+                            </div>
+
+                            <div className="popup-topics">
+                                {session.topics &&
+                                    session.topics.map((topic, index) => (
+                                        <div className="popup-topic" key={index}>
+                                            <div className="popup-topic-icon">{topic.icon}</div>
+
+                                            <div>
                                                 <h3>{topic.title}</h3>
                                                 <p>{topic.text}</p>
                                             </div>
                                         </div>
                                     ))}
-                                </div>
+                            </div>
 
-                                <div className="session-message">
-                                    <span>&gt;</span>
-                                    YOUR DSA JOURNEY STARTS HERE.
-                                    <span className="blink">_</span>
-                                </div>
-                            </>
-                        ) : (
-                            <>
-                                <div className="locked-screen-content">
-                                    <div className="big-lock">
-                                        <LockKeyhole size={58} />
-                                    </div>
+                            <div className="popup-message">
+                                <span>&gt;</span>
+                                SAME LOGIC. HIGHER YOU.
+                                <span className="popup-heart">♥</span>
+                            </div>
+                        </>
+                    ) : (
+                        <div className="locked-popup">
+                            <div className="locked-popup-icon">
+                                <LockKeyhole size={50} />
+                            </div>
 
-                                    <div className="locked-level-label">
-                                        LEVEL {session.level}
-                                    </div>
+                            <div className="locked-popup-level">LEVEL {session.level}</div>
 
-                                    <h1>{session.title}</h1>
+                            <h2>{session.title}</h2>
 
-                                    <div className="coming-soon">
-                                        TO BE ANNOUNCED...
-                                    </div>
+                            <div className="locked-popup-label">TO BE ANNOUNCED...</div>
 
-                                    <p>
-                                        This session is currently locked.
-                                        Details will be revealed as the DSA
-                                        Series progresses.
-                                    </p>
+                            <p>
+                                This session is currently locked. Details will be revealed as
+                                the DSA Series progresses.
+                            </p>
 
-                                    <div className="locked-dots">
-                                        <span></span>
-                                        <span></span>
-                                        <span></span>
-                                    </div>
+                            <div className="locked-popup-dots">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
 
-                                    <div className="locked-bottom-text">
-                                        STAY TUNED FOR THE NEXT LEVEL
-                                    </div>
-                                </div>
-                            </>
-                        )}
+                            <div className="locked-popup-footer">
+                                STAY TUNED FOR THE NEXT LEVEL
+                            </div>
+                        </div>
+                    )}
+                </div>
+
+                <div className="popup-control-panel">
+                    <div className="popup-joystick">
+                        <span></span>
                     </div>
 
-                    <div className="machine-control-panel">
-                        <div className="joystick">
-                            <span></span>
-                        </div>
+                    <div className="popup-buttons">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
 
-                        <div className="control-buttons">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
-
-
-
+                    <div className="popup-control-text">
+                        {isUnlocked ? "ORIENTATION" : "LOCKED"}
                     </div>
                 </div>
             </div>
@@ -407,7 +361,7 @@ function SessionDetail({ session, onBack }) {
     );
 }
 
-export default function DSAEvents() {
+export default function DsaArena() {
     const [selectedSession, setSelectedSession] = useState(null);
 
     useEffect(() => {
@@ -422,58 +376,30 @@ export default function DSAEvents() {
         };
     }, [selectedSession]);
 
-    const openSession = (session) => {
-        setSelectedSession(session);
-    };
-
-    if (selectedSession) {
-        return (
-            <SessionDetail
-                session={selectedSession}
-                onBack={() => setSelectedSession(null)}
-            />
-        );
-    }
-
     return (
-        <section
-            className="dsa-events-map"
-            id="events"
-        >
-            <GameDecoration />
+        <section id="dsa-arena-section" className="dsa-arena-container">
+            <GameDecorations />
 
-            <div className="dsa-events-header">
-                <div className="events-mini-label">
-                    &lt; DSA_SERIES /&gt;
-                </div>
+            <div className="arena-header">
+                <div className="arena-terminal-label">&lt; DSA_SERIES /&gt;</div>
 
-                <div className="events-hud">
-                    <span>PLAYER 01</span>
-                    <span>LEVEL UP YOUR LOGIC</span>
-                </div>
+                <div className="arena-title-area">
+                    <span className="arena-eyebrow">ACM BV • DSA SERIES</span>
 
-                <div className="events-title-area">
-                    <span className="events-eyebrow">
-                        ACM BY • DSA SERIES
-                    </span>
-
-                    <h2>
+                    <h2 className="arena-title">
                         DSA SESSIONS
                         <br />
                         &amp; EVENTS
                     </h2>
 
-                    <p>
-                        A game-like journey through learning,
-                        practice and problem solving.
-                    </p>
+                    <p>A journey of logic, learning and growth.</p>
                 </div>
             </div>
 
-            <div className="map-intro-banner">
-                <span className="banner-arrow">&gt;</span>
-                <span>SELECT YOUR LEVEL TO CONTINUE</span>
-                <span className="banner-arrow">&lt;</span>
+            <div className="arena-instruction">
+                <span>&gt;</span>
+                SELECT YOUR LEVEL TO CONTINUE
+                <span>&lt;</span>
             </div>
 
             <div className="level-map">
@@ -481,30 +407,33 @@ export default function DSAEvents() {
 
                 {sessions.map((session, index) => (
                     <div
-                        className={`level-row ${index % 2 === 0
-                                ? "level-row-left"
-                                : "level-row-right"
+                        className={`level-row ${index % 2 === 0 ? "level-row-left" : "level-row-right"
                             }`}
                         key={session.id}
                     >
-                        <div className="level-side-card">
+                        <div className="level-card-side">
                             {index % 2 === 0 && (
                                 <LevelCard
                                     session={session}
-                                    onClick={() => openSession(session)}
+                                    onClick={() => setSelectedSession(session)}
                                 />
                             )}
                         </div>
 
-                        <div className="level-node-area">
+                        <button
+                            type="button"
+                            className="level-node-button"
+                            onClick={() => setSelectedSession(session)}
+                            aria-label={`Open ${session.title}`}
+                        >
                             <LevelPlatform session={session} />
-                        </div>
+                        </button>
 
-                        <div className="level-side-card">
+                        <div className="level-card-side">
                             {index % 2 !== 0 && (
                                 <LevelCard
                                     session={session}
-                                    onClick={() => openSession(session)}
+                                    onClick={() => setSelectedSession(session)}
                                 />
                             )}
                         </div>
@@ -512,7 +441,7 @@ export default function DSAEvents() {
                 ))}
             </div>
 
-            <div className="map-footer">
+            <div className="arena-footer">
                 <div className="footer-line"></div>
 
                 <div className="footer-text">
@@ -520,13 +449,14 @@ export default function DSAEvents() {
                     <span>BIG ALGORITHMS</span>
                     <span>BRIGHTER FUTURE</span>
                 </div>
-
-                <div className="footer-hearts">
-                    <span>♥</span>
-                    <span>♥</span>
-                    <span>♥</span>
-                </div>
             </div>
+
+            {selectedSession && (
+                <SessionPopup
+                    session={selectedSession}
+                    onClose={() => setSelectedSession(null)}
+                />
+            )}
         </section>
     );
 }

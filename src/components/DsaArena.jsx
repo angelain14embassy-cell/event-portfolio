@@ -1,606 +1,237 @@
-import React, { useEffect, useState } from "react";
-import {
-    ArrowRight,
-    X,
-    LockKeyhole,
-    CalendarDays,
-    MapPin,
-    BookOpen,
-    Code2,
-    Target,
-    Users,
-    Trophy,
-    Sparkles,
-} from "lucide-react";
-
+import React, { useState } from "react";
 import "./DsaArena.css";
 
-const sessions = [
-    {
-        id: 1,
-        level: 1,
-        title: "ORIENTATION SESSION",
-        shortTitle: "ORIENTATION SESSION",
-        unlocked: true,
-        date: "22 September 2026",
-        venue: "To be announced",
-        description:
-            "An orientation session introducing students to the DSA Series and explaining how the complete learning journey will move forward.",
-        topics: [
-            {
-                icon: <BookOpen size={17} />,
-                title: "DSA Series Overview",
-                text: "Understand how the complete DSA learning series will be structured.",
-            },
-            {
-                icon: <Target size={17} />,
-                title: "DSA Roadmap",
-                text: "Get an overview of the topics and progression that will be followed throughout the series.",
-            },
-            {
-                icon: <Code2 size={17} />,
-                title: "Resources",
-                text: "Discover useful resources that can support your DSA preparation and practice.",
-            },
-            {
-                icon: <Users size={17} />,
-                title: "Guidance",
-                text: "Learn how to approach DSA consistently and make progress throughout the series.",
-            },
-            {
-                icon: <Trophy size={17} />,
-                title: "Contests & Opportunities",
-                text: "Understand how contests and problem-solving activities will be incorporated into the journey.",
-            },
-        ],
-    },
+// Import your exported pixel images
+import devWorkstationImg from "../assets/dev-workstation.jpeg";
+import avatarsGroupImg from "../assets/avatars-group.jpeg";
+import sessionConductImg from "../assets/session-conduct.jpeg";
+import calendarUiImg from "../assets/calendar-ui.jpeg";
+import academyBuildingImg from "../assets/academy-building.jpeg";
 
-    {
-        id: 2,
-        level: 2,
-        title: "DSA SESSION 1",
-        shortTitle: "DSA SESSION 1",
-        unlocked: false,
-    },
+const CAL_DOW = ["S", "M", "T", "W", "T", "F", "S"];
 
+const CALENDAR_WEEKS = [
     {
-        id: 3,
-        level: 3,
-        title: "DSA SESSION 2",
-        shortTitle: "DSA SESSION 2",
-        unlocked: false,
+        days: [12, 13, 14, 15, 16, 17, 18],
+        highlights: { 15: "highlight-orange" },
+        event: { label: "SESSION 1: CONCEPT", tone: "event-blue" },
     },
-
+    { days: [19, 20, 21, 22, 23, 24, 25] },
     {
-        id: 4,
-        level: 4,
-        title: "DSA SESSION 3",
-        shortTitle: "DSA SESSION 3",
-        unlocked: false,
-    },
-
-    {
-        id: 5,
-        level: 5,
-        title: "DSA SESSION 4",
-        shortTitle: "DSA SESSION 4",
-        unlocked: false,
-    },
-
-    {
-        id: 6,
-        level: 6,
-        title: "DSA SESSION 5",
-        shortTitle: "DSA SESSION 5",
-        unlocked: false,
+        days: [26, 27, 28, 29, 30, null, null],
+        highlights: { 29: "highlight-gold" },
+        event: { label: "SESSION 2: APPLICATION", tone: "event-purple" },
     },
 ];
 
-function PixelCloud({ className = "" }) {
-    return (
-        <div className={`pixel-cloud ${className}`}>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    );
-}
-
-function FloatingStar({ className = "" }) {
-    return (
-        <div className={`floating-star ${className}`}>
-            ✦
-        </div>
-    );
-}
-
-function GameDecorations() {
-    return (
-        <>
-            <div className="game-moon"></div>
-
-            <PixelCloud className="cloud-one" />
-            <PixelCloud className="cloud-two" />
-            <PixelCloud className="cloud-three" />
-
-            <FloatingStar className="star-one" />
-            <FloatingStar className="star-two" />
-            <FloatingStar className="star-three" />
-            <FloatingStar className="star-four" />
-            <FloatingStar className="star-five" />
-
-            <div className="pixel-sign sign-left">
-                <span>SMALL</span>
-                <span>STEPS</span>
-                <span>BIG</span>
-                <span>SKILLS</span>
-            </div>
-
-            <div className="pixel-sign sign-right">
-                <span>SOLVE</span>
-                <span>LEARN</span>
-                <span>LEVEL UP</span>
-                <span>REPEAT</span>
-            </div>
-
-            <div className="floating-console console-left">
-                <span>DSA</span>
-            </div>
-        </>
-    );
-}
-
-function LevelPlatform({ session }) {
-    return (
-        <div
-            className={`level-platform ${session.unlocked
-                    ? "unlocked-platform"
-                    : "locked-platform"
-                }`}
-        >
-            <div className="platform-top">
-                {session.unlocked ? (
-                    <div className="level-crystal">
-                        <Sparkles size={25} />
-                    </div>
-                ) : (
-                    <div className="level-lock">
-                        <LockKeyhole size={28} />
-                    </div>
-                )}
-            </div>
-
-            <div className="platform-grass">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-
-            <div className="platform-rock platform-rock-one"></div>
-            <div className="platform-rock platform-rock-two"></div>
-            <div className="platform-rock platform-rock-three"></div>
-
-            <div className="platform-label">
-                LEVEL {session.level}
-            </div>
-        </div>
-    );
-}
-
-function LevelCard({ session, onClick }) {
-    return (
-        <button
-            type="button"
-            className={`level-info-card ${session.unlocked
-                    ? "level-info-unlocked"
-                    : "level-info-locked"
-                }`}
-            onClick={onClick}
-        >
-            <div className="level-card-top">
-                <span className="level-card-number">
-                    LEVEL {session.level}
-                </span>
-
-                <span
-                    className={`level-status ${session.unlocked
-                            ? "status-unlocked"
-                            : "status-locked"
-                        }`}
-                >
-                    {session.unlocked
-                        ? "UNLOCKED"
-                        : "LOCKED"}
-                </span>
-            </div>
-
-            <div className="level-card-title">
-                {session.shortTitle}
-            </div>
-
-            {session.unlocked ? (
-                <>
-                    <div className="level-card-subtitle">
-                        DSA SERIES ORIENTATION
-                    </div>
-
-                    <div className="level-card-date">
-                        <CalendarDays size={14} />
-                        <span>
-                            {session.date}
-                        </span>
-                    </div>
-                </>
-            ) : (
-                <>
-                    <div className="level-card-subtitle">
-                        TO BE ANNOUNCED
-                    </div>
-
-                    <div className="level-card-locked-line">
-                        <LockKeyhole size={13} />
-                        <span>
-                            STAY TUNED
-                        </span>
-                    </div>
-                </>
-            )}
-
-            <div className="level-card-arrow">
-                <ArrowRight size={18} />
-            </div>
-        </button>
-    );
-}
-
-function SessionPopup({ session, onClose }) {
-    const isUnlocked = session.unlocked;
-
-    return (
-        <div
-            className="session-popup-overlay"
-            onMouseDown={(event) => {
-                if (
-                    event.target ===
-                    event.currentTarget
-                ) {
-                    onClose();
-                }
-            }}
-        >
-            <div className="session-popup">
-                <div className="popup-top-bar">
-                    <div className="popup-dots">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
-
-                    <span className="popup-terminal">
-                        DSA_TERMINAL.EXE
-                    </span>
-
-<<<<<<< HEAD
-                    <span className="popup-level">
-                        LEVEL {session.level} / 6
-                    </span>
-
-                    <button
-                        type="button"
-                        className="popup-close"
-                        onClick={onClose}
-                        aria-label="Close session"
-=======
-                    {/* Section 3: Notice Notes */}
-                    <div className="notice-box">
-                        <p>☘ Two session will be held every month.</p>
-                        <p>☘ Details About every next session will be given in previous session.</p>
-                        <p>☘ References and questions will be sent to prepare and compete.</p>
-                    </div>
-
-                </div>
-
-                {/* Action Footer */}
-                <div className="quest-footer">
-                    <button 
-                        type="button" 
-                        className={`accept-quest-btn ${accepted ? "accepted" : ""}`} 
-                        onClick={handleAcceptQuest}
->>>>>>> origin/feature/dsa-arena-ui
-                    >
-                        <X size={20} />
-                    </button>
-                </div>
-
-                <div className="popup-screen">
-                    {isUnlocked ? (
-                        <>
-                            <div className="popup-title-badge">
-                                {session.title}
-                            </div>
-
-                            <div className="popup-subtitle">
-                                DSA SERIES ORIENTATION
-                            </div>
-
-                            <div className="popup-meta">
-                                <div className="popup-meta-box">
-                                    <CalendarDays size={18} />
-
-                                    <div>
-                                        <small>
-                                            DATE
-                                        </small>
-
-                                        <strong>
-                                            {session.date}
-                                        </strong>
-                                    </div>
-                                </div>
-
-                                <div className="popup-meta-box">
-                                    <MapPin size={20} />
-
-                                    <div>
-                                        <small>
-                                            VENUE
-                                        </small>
-
-                                        <strong>
-                                            {session.venue || "To be announced"}
-                                        </strong>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <p className="popup-description">
-                                {session.description}
-                            </p>
-
-                            <div className="popup-section-title">
-                                <span>
-                                    WHAT YOU'LL EXPLORE
-                                </span>
-
-                                <div></div>
-                            </div>
-
-                            <div className="popup-topics">
-                                {session.topics.map(
-                                    (topic, index) => (
-                                        <div
-                                            className="popup-topic"
-                                            key={index}
-                                        >
-                                            <div className="popup-topic-icon">
-                                                {topic.icon}
-                                            </div>
-
-                                            <div>
-                                                <h3>
-                                                    {topic.title}
-                                                </h3>
-
-                                                <p>
-                                                    {topic.text}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    )
-                                )}
-                            </div>
-
-                            <div className="popup-message">
-                                <span>
-                                    &gt;
-                                </span>
-
-                                SAME LOGIC. HIGHER YOU.
-
-                                <span className="popup-heart">
-                                    ♥
-                                </span>
-                            </div>
-                        </>
-                    ) : (
-                        <div className="locked-popup">
-                            <div className="locked-popup-icon">
-                                <LockKeyhole size={50} />
-                            </div>
-
-                            <div className="locked-popup-level">
-                                LEVEL {session.level}
-                            </div>
-
-                            <h2>
-                                {session.title}
-                            </h2>
-
-                            <div className="locked-popup-label">
-                                TO BE ANNOUNCED...
-                            </div>
-
-                            <p>
-                                This session is currently
-                                locked. Details will be
-                                revealed as the DSA Series
-                                progresses.
-                            </p>
-
-                            <div className="locked-popup-dots">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </div>
-
-                            <div className="locked-popup-footer">
-                                STAY TUNED FOR THE NEXT LEVEL
-                            </div>
-                        </div>
-                    )}
-                </div>
-
-                <div className="popup-control-panel">
-                    <div className="popup-joystick">
-                        <span></span>
-                    </div>
-
-                    <div className="popup-buttons">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
-
-                    <div className="popup-control-text">
-                        {isUnlocked
-                            ? "ORIENTATION"
-                            : "LOCKED"}
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-}
-
 export default function DsaArena() {
-    const [selectedSession, setSelectedSession] =
-        useState(null);
+    const [applied, setApplied] = useState(false);
 
-    useEffect(() => {
-        if (selectedSession) {
-            document.body.style.overflow =
-                "hidden";
-        } else {
-            document.body.style.overflow =
-                "";
-        }
-
-        return () => {
-            document.body.style.overflow =
-                "";
-        };
-    }, [selectedSession]);
+    const handleApply = () => {
+        setApplied(true);
+        // Opens the application Google Form in a new browser tab
+        window.open(
+            "https://docs.google.com/forms/d/e/1FAIpQLSeEDAeJrfCPgfT941mnLNmxjvDj0yanmyGghXDnZCOANU8Sdw/viewform",
+            "_blank",
+            "noopener,noreferrer"
+        );
+    };
 
     return (
-        <section
-            id="dsa-arena-section"
-            className="dsa-arena-container"
-        >
-            <GameDecorations />
+        <section id="dsa-arena-section" className="space-arcade-container">
+            {/* Space sky background art */}
+            <div className="space-bg-elements" aria-hidden="true">
+                <div className="pixel-planet planet-earth"></div>
+                <div className="pixel-planet planet-saturn"></div>
+                <div className="pixel-planet planet-violet"></div>
+                <div className="pixel-planet planet-mars"></div>
+                <div className="pixel-planet planet-jupiter"></div>
 
-            <div className="arena-header">
-                <div className="arena-terminal-label">
-                    &lt; DSA_SERIES /&gt;
+                <div className="space-stars">
+                    <div className="s-star s1"></div>
+                    <div className="s-star s2"></div>
+                    <div className="s-star s3"></div>
+                    <div className="s-star s4"></div>
+                    <div className="s-star s5"></div>
+                    <div className="s-star s6"></div>
+                    <div className="s-star s7"></div>
+                    <div className="s-star s8"></div>
+
+                    <div className="starburst sb1"></div>
+                    <div className="starburst sb2"></div>
+                    <div className="starburst sb3"></div>
+                    <div className="starburst sb4"></div>
+                    <div className="starburst sb5"></div>
                 </div>
 
-                <div className="arena-title-area">
-                    <span className="arena-eyebrow">
-                        ACM BV • DSA SERIES
-                    </span>
-
-                    <h2 className="arena-title">
-                        DSA SESSIONS
-                        <br />
-                        &amp; EVENTS
-                    </h2>
-
-                    <p>
-                        A journey of logic,
-                        learning and growth.
-                    </p>
+                <div className="bottom-ui-sheet sheet-left">
+                    <div className="sheet-header">Review comments</div>
+                    <p>Learned so much about Trees and Heaps!</p>
+                </div>
+                <div className="bottom-ui-sheet sheet-right">
+                    <div className="sheet-icons">👟 👕</div>
                 </div>
             </div>
 
-            <div className="arena-instruction">
-                <span>&gt;</span>
-                SELECT YOUR LEVEL TO CONTINUE
-                <span>&lt;</span>
-            </div>
+            {/* Main content */}
+            <div className="arcade-content-wrapper">
+                {/* Marquee banner */}
+                <header className="marquee-banner-frame">
+                    <div className="banner-side-screen side-left" aria-hidden="true">🖥️</div>
+                    <div className="banner-side-screen side-right" aria-hidden="true">🖥️</div>
 
-            <div className="level-map">
-                <div className="map-path"></div>
+                    <div className="banner-top-tag">MASTER THE CORE:</div>
+                    <div className="banner-inner">
+                        <h1 className="banner-main-title">
+                            ADVANCED DATA STRUCTURES &amp; ALGORITHMS (DSA)
+                        </h1>
+                        <div className="banner-bottom-tag">MONTHLY WORKSHOP STRATEGIES</div>
+                    </div>
+                </header>
 
-                {sessions.map(
-                    (session, index) => (
-                        <div
-                            className={`level-row ${index % 2 === 0
-                                    ? "level-row-left"
-                                    : "level-row-right"
-                                }`}
-                            key={session.id}
-                        >
-                            <div className="level-card-side">
-                                {index % 2 === 0 && (
-                                    <LevelCard
-                                        session={session}
-                                        onClick={() =>
-                                            setSelectedSession(
-                                                session
-                                            )
-                                        }
-                                    />
-                                )}
+                {/* 5-column quest grid */}
+                <div className="arcade-columns-grid">
+                    {/* Card 1: Why DSA is important */}
+                    <div className="arcade-card card-blue-theme">
+                        <div className="card-badge badge-cyan">1</div>
+                        <h3 className="card-title">WHY DSA IS IMPORTANT</h3>
+
+                        <div className="card-visual-frame">
+                            <img
+                                src={devWorkstationImg}
+                                alt="Developer Workstation"
+                                className="pixel-card-image"
+                            />
+                        </div>
+
+                        <ul className="pixel-bullet-list">
+                            <li>◆ OPTIMIZED PROBLEM SOLVING</li>
+                            <li>◆ TECHNICAL INTERVIEW PREP</li>
+                            <li>◆ CLEANER, FASTER CODE</li>
+                            <li>◆ CAREER ADVANCEMENT</li>
+                        </ul>
+
+                        <button type="button" className="pixel-btn btn-orange">
+                            VIEW CASE STUDIES
+                        </button>
+                    </div>
+
+                    {/* Card 2: Who can apply */}
+                    <div className="arcade-card card-orange-theme">
+                        <div className="card-badge badge-orange">2</div>
+                        <h3 className="card-title">WHO CAN APPLY</h3>
+
+                        <div className="card-visual-frame">
+                            <img
+                                src={avatarsGroupImg}
+                                alt="Applicants Group"
+                                className="pixel-card-image"
+                            />
+                        </div>
+
+                        <ul className="pixel-bullet-list">
+                            <li>• ALL MAJORS WELCOME</li>
+                            <li>• CODING BEGINNERS &amp; PROS</li>
+                            <li>• ASPIRING DEVELOPERS</li>
+                        </ul>
+
+                        <div className="eligibility-widget-box">
+                            <div className="widget-header">
+                                ELIGIBILITY CHECK
+                                <span className="widget-controls">■ ✖</span>
                             </div>
+                            <div className="check-row">✔ Background Check</div>
+                            <div className="check-row">✔ Open Mindset</div>
+                            <div className="youre-in-stamp">You're in!</div>
+                        </div>
+                    </div>
 
-                            <button
-                                type="button"
-                                className="level-node-button"
-                                onClick={() =>
-                                    setSelectedSession(
-                                        session
-                                    )
-                                }
-                                aria-label={`Open ${session.title}`}
-                            >
-                                <LevelPlatform
-                                    session={session}
-                                />
-                            </button>
+                    {/* Card 3: How will the session conduct */}
+                    <div className="arcade-card card-cyan-theme">
+                        <div className="card-badge badge-cyan">3</div>
+                        <h3 className="card-title">HOW WILL THE SESSION CONDUCT</h3>
 
-                            <div className="level-card-side">
-                                {index % 2 !== 0 && (
-                                    <LevelCard
-                                        session={session}
-                                        onClick={() =>
-                                            setSelectedSession(
-                                                session
-                                            )
-                                        }
-                                    />
-                                )}
+                        <div className="card-visual-frame">
+                            <img
+                                src={sessionConductImg}
+                                alt="Live Session Conduct"
+                                className="pixel-card-image"
+                            />
+                        </div>
+
+                        <div className="highlight-info-banner">
+                            <p>Two distinct session types each month!</p>
+                            <p className="bold-gold">Bi-weekly structure: Lecture &gt; Workshop</p>
+                        </div>
+                    </div>
+
+                    {/* Card 4: The monthly schedule */}
+                    <div className="arcade-card card-purple-theme">
+                        <div className="card-badge badge-yellow">4</div>
+                        <h3 className="card-title">THE MONTHLY SCHEDULE</h3>
+
+                        <div className="card-visual-frame">
+                            <img
+                                src={calendarUiImg}
+                                alt="Monthly Schedule Calendar"
+                                className="pixel-card-image"
+                            />
+                        </div>
+
+                        <div className="schedule-meta-text">
+                            <h4>TWO SESSIONS PER MONTH!</h4>
+                            <p>Bi-weekly Cadence</p>
+                        </div>
+                    </div>
+
+                    {/* Card 5: Apply now for the cohort */}
+                    <div className="arcade-card card-red-theme highlight-cohort">
+                        <div className="card-badge badge-red">5</div>
+                        <h3 className="card-title">APPLY NOW FOR THE COHORT</h3>
+
+                        <div className="apply-now-ribbon">APPLY NOW</div>
+
+                        <div className="card-visual-frame">
+                            <img
+                                src={academyBuildingImg}
+                                alt="Corporate Academy Building"
+                                className="pixel-card-image"
+                            />
+                        </div>
+
+                        <div className="progress-deadline-box">
+                            <span className="deadline-label">DEADLINE APPROACHING</span>
+                            <div className="progress-bar-track">
+                                <div className="progress-bar-fill"></div>
                             </div>
                         </div>
-                    )
-                )}
-            </div>
 
-            <div className="arena-footer">
-                <div className="footer-line"></div>
+                        <ul className="pixel-bullet-list">
+                            <li>• LIMITED SPOTS AVAILABLE</li>
+                            <li>• NEXT COHORT STARTS SOON!</li>
+                        </ul>
 
-                <div className="footer-text">
-                    <span>
-                        SMALL STEPS
-                    </span>
+                        <button
+                            type="button"
+                            className={`pixel-btn btn-green ${applied ? "applied" : ""}`}
+                            onClick={handleApply}
+                        >
+                            {applied ? "APPLICATION SENT!" : "START APPLICATION"}
+                        </button>
+                    </div>
+                </div>
 
-                    <span>
-                        BIG ALGORITHMS
-                    </span>
-
-                    <span>
-                        BRIGHTER FUTURE
-                    </span>
+                {/* Footer tagline and pixel stickers */}
+                <div className="arcade-bottom-footer">
+                    <h2 className="footer-tagline">MASTER THE SKILLS FOR A BRIGHTER FUTURE!</h2>
+                    <div className="footer-pixel-stickers" aria-hidden="true">
+                        <span className="sticker">🐉</span>
+                        <span className="sticker">💖</span>
+                        <span className="sticker">🖥️</span>
+                        <span className="sticker">⚡</span>
+                    </div>
                 </div>
             </div>
-
-            {selectedSession && (
-                <SessionPopup
-                    session={selectedSession}
-                    onClose={() =>
-                        setSelectedSession(null)
-                    }
-                />
-            )}
         </section>
     );
 }

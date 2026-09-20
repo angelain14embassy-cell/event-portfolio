@@ -3,7 +3,7 @@ import "./Timeline.css";
 
 // ⚠️ REPLACE WITH YOUR ACTUAL GOOGLE FORM ENDPOINT & ENTRY IDs
 const GOOGLE_FORM_ACTION_URL =
-  "https://docs.google.com/forms/d/e/YOUR_FORM_ID_HERE/formResponse";
+  "hhttps://docs.google.com/forms/d/e/1FAIpQLSeEDAeJrfCPgfT941mnLNmxjvDj0yanmyGghXDnZCOANU8Sdw/viewform";
 
 const FORM_FIELD_IDS = {
   fullName: "entry.123456789",
